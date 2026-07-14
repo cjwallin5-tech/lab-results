@@ -11,6 +11,7 @@ import {
 } from "@/lib/auth/session";
 import { uploadMetadataSchema } from "@/lib/model/schema";
 import { classifyRows, extractRows, summarizeResults } from "@/lib/report/pipeline";
+import { outstandingOutreach } from "@/lib/report/critical";
 import { buildDraft } from "@/lib/draft";
 import { availablePdfRefs } from "@/lib/llm/offline";
 import { sendShareLink } from "@/lib/email";
@@ -152,9 +153,31 @@ export async function approveDraftAction(formData: FormData): Promise<void> {
   revalidatePath(reportPath(reportId));
 }
 
+export async function logOutreachAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get("reportId") ?? "");
+  const analyteId = String(formData.get("analyteId") ?? "");
+  if (analyteId === "") redirect(reportPath(reportId));
+  const method = String(formData.get("method") ?? "phone") === "other" ? "other" : "phone";
+  await getRepository().addOutreach(reportId, {
+    analyteId,
+    method,
+    note: String(formData.get("note") ?? ""),
+    at: new Date().toISOString(),
+  });
+  revalidatePath(reportPath(reportId));
+}
+
 export async function sendLinkAction(formData: FormData): Promise<void> {
   const reportId = String(formData.get("reportId") ?? "");
   const repo = getRepository();
+  const report = await repo.getReport(reportId);
+  if (report === null) redirect("/provider");
+  const rows = await repo.getRows(reportId);
+  // A critical result must be contacted directly before the link can be sent.
+  if (outstandingOutreach(report, rows).length > 0) {
+    revalidatePath(reportPath(reportId));
+    return;
+  }
   await repo.createShareLink(reportId);
   await repo.setReportStatus(reportId, "sent");
   await sendShareLink();

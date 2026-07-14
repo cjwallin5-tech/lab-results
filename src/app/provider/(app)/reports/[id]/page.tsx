@@ -4,6 +4,7 @@ import { getRepository } from "@/lib/db";
 import { getAnalyte, loadDictionary } from "@/lib/analytes";
 import { classificationDisplay } from "@/lib/ui/classification-display";
 import { extractReportAction, sendLinkAction } from "@/app/provider/actions";
+import { outstandingOutreach } from "@/lib/report/critical";
 import {
   PROVIDER_STEPS,
   reportStatusDisplay,
@@ -19,6 +20,7 @@ import { PatientPreview } from "@/components/provider/patient-preview";
 import { StatusTimeline } from "@/components/provider/status-timeline";
 import { ProviderNotes } from "@/components/provider/provider-notes";
 import { ShareLinkPanel } from "@/components/provider/share-link-panel";
+import { OutreachPanel, type CriticalItem } from "@/components/provider/outreach-panel";
 
 function formatDob(iso: string): string {
   return new Date(`${iso}T00:00:00`).toLocaleDateString("en-US", {
@@ -45,6 +47,23 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
   const rowByAnalyte = new Map(
     rows.filter((row) => row.analyteId !== undefined).map((row) => [row.analyteId, row]),
   );
+  const outreachByAnalyte = new Map(report.outreach.map((entry) => [entry.analyteId, entry]));
+  const criticalItems: CriticalItem[] = rows
+    .filter(
+      (row) =>
+        row.analyteId !== undefined &&
+        row.classification?.kind === "placed" &&
+        row.classification.critical,
+    )
+    .map((row) => ({
+      analyteId: row.analyteId as string,
+      displayName: getAnalyte(row.analyteId as string)?.displayName ?? row.rawName,
+      value: row.value,
+      unit: row.unit,
+      contacted: outreachByAnalyte.get(row.analyteId as string),
+    }));
+  const outstanding = outstandingOutreach(report, rows);
+
   const draftEntries: DraftEntry[] = (explanation?.perTest ?? []).map((entry) => {
     const row = rowByAnalyte.get(entry.analyteId);
     const display = classificationDisplay(row?.classification ?? { kind: "unclassifiable" });
@@ -137,15 +156,29 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
               </div>
 
               {report.status === "approved" && (
-                <div className="mt-8 rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-5">
-                  <h3 className="font-medium text-ink">Approved</h3>
-                  <p className="mt-1 text-sm text-muted">
-                    Send the patient their private, date-of-birth protected link.
-                  </p>
-                  <form action={sendLinkAction} className="mt-4">
-                    <input type="hidden" name="reportId" value={report.id} />
-                    <SubmitButton pendingLabel="Sending...">Send to patient</SubmitButton>
-                  </form>
+                <div className="mt-8 flex flex-col gap-6">
+                  {criticalItems.length > 0 && (
+                    <OutreachPanel reportId={report.id} items={criticalItems} />
+                  )}
+                  <div className="rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-5">
+                    <h3 className="font-medium text-ink">Send to the patient</h3>
+                    {outstanding.length > 0 ? (
+                      <p className="mt-1 text-sm text-muted">
+                        Log a direct contact for each critical result above before you can send the
+                        self-serve link.
+                      </p>
+                    ) : (
+                      <>
+                        <p className="mt-1 text-sm text-muted">
+                          Send the patient their private, date-of-birth protected link.
+                        </p>
+                        <form action={sendLinkAction} className="mt-4">
+                          <input type="hidden" name="reportId" value={report.id} />
+                          <SubmitButton pendingLabel="Sending...">Send to patient</SubmitButton>
+                        </form>
+                      </>
+                    )}
+                  </div>
                 </div>
               )}
 

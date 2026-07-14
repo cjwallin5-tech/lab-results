@@ -1,5 +1,6 @@
 import { cn } from "@/lib/ui/cn";
 import type { ResultItem } from "@/lib/ui/results-view";
+import { CLINIC } from "@/lib/clinic";
 import { RangeMarker } from "@/components/ui/range-marker";
 import { StatusPill } from "@/components/ui/status-pill";
 
@@ -41,12 +42,14 @@ export function ResultCard({ item }: { item: ResultItem }) {
 
       {isCritical && (
         <p className="mt-4 rounded-lg bg-critical-soft px-4 py-3 text-sm text-critical">
-          This result may need prompt attention. Please use the contact option on this page to
-          reach your care team soon.
+          Your care team is contacting you directly about this result. Please expect a call. If you
+          have not heard from them, call {CLINIC.name} at {CLINIC.phone}.
         </p>
       )}
 
-      {item.meaning && <p className="mt-4 text-sm leading-relaxed text-ink/80">{item.meaning}</p>}
+      {!isCritical && item.meaning && (
+        <p className="mt-4 text-sm leading-relaxed text-ink/80">{item.meaning}</p>
+      )}
 
       {item.classification.kind === "implausible" && (
         <p className="mt-4 text-sm leading-relaxed text-muted">
@@ -65,7 +68,7 @@ export function ResultCard({ item }: { item: ResultItem }) {
         </p>
       )}
 
-      {item.medlineplusUrl && (
+      {!isCritical && item.medlineplusUrl && (
         <a
           href={item.medlineplusUrl}
           target="_blank"

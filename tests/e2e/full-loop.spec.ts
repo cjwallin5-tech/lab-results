@@ -17,6 +17,14 @@ async function walkReportToSent(page: Page, patientName: string): Promise<string
   await page.getByRole("button", { name: "Read the results" }).click();
   await page.getByRole("button", { name: /Confirm results/ }).click();
   await page.getByRole("button", { name: /Approve for the patient/ }).click();
+  await page.getByRole("heading", { name: "Send to the patient" }).waitFor();
+
+  // A critical result must be contacted directly before the link can be sent.
+  const logButton = page.getByRole("button", { name: "Log direct contact" });
+  if ((await logButton.count()) > 0) {
+    await page.getByLabel("Contact note").first().fill("Called the patient and discussed it.");
+    await logButton.first().click();
+  }
   await page.getByRole("button", { name: "Send to patient" }).click();
 
   const link = page.getByRole("link", { name: "Open the patient view" });
@@ -49,8 +57,9 @@ test("critical result: approve, DOB gate rejects then accepts, patient reads and
   await page.getByRole("button", { name: "View my results" }).click();
 
   await expect(page.getByRole("heading", { name: /here are your results/ })).toBeVisible();
-  await expect(page.getByRole("alert").filter({ hasText: /need prompt attention/i })).toBeVisible();
+  await expect(page.getByRole("alert").filter({ hasText: /contacting you directly/i })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Potassium" })).toBeVisible();
+  await expect(page.getByText(/contacting you directly about this result/i)).toBeVisible();
   await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
   await expect(page.getByText("What these labels mean")).toBeVisible();
   await expect(page.getByText(/not medical advice/)).toBeVisible();
