@@ -1,4 +1,5 @@
 import type { ResultRow } from "@/lib/model/types";
+import { CLINIC } from "@/lib/clinic";
 
 /**
  * A stand-in for the report PDF on the verify screen: the raw transcribed lines
@@ -8,8 +9,16 @@ import type { ResultRow } from "@/lib/model/types";
 export function ReportFacsimile({ rows, patientName }: { rows: ResultRow[]; patientName: string }) {
   return (
     <div className="rounded-[var(--radius-card)] border border-line bg-white p-6 font-mono text-xs text-ink/80 shadow-sm">
-      <p className="text-sm font-semibold">Laboratory report</p>
-      <p className="mt-1 text-muted">Patient: {patientName}</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-semibold">{CLINIC.name} Laboratory</p>
+          <p className="mt-1 text-muted">Patient: {patientName}</p>
+        </div>
+        <div className="text-right text-muted">
+          <p>Status: FINAL</p>
+          <p>Ordering: {CLINIC.providerName}</p>
+        </div>
+      </div>
       <hr className="my-3 border-line" />
       <table className="w-full">
         <thead>

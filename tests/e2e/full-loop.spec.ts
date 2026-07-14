@@ -21,11 +21,14 @@ async function walkReportToSent(page: Page, patientName: string): Promise<string
   await page.getByRole("button", { name: /Approve for the patient/ }).click();
   await page.getByRole("heading", { name: "Send to the patient" }).waitFor();
 
-  // A critical result must be contacted directly before the link can be sent.
-  const logButton = page.getByRole("button", { name: "Log direct contact" });
-  if ((await logButton.count()) > 0) {
+  // Every critical result must be contacted directly before the link can be sent.
+  const logButtons = page.getByRole("button", { name: "Log direct contact" });
+  let remaining = await logButtons.count();
+  while (remaining > 0) {
     await page.getByLabel("Contact note").first().fill("Called the patient and discussed it.");
-    await logButton.first().click();
+    await logButtons.first().click();
+    await expect(logButtons).toHaveCount(remaining - 1);
+    remaining -= 1;
   }
   await page.getByRole("button", { name: "Send to patient" }).click();
 
@@ -92,4 +95,35 @@ test("patient sees implausible, not-covered, and low states", async ({ page }) =
   await expect(page.getByText("Please double-check").first()).toBeVisible();
   await expect(page.getByText("Not covered yet").first()).toBeVisible();
   await expect(page.getByText("A little low").first()).toBeVisible();
+});
+
+test("routine report sends with no outreach step and reads as all in range", async ({ page }) => {
+  await signIn(page);
+  const patientLink = await walkReportToSent(page, "Samuel Reyes");
+
+  await page.goto(patientLink);
+  await page.getByLabel("Month").fill("5");
+  await page.getByLabel("Day").fill("9");
+  await page.getByLabel("Year").fill("1988");
+  await page.getByRole("button", { name: "View my results" }).click();
+
+  await expect(page.getByRole("heading", { name: /here are your results/ })).toBeVisible();
+  await expect(page.getByText(/All of your results are in the typical range/)).toBeVisible();
+  await expect(page.getByText(/contacting you directly/i)).toHaveCount(0);
+});
+
+test("multi-critical report requires contacting each result, then frames all directly", async ({
+  page,
+}) => {
+  await signIn(page);
+  const patientLink = await walkReportToSent(page, "Nina Petrov");
+
+  await page.goto(patientLink);
+  await page.getByLabel("Month").fill("9");
+  await page.getByLabel("Day").fill("18");
+  await page.getByLabel("Year").fill("1962");
+  await page.getByRole("button", { name: "View my results" }).click();
+
+  await expect(page.getByRole("alert").filter({ hasText: /contacting you directly/i })).toBeVisible();
+  await expect(page.getByText(/contacting you directly about this result/i)).toHaveCount(3);
 });

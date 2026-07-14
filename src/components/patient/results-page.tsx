@@ -1,5 +1,6 @@
 import type { Explanation, Report } from "@/lib/model/types";
 import type { ResultsView } from "@/lib/ui/results-view";
+import { panelDescription } from "@/lib/ui/panel-meta";
 import { CLINIC } from "@/lib/clinic";
 import { OverallPictureBox } from "./overall-picture-box";
 import { ResultCard } from "./result-card";
@@ -54,7 +55,14 @@ export function ResultsPage({
 
       {view.groups.map((group) => (
         <section key={group.panel}>
-          <h2 className="mb-3 font-display text-2xl text-ink">{group.panel}</h2>
+          <h2 className="mb-3 flex flex-wrap items-baseline gap-x-2 font-display text-2xl text-ink">
+            {group.panel}
+            {panelDescription(group.panel) && (
+              <span className="text-sm font-normal text-muted">
+                {panelDescription(group.panel)}
+              </span>
+            )}
+          </h2>
           <div className="flex flex-col gap-4">
             {group.items.map((item) => (
               <ResultCard key={item.key} item={item} />
