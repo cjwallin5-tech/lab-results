@@ -1,0 +1,17 @@
+{
+  "id": "calcium",
+  "loinc": "17861-6",
+  "displayName": "Calcium",
+  "aliases": [
+    "Calcium",
+    "Ca",
+    "Ca++"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/calcium-blood-test/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "criticalLow": 6,
+  "criticalHigh": 13,
+  "plausibleLow": 3,
+  "plausibleHigh": 20
+}

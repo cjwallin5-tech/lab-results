@@ -1,0 +1,14 @@
+{
+  "id": "crp",
+  "loinc": "1988-5",
+  "displayName": "C-reactive protein",
+  "aliases": [
+    "C-reactive protein",
+    "CRP"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/c-reactive-protein-crp-test/",
+  "unit": "mg/L",
+  "panel": "Inflammation",
+  "plausibleLow": 0,
+  "plausibleHigh": 500
+}

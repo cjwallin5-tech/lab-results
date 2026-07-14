@@ -1,0 +1,9 @@
+{
+  "rows": [
+    { "rawName": "Potassium", "value": "7.2", "unit": "mmol/L", "refLow": "3.5", "refHigh": "5.1", "labFlags": ["HH"], "lowConfidenceFields": [] },
+    { "rawName": "Calcium", "value": "5.4", "unit": "mg/dL", "refLow": "8.5", "refHigh": "10.5", "labFlags": ["LL"], "lowConfidenceFields": [] },
+    { "rawName": "Hemoglobin", "value": "6.2", "unit": "g/dL", "refLow": "12.0", "refHigh": "15.5", "labFlags": ["L"], "lowConfidenceFields": [] },
+    { "rawName": "Sodium", "value": "138", "unit": "mmol/L", "refLow": "136", "refHigh": "145", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Fasting glucose", "value": "95", "unit": "mg/dL", "refLow": "70", "refHigh": "99", "labFlags": [], "lowConfidenceFields": [] }
+  ]
+}

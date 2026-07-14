@@ -1,0 +1,10 @@
+{
+  "overallText": "Several of your results need prompt attention, and your care team is contacting you directly about them. Please expect a call. Your other results are in the typical range.",
+  "perTest": [
+    { "analyteId": "potassium", "text": "Your potassium is high and the lab flagged it. Your care team is reaching out to you directly about this result." },
+    { "analyteId": "calcium", "text": "Your calcium is low and the lab flagged it. Your care team is reaching out to you directly about this result." },
+    { "analyteId": "hemoglobin", "text": "Your hemoglobin is low and the lab flagged it. Your care team is reaching out to you directly about this result." },
+    { "analyteId": "sodium", "text": "Your sodium is within the typical range. Sodium helps balance the fluids in your body." },
+    { "analyteId": "glucose", "text": "Your blood sugar after fasting is within the typical range." }
+  ]
+}

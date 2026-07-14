@@ -1,0 +1,12 @@
+{
+  "rows": [
+    { "rawName": "Fasting glucose", "value": "88", "unit": "mg/dL", "refLow": "70", "refHigh": "99", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Total Cholesterol", "value": "180", "unit": "mg/dL", "refHigh": "199", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Sodium", "value": "140", "unit": "mmol/L", "refLow": "136", "refHigh": "145", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Potassium", "value": "4.2", "unit": "mmol/L", "refLow": "3.5", "refHigh": "5.1", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Creatinine", "value": "0.9", "unit": "mg/dL", "refLow": "0.7", "refHigh": "1.3", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Calcium", "value": "9.4", "unit": "mg/dL", "refLow": "8.5", "refHigh": "10.5", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Hemoglobin", "value": "14.5", "unit": "g/dL", "refLow": "13.0", "refHigh": "17.0", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "TSH", "value": "2.0", "unit": "mIU/L", "refLow": "0.4", "refHigh": "4.0", "labFlags": [], "lowConfidenceFields": [] }
+  ]
+}

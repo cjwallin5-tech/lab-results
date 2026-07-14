@@ -50,9 +50,10 @@ const PANEL_ORDER = [
   "Blood sugar",
   "Metabolic panel",
   "Complete blood count",
+  "Liver",
   "Thyroid",
   "Vitamins",
-  "Liver",
+  "Inflammation",
 ];
 const OTHER_PANEL = "Other tests";
 

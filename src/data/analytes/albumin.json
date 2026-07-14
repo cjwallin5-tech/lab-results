@@ -1,0 +1,14 @@
+{
+  "id": "albumin",
+  "loinc": "1751-7",
+  "displayName": "Albumin",
+  "aliases": [
+    "Albumin",
+    "Alb"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/albumin-blood-test/",
+  "unit": "g/dL",
+  "panel": "Liver",
+  "plausibleLow": 0.5,
+  "plausibleHigh": 8
+}

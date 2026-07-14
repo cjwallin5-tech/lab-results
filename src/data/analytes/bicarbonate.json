@@ -1,0 +1,16 @@
+{
+  "id": "bicarbonate",
+  "loinc": "1963-8",
+  "displayName": "Bicarbonate",
+  "aliases": [
+    "Bicarbonate",
+    "CO2",
+    "Carbon dioxide",
+    "HCO3"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/electrolyte-panel/",
+  "unit": "mmol/L",
+  "panel": "Metabolic panel",
+  "plausibleLow": 5,
+  "plausibleHigh": 50
+}

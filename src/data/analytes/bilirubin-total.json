@@ -1,0 +1,17 @@
+{
+  "id": "bilirubin-total",
+  "loinc": "1975-2",
+  "displayName": "Total bilirubin",
+  "aliases": [
+    "Total bilirubin",
+    "Bilirubin, total",
+    "Bilirubin",
+    "T. bilirubin"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/bilirubin-blood-test/",
+  "unit": "mg/dL",
+  "panel": "Liver",
+  "criticalHigh": 15,
+  "plausibleLow": 0,
+  "plausibleHigh": 50
+}

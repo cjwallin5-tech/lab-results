@@ -30,9 +30,24 @@ reconfirmed against [loinc.org](https://loinc.org) before any real-world use.
 | vitamin-d | 62292-8 | lab-tests/vitamin-d-test |
 | alt | 1742-6 | lab-tests/alt-blood-test |
 | ast | 1920-8 | lab-tests/ast-test |
+| bun | 3094-0 | lab-tests/comprehensive-metabolic-panel-cmp |
+| calcium | 17861-6 | lab-tests/calcium-blood-test |
+| chloride | 2075-0 | lab-tests/chloride-blood-test |
+| bicarbonate | 1963-8 | lab-tests/electrolyte-panel |
+| egfr | 33914-3 | lab-tests/glomerular-filtration-rate-gfr-test |
+| magnesium | 2601-3 | lab-tests/magnesium-blood-test |
+| albumin | 1751-7 | lab-tests/albumin-blood-test |
+| total-protein | 2885-2 | lab-tests/comprehensive-metabolic-panel-cmp |
+| bilirubin-total | 1975-2 | lab-tests/bilirubin-blood-test |
+| alkaline-phosphatase | 6768-6 | lab-tests/alkaline-phosphatase |
+| hematocrit | 4544-3 | lab-tests/hematocrit-test |
+| free-t4 | 3024-7 | lab-tests/thyroxine-t4-test |
+| crp | 1988-5 | lab-tests/c-reactive-protein-crp-test |
 
 LDL and HDL have no dedicated MedlinePlus lab-test page, so they point at the
-matching MedlinePlus health-topic pages.
+matching MedlinePlus health-topic pages. BUN and total protein point at the
+Comprehensive Metabolic Panel page, and bicarbonate at the Electrolyte Panel
+page, since those tests are described there rather than on their own page.
 
 ## Thresholds are demo values, not clinical truth
 

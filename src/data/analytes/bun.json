@@ -1,0 +1,16 @@
+{
+  "id": "bun",
+  "loinc": "3094-0",
+  "displayName": "BUN",
+  "aliases": [
+    "BUN",
+    "Blood urea nitrogen",
+    "Urea nitrogen"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "criticalHigh": 100,
+  "plausibleLow": 1,
+  "plausibleHigh": 300
+}

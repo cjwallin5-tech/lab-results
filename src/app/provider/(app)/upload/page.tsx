@@ -5,6 +5,8 @@ const REPORT_LABELS: Record<string, string> = {
   "alvarez-lipid-cbc": "Lipid panel and CBC (sample report)",
   "chen-metabolic-liver": "Metabolic and liver panel (sample report)",
   "okoro-thyroid-vitd": "Thyroid and vitamin D (sample report)",
+  "reyes-annual-cmp": "Routine annual panel, all in range (sample report)",
+  "petrov-critical-panel": "Panel with multiple critical results (sample report)",
 };
 
 export default function UploadPage() {

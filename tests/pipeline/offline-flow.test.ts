@@ -80,6 +80,38 @@ describe("offline pipeline: Okoro thyroid + vitamin D", () => {
   });
 });
 
+describe("offline pipeline: Reyes routine panel", () => {
+  it("classifies every result in range with no critical", async () => {
+    const rows = classifyRows(await extractRows(report("rpt-reyes-annual-cmp", "reyes-annual-cmp")));
+    const placed = rows.filter((row) => row.classification?.kind === "placed");
+    expect(placed.length).toBe(rows.length);
+    expect(
+      placed.every(
+        (row) =>
+          row.classification?.kind === "placed" &&
+          row.classification.position === "in" &&
+          !row.classification.critical,
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("offline pipeline: Petrov critical panel", () => {
+  it("flags multiple critical results", async () => {
+    const rows = classifyRows(
+      await extractRows(report("rpt-petrov-critical-panel", "petrov-critical-panel")),
+    );
+    const critical = rows.filter(
+      (row) => row.classification?.kind === "placed" && row.classification.critical,
+    );
+    expect(critical.map((row) => row.analyteId).sort()).toEqual([
+      "calcium",
+      "hemoglobin",
+      "potassium",
+    ]);
+  });
+});
+
 describe("offline draft assembly", () => {
   it("builds a draft explanation grounded in the covered tests", async () => {
     const seedReport = report("rpt-alvarez-lipid-cbc", "alvarez-lipid-cbc");

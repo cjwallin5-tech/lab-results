@@ -34,5 +34,29 @@
     "status": "uploaded",
     "createdAt": "2026-07-13T16:48:00.000Z",
     "updatedAt": "2026-07-13T16:48:00.000Z"
+  },
+  {
+    "id": "rpt-reyes-annual-cmp",
+    "patient": {
+      "name": "Samuel Reyes",
+      "email": "samuel.reyes@example.test",
+      "dob": "1988-05-09"
+    },
+    "pdfRef": "reyes-annual-cmp",
+    "status": "uploaded",
+    "createdAt": "2026-07-13T17:30:00.000Z",
+    "updatedAt": "2026-07-13T17:30:00.000Z"
+  },
+  {
+    "id": "rpt-petrov-critical-panel",
+    "patient": {
+      "name": "Nina Petrov",
+      "email": "nina.petrov@example.test",
+      "dob": "1962-09-18"
+    },
+    "pdfRef": "petrov-critical-panel",
+    "status": "uploaded",
+    "createdAt": "2026-07-13T18:10:00.000Z",
+    "updatedAt": "2026-07-13T18:10:00.000Z"
   }
 ]

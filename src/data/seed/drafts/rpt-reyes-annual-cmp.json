@@ -1,0 +1,13 @@
+{
+  "overallText": "All of your results are in the typical range. This is a reassuring set of numbers from a routine check. Your provider can go over anything you would like to talk about at your next visit.",
+  "perTest": [
+    { "analyteId": "glucose", "text": "Your blood sugar after fasting is within the typical range." },
+    { "analyteId": "total-cholesterol", "text": "Your total cholesterol is within the typical range. This is the combined amount of cholesterol in your blood." },
+    { "analyteId": "sodium", "text": "Your sodium is within the typical range. Sodium helps balance the fluids in your body." },
+    { "analyteId": "potassium", "text": "Your potassium is within the typical range. Potassium helps your heart and muscles work." },
+    { "analyteId": "creatinine", "text": "Your creatinine is within the typical range, one sign your kidneys are filtering well." },
+    { "analyteId": "calcium", "text": "Your calcium is within the typical range. Calcium supports your bones, muscles, and nerves." },
+    { "analyteId": "hemoglobin", "text": "Your hemoglobin is within the typical range. Hemoglobin carries oxygen around your body." },
+    { "analyteId": "tsh", "text": "Your TSH is within the typical range, one signal that your thyroid is being regulated normally." }
+  ]
+}
