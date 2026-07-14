@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# local synthetic data store (file-backed dev repository)
+/.data/
+
 # production
 /build
 
