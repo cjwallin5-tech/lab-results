@@ -169,10 +169,18 @@ export async function resendLinkAction(formData: FormData): Promise<void> {
   revalidatePath(reportPath(reportId));
 }
 
-export async function saveProviderNoteAction(formData: FormData): Promise<void> {
+export interface NoteState {
+  saved?: boolean;
+}
+
+export async function saveProviderNoteAction(
+  _prev: NoteState,
+  formData: FormData,
+): Promise<NoteState> {
   const reportId = String(formData.get("reportId") ?? "");
   await getRepository().updateReport(reportId, {
     providerNote: String(formData.get("note") ?? ""),
   });
   revalidatePath(reportPath(reportId));
+  return { saved: true };
 }
