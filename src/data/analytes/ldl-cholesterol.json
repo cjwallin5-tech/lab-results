@@ -1,0 +1,17 @@
+{
+  "id": "ldl-cholesterol",
+  "loinc": "13457-7",
+  "displayName": "LDL cholesterol",
+  "aliases": [
+    "LDL cholesterol",
+    "LDL",
+    "LDL-C",
+    "LDL calculated",
+    "Cholesterol in LDL"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/ldlthebadcholesterol.html",
+  "unit": "mg/dL",
+  "panel": "Lipid panel",
+  "plausibleLow": 5,
+  "plausibleHigh": 700
+}

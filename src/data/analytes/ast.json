@@ -1,0 +1,16 @@
+{
+  "id": "ast",
+  "loinc": "1920-8",
+  "displayName": "AST",
+  "aliases": [
+    "AST",
+    "Aspartate aminotransferase",
+    "SGOT",
+    "Aspartate transaminase"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/ast-test/",
+  "unit": "U/L",
+  "panel": "Liver",
+  "plausibleLow": 0,
+  "plausibleHigh": 20000
+}

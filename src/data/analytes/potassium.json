@@ -1,0 +1,17 @@
+{
+  "id": "potassium",
+  "loinc": "2823-3",
+  "displayName": "Potassium",
+  "aliases": [
+    "Potassium",
+    "K",
+    "K+"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/potassium-blood-test/",
+  "unit": "mmol/L",
+  "panel": "Metabolic panel",
+  "criticalLow": 2.5,
+  "criticalHigh": 6.5,
+  "plausibleLow": 0.5,
+  "plausibleHigh": 15
+}

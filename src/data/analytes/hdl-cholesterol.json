@@ -1,0 +1,16 @@
+{
+  "id": "hdl-cholesterol",
+  "loinc": "2085-9",
+  "displayName": "HDL cholesterol",
+  "aliases": [
+    "HDL cholesterol",
+    "HDL",
+    "HDL-C",
+    "Cholesterol in HDL"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/hdlthegoodcholesterol.html",
+  "unit": "mg/dL",
+  "panel": "Lipid panel",
+  "plausibleLow": 5,
+  "plausibleHigh": 200
+}

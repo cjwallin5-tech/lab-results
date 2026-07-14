@@ -1,0 +1,17 @@
+{
+  "id": "sodium",
+  "loinc": "2951-2",
+  "displayName": "Sodium",
+  "aliases": [
+    "Sodium",
+    "Na",
+    "Na+"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/sodium-blood-test/",
+  "unit": "mmol/L",
+  "panel": "Metabolic panel",
+  "criticalLow": 120,
+  "criticalHigh": 160,
+  "plausibleLow": 80,
+  "plausibleHigh": 200
+}

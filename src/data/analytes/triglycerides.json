@@ -1,0 +1,16 @@
+{
+  "id": "triglycerides",
+  "loinc": "2571-8",
+  "displayName": "Triglycerides",
+  "aliases": [
+    "Triglycerides",
+    "Trig",
+    "TG"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/triglycerides-test/",
+  "unit": "mg/dL",
+  "panel": "Lipid panel",
+  "criticalHigh": 1000,
+  "plausibleLow": 10,
+  "plausibleHigh": 5000
+}

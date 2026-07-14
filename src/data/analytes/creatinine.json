@@ -1,0 +1,16 @@
+{
+  "id": "creatinine",
+  "loinc": "2160-0",
+  "displayName": "Creatinine",
+  "aliases": [
+    "Creatinine",
+    "Creat",
+    "Serum creatinine"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/creatinine-test/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "criticalHigh": 10,
+  "plausibleLow": 0.1,
+  "plausibleHigh": 40
+}

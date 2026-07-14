@@ -10,8 +10,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "golden": "node scripts/run-golden.mjs",
+    "validate-dictionary": "node scripts/validate-dictionary.mjs",
     "content-gate": "node scripts/content-gate.mjs",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run golden && npm run content-gate"
+    "check": "npm run lint && npm run typecheck && npm run test && npm run golden && npm run validate-dictionary && npm run content-gate"
   },
   "dependencies": {
     "next": "16.2.10",

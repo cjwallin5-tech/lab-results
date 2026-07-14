@@ -1,0 +1,17 @@
+{
+  "id": "platelet-count",
+  "loinc": "777-3",
+  "displayName": "Platelet count",
+  "aliases": [
+    "Platelet count",
+    "Platelets",
+    "PLT"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/platelet-tests/",
+  "unit": "10*3/uL",
+  "panel": "Complete blood count",
+  "criticalLow": 50,
+  "criticalHigh": 1000,
+  "plausibleLow": 0,
+  "plausibleHigh": 5000
+}

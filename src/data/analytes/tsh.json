@@ -1,0 +1,15 @@
+{
+  "id": "tsh",
+  "loinc": "3016-3",
+  "displayName": "TSH",
+  "aliases": [
+    "TSH",
+    "Thyroid stimulating hormone",
+    "Thyrotropin"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/tsh-thyroid-stimulating-hormone-test/",
+  "unit": "mIU/L",
+  "panel": "Thyroid",
+  "plausibleLow": 0,
+  "plausibleHigh": 150
+}
