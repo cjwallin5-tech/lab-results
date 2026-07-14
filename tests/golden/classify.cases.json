@@ -1,0 +1,162 @@
+[
+  {
+    "name": "glucose below range, not critical",
+    "input": {
+      "value": "60",
+      "unit": "mg/dL",
+      "refLow": "70",
+      "refHigh": "99",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "placed", "position": "below", "critical": false }
+  },
+  {
+    "name": "glucose in range",
+    "input": {
+      "value": "90",
+      "unit": "mg/dL",
+      "refLow": "70",
+      "refHigh": "99",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "placed", "position": "in", "critical": false }
+  },
+  {
+    "name": "glucose above range, not critical",
+    "input": {
+      "value": "130",
+      "unit": "mg/dL",
+      "refLow": "70",
+      "refHigh": "99",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "placed", "position": "above", "critical": false }
+  },
+  {
+    "name": "total cholesterol one-sided high, in range",
+    "input": {
+      "value": "198",
+      "unit": "mg/dL",
+      "refHigh": "199",
+      "labFlags": [],
+      "analyte": { "id": "total-cholesterol", "unit": "mg/dL", "plausibleLow": 20, "plausibleHigh": 1000 }
+    },
+    "expected": { "kind": "placed", "position": "in", "critical": false }
+  },
+  {
+    "name": "total cholesterol one-sided high, above range",
+    "input": {
+      "value": "240",
+      "unit": "mg/dL",
+      "refHigh": "199",
+      "labFlags": [],
+      "analyte": { "id": "total-cholesterol", "unit": "mg/dL", "plausibleLow": 20, "plausibleHigh": 1000 }
+    },
+    "expected": { "kind": "placed", "position": "above", "critical": false }
+  },
+  {
+    "name": "hdl one-sided low bound, in range (higher is better)",
+    "input": {
+      "value": "58",
+      "unit": "mg/dL",
+      "refLow": "40",
+      "labFlags": [],
+      "analyte": { "id": "hdl-cholesterol", "unit": "mg/dL", "plausibleLow": 5, "plausibleHigh": 200 }
+    },
+    "expected": { "kind": "placed", "position": "in", "critical": false }
+  },
+  {
+    "name": "potassium critical by printed HH flag",
+    "input": {
+      "value": "6.8",
+      "unit": "mmol/L",
+      "refLow": "3.5",
+      "refHigh": "5.1",
+      "labFlags": ["HH"],
+      "analyte": { "id": "potassium", "unit": "mmol/L", "criticalLow": 2.5, "criticalHigh": 6.5, "plausibleLow": 0.5, "plausibleHigh": 15 }
+    },
+    "expected": { "kind": "placed", "position": "above", "critical": true }
+  },
+  {
+    "name": "potassium critical low by printed LL flag",
+    "input": {
+      "value": "2.1",
+      "unit": "mmol/L",
+      "refLow": "3.5",
+      "refHigh": "5.1",
+      "labFlags": ["LL"],
+      "analyte": { "id": "potassium", "unit": "mmol/L", "criticalLow": 2.5, "criticalHigh": 6.5, "plausibleLow": 0.5, "plausibleHigh": 15 }
+    },
+    "expected": { "kind": "placed", "position": "below", "critical": true }
+  },
+  {
+    "name": "glucose critical by curated threshold, unit matches",
+    "input": {
+      "value": "45",
+      "unit": "mg/dL",
+      "refLow": "70",
+      "refHigh": "99",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "placed", "position": "below", "critical": true }
+  },
+  {
+    "name": "curated critical skipped on unit mismatch",
+    "input": {
+      "value": "27",
+      "unit": "mmol/L",
+      "refLow": "3.9",
+      "refHigh": "5.5",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "placed", "position": "above", "critical": false }
+  },
+  {
+    "name": "implausible high value short-circuits",
+    "input": {
+      "value": "5000",
+      "unit": "mg/dL",
+      "refLow": "70",
+      "refHigh": "99",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "implausible" }
+  },
+  {
+    "name": "non-numeric value is unclassifiable",
+    "input": {
+      "value": "Negative",
+      "unit": "",
+      "labFlags": [],
+      "analyte": { "id": "hcg-qualitative", "unit": "", "plausibleLow": 0, "plausibleHigh": 1 }
+    },
+    "expected": { "kind": "unclassifiable" }
+  },
+  {
+    "name": "no printed range is unclassifiable",
+    "input": {
+      "value": "90",
+      "unit": "mg/dL",
+      "labFlags": [],
+      "analyte": { "id": "glucose", "unit": "mg/dL", "criticalLow": 50, "criticalHigh": 500, "plausibleLow": 10, "plausibleHigh": 2000 }
+    },
+    "expected": { "kind": "unclassifiable" }
+  },
+  {
+    "name": "unmatched test is not covered",
+    "input": {
+      "value": "12",
+      "unit": "units",
+      "refLow": "5",
+      "refHigh": "20",
+      "labFlags": []
+    },
+    "expected": { "kind": "not-covered" }
+  }
+]

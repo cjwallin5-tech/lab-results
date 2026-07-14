@@ -1,29 +1,14 @@
+#!/usr/bin/env node
 /**
- * Golden-suite runner (SPEC Definition of done, gate 1). Fixtures live in
- * tests/golden/ as JSON files of hand-verified expected classifications; the
- * suite must pass 100% and fixtures are never edited to make a failing
- * implementation pass.
- *
- * Phase 0 stub: the classifier does not exist yet, so this passes only while
- * there are no fixtures. The moment fixtures appear it fails closed until the
- * runner actually executes them against src/lib/classify (Phase 1 work).
+ * Golden-suite runner (SPEC Definition of done, gate 1). Drives the fixtures in
+ * tests/golden/ through the real deterministic classifier via Vitest and exits
+ * non-zero on any failure, so CI blocks on a classification regression.
+ * Fixtures are never edited to make a failing implementation pass.
  */
-import { readdir } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const GOLDEN_DIR = "tests/golden";
+const vitestBin = fileURLToPath(new URL("../node_modules/.bin/vitest", import.meta.url));
+const result = spawnSync(vitestBin, ["run", "tests/golden"], { stdio: "inherit" });
 
-let fixtures = [];
-try {
-  fixtures = (await readdir(GOLDEN_DIR)).filter((name) => name.endsWith(".json"));
-} catch (error) {
-  if (error.code !== "ENOENT") throw error;
-}
-
-if (fixtures.length > 0) {
-  console.error(
-    `Golden suite FAILED: ${fixtures.length} fixture file(s) found but the runner is not wired to a classifier yet. Implement src/lib/classify and update this runner before adding fixtures.`,
-  );
-  process.exit(1);
-}
-
-console.log("Golden suite: no fixtures yet (arrive with the Phase 1 classifier). Passing.");
+process.exit(result.status ?? 1);
