@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { AnalyteEntry } from "@/lib/model/types";
 import { analyteEntrySchema } from "./schema";
+import { normalizeName } from "./match";
 
 /**
  * Loads and indexes the curated analyte dictionary. Server-only: reads the
@@ -18,11 +19,6 @@ interface Dictionary {
 }
 
 let cache: Dictionary | null = null;
-
-/** Fold a printed test name to a stable key for alias matching. */
-function normalizeName(name: string): string {
-  return name.trim().toLowerCase().replace(/\s+/g, " ");
-}
 
 function build(): Dictionary {
   const files = readdirSync(DICTIONARY_DIR).filter((file) => file.endsWith(".json"));

@@ -29,11 +29,20 @@ export interface ResultGroup {
   items: ResultItem[];
 }
 
+export interface ToneCounts {
+  inRange: number;
+  outside: number;
+  critical: number;
+  /** Implausible, unreadable, or not-covered: shown honestly, not as a result. */
+  other: number;
+}
+
 export interface ResultsView {
   groups: ResultGroup[];
   inRangeCount: number;
   totalCount: number;
   hasCritical: boolean;
+  toneCounts: ToneCounts;
 }
 
 const PANEL_ORDER = [
@@ -85,12 +94,23 @@ export function buildResultsView(rows: ResultRow[], explanation: Explanation): R
     .map(([panel, panelItems]) => ({ panel, items: panelItems }))
     .sort((a, b) => panelRank(a.panel) - panelRank(b.panel));
 
-  const inRangeCount = items.filter(
-    (item) => item.classification.kind === "placed" && item.classification.position === "in" && !item.classification.critical,
-  ).length;
-  const hasCritical = items.some(
-    (item) => item.classification.kind === "placed" && item.classification.critical,
-  );
+  const toneCounts: ToneCounts = { inRange: 0, outside: 0, critical: 0, other: 0 };
+  for (const item of items) {
+    const classification = item.classification;
+    if (classification.kind === "placed") {
+      if (classification.critical) toneCounts.critical += 1;
+      else if (classification.position === "in") toneCounts.inRange += 1;
+      else toneCounts.outside += 1;
+    } else {
+      toneCounts.other += 1;
+    }
+  }
 
-  return { groups, inRangeCount, totalCount: items.length, hasCritical };
+  return {
+    groups,
+    inRangeCount: toneCounts.inRange,
+    totalCount: items.length,
+    hasCritical: toneCounts.critical > 0,
+    toneCounts,
+  };
 }
