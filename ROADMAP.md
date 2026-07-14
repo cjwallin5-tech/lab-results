@@ -1,8 +1,8 @@
 # Lab Result Explainer — ROADMAP
 
 > The whole-project map: what each phase delivers and when it's done. It is *not* a build
-> plan — each piece of work gets its own plan when we start it. How we begin is in
-> [START_HERE.md](START_HERE.md); what we're building is in [SPEC.md](SPEC.md).
+> plan — each piece of work gets its own plan when we start it. What we're building is in
+> [SPEC.md](SPEC.md).
 
 **Context:** course project, built to be genuinely usable. Phases 0–4 happen during the
 course on synthetic data. Phases 5–6 are the post-course path to real use — kept thin here

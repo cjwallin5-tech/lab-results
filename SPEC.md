@@ -45,7 +45,7 @@ information (PHI) until the Real-World Pilot phase (see [ROADMAP.md](ROADMAP.md)
 Runtime is **zero-AI**: AI runs at steps 3 and 7 only. The patient page renders stored,
 approved content.
 
-## Screens (see figma-screens.png)
+## Screens
 
 | # | Screen | Notes |
 |---|--------|-------|

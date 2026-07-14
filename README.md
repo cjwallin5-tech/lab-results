@@ -52,14 +52,11 @@ Live once the skeleton PR lands the scaffold (see CLAUDE.md Commands):
 
 - `SPEC.md` — product spec: features, flow, data shapes, definition of done (source of truth)
 - `ROADMAP.md` — phases and their gating decisions
-- `START_HERE.md` — plain-language plan for how we work and begin
 - `CLAUDE.md` — instructions for AI agents, code conventions, and safety/privacy rules
-- `figma-screens.png` — the screen designs referenced by the spec
 - `.env.example` — environment variable template
 
 ## Docs
 
-- [Start here](START_HERE.md)
 - [Product spec](SPEC.md)
 - [Roadmap](ROADMAP.md)
 - [Conventions & safety rules](CLAUDE.md)

@@ -11,7 +11,6 @@ Supabase (DB/auth/storage), Vercel, Claude API. **v1 runs on synthetic data only
 
 ## Source of truth
 
-- New here? **START_HERE.md** — the plain-language plan.
 - Features, flow, data shapes, definition of done: **SPEC.md** — check it before
   implementing; flag anything not in it before building.
 - Phases and gating decisions: **ROADMAP.md**.
