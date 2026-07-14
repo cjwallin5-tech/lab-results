@@ -127,6 +127,10 @@ export class LocalRepository implements Repository {
     return this.state.shareLinks.find((link) => link.token === token) ?? null;
   }
 
+  async getShareLinkByReport(reportId: string): Promise<ShareLink | null> {
+    return this.state.shareLinks.find((link) => link.reportId === reportId) ?? null;
+  }
+
   async markLinkOpened(token: string): Promise<void> {
     const link = this.state.shareLinks.find((candidate) => candidate.token === token);
     if (link === undefined) return;

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import {
   draftResultSchema,
@@ -17,6 +17,14 @@ import {
  */
 
 const SEED_DIR = join(process.cwd(), "src/data/seed");
+
+/** The synthetic report PDFs available in offline mode (one per extraction fixture). */
+export function availablePdfRefs(): string[] {
+  return readdirSync(join(SEED_DIR, "extractions"))
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => file.replace(/\.json$/, ""))
+    .sort();
+}
 
 export function offlineExtract(pdfRef: string): ExtractionResult {
   const path = join(SEED_DIR, "extractions", `${pdfRef}.json`);

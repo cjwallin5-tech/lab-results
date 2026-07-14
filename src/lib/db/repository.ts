@@ -34,5 +34,6 @@ export interface Repository {
 
   createShareLink(reportId: string): Promise<ShareLink>;
   getShareLinkByToken(token: string): Promise<ShareLink | null>;
+  getShareLinkByReport(reportId: string): Promise<ShareLink | null>;
   markLinkOpened(token: string): Promise<void>;
 }
