@@ -57,7 +57,11 @@ export function AskForm({ token }: { token: string }) {
         className="mt-4 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm leading-relaxed text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20"
       />
 
-      {state.error && <p className="mt-2 text-sm text-critical">{state.error}</p>}
+      {state.error && (
+        <p role="alert" className="mt-2 text-sm text-critical">
+          {state.error}
+        </p>
+      )}
 
       <div className="mt-4 flex items-center justify-between gap-4">
         <p className="text-xs text-muted">

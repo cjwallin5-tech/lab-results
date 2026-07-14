@@ -14,7 +14,7 @@ export function ResultCard({ item }: { item: ResultItem }) {
   return (
     <article
       className={cn(
-        "rounded-[var(--radius-card)] border bg-paper p-5",
+        "print-avoid-break rounded-[var(--radius-card)] border bg-paper p-5",
         isCritical ? "border-critical/40 ring-1 ring-critical/20" : "border-line",
       )}
     >

@@ -49,8 +49,10 @@ test("critical result: approve, DOB gate rejects then accepts, patient reads and
   await page.getByRole("button", { name: "View my results" }).click();
 
   await expect(page.getByRole("heading", { name: /here are your results/ })).toBeVisible();
-  await expect(page.getByText("Needs prompt attention").first()).toBeVisible();
+  await expect(page.getByRole("alert").filter({ hasText: /need prompt attention/i })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Potassium" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
+  await expect(page.getByText("What these labels mean")).toBeVisible();
   await expect(page.getByText(/not medical advice/)).toBeVisible();
 
   // Ask a question.

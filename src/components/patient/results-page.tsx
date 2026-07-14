@@ -3,6 +3,10 @@ import type { ResultsView } from "@/lib/ui/results-view";
 import { CLINIC } from "@/lib/clinic";
 import { OverallPictureBox } from "./overall-picture-box";
 import { ResultCard } from "./result-card";
+import { CriticalAlert } from "./critical-alert";
+import { AtAGlance } from "./at-a-glance";
+import { Glossary } from "./glossary";
+import { PrintButton } from "./print-button";
 import { CtaBand } from "@/components/ui/cta-band";
 
 export function ResultsPage({
@@ -25,14 +29,19 @@ export function ResultsPage({
 
   return (
     <div className="flex flex-col gap-8">
-      <header>
-        <h1 className="font-display text-4xl leading-tight text-ink">
-          {firstName}, here are your results, explained simply.
-        </h1>
-        <p className="mt-2 text-sm text-muted">
-          Blood work collected {collected} at {CLINIC.name}.
-        </p>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
+            {firstName}, here are your results, explained simply.
+          </h1>
+          <p className="mt-2 text-sm text-muted">
+            Blood work collected {collected} at {CLINIC.name}.
+          </p>
+        </div>
+        <PrintButton />
       </header>
+
+      {view.hasCritical && <CriticalAlert clinicName={CLINIC.name} phone={CLINIC.phone} />}
 
       <OverallPictureBox
         inRangeCount={view.inRangeCount}
@@ -40,6 +49,8 @@ export function ResultsPage({
         overallText={explanation.overallText}
         hasCritical={view.hasCritical}
       />
+
+      <AtAGlance counts={view.toneCounts} />
 
       {view.groups.map((group) => (
         <section key={group.panel}>
@@ -52,6 +63,8 @@ export function ResultsPage({
         </section>
       ))}
 
+      <Glossary />
+
       {explanation.sources.length > 0 && (
         <section className="border-t border-line pt-6">
           <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">Sources</h2>
@@ -62,7 +75,7 @@ export function ResultsPage({
                   href={url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm text-forest underline underline-offset-2"
+                  className="break-all text-sm text-forest underline underline-offset-2"
                 >
                   {url}
                 </a>
@@ -72,12 +85,14 @@ export function ResultsPage({
         </section>
       )}
 
-      <CtaBand
-        title="Questions about these results?"
-        subtitle={`${CLINIC.providerName} usually replies within one business day.`}
-        actionLabel={`Message ${CLINIC.providerName}`}
-        actionHref={`/r/${token}/ask`}
-      />
+      <div className="no-print">
+        <CtaBand
+          title="Questions about these results?"
+          subtitle={`${CLINIC.providerName} usually replies within one business day.`}
+          actionLabel={`Message ${CLINIC.providerName}`}
+          actionHref={`/r/${token}/ask`}
+        />
+      </div>
     </div>
   );
 }

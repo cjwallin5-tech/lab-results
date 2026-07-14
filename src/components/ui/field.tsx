@@ -56,7 +56,11 @@ export function DobField({ error }: { error?: string }) {
           className={cn(inputClasses, "w-24 text-center")}
         />
       </div>
-      {error && <p className="mt-2 text-sm text-critical">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-2 text-sm text-critical">
+          {error}
+        </p>
+      )}
     </fieldset>
   );
 }
