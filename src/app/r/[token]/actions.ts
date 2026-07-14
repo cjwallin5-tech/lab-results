@@ -59,6 +59,11 @@ export async function askQuestionAction(_prev: AskState, formData: FormData): Pr
   if (question.length === 0) {
     return { error: "Write your question first." };
   }
+  const repo = getRepository();
+  const link = await repo.getShareLinkByToken(token);
+  if (link !== null) {
+    await repo.addQuestion(link.reportId, { text: question, at: new Date().toISOString() });
+  }
   await sendQuestion();
   return { sent: true };
 }

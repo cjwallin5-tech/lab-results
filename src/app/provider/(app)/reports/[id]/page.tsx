@@ -201,6 +201,26 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
               <PatientPreview rows={rows} explanation={explanation} />
             </section>
           )}
+          {report.questions.length > 0 && (
+            <section className="mt-10">
+              <h2 className="font-display text-xl text-ink">Patient questions</h2>
+              <ul className="mt-3 flex flex-col gap-3">
+                {report.questions.map((question, index) => (
+                  <li key={index} className="rounded-[var(--radius-card)] border border-line bg-paper p-4">
+                    <p className="text-sm text-ink">{question.text}</p>
+                    <p className="mt-1 text-xs text-muted">
+                      {new Date(question.at).toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
 
         <aside className="flex flex-col gap-6">

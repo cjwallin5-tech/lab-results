@@ -34,7 +34,6 @@ export function ReportsBrowser({ reports }: { reports: Report[] }) {
     );
   }, [reports, query]);
 
-  const attention = searched.filter(needsAttention);
   const visible = searched.filter((report) => {
     if (filter === "attention") return needsAttention(report);
     if (filter === "in-progress") return report.status !== "sent";
@@ -72,25 +71,7 @@ export function ReportsBrowser({ reports }: { reports: Report[] }) {
         />
       </div>
 
-      {filter === "all" && attention.length > 0 && (
-        <section className="mt-6">
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">
-            Needs your attention
-          </h2>
-          <ul className="mt-3 flex flex-col gap-3">
-            {attention.map((report) => (
-              <li key={report.id}>
-                <ReportCard report={report} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
       <section className="mt-6">
-        {filter === "all" && (
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">All reports</h2>
-        )}
         {visible.length === 0 ? (
           <div className="mt-3">
             <EmptyState

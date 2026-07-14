@@ -13,7 +13,9 @@ async function signIn(page: Page): Promise<void> {
 }
 
 async function walkReportToSent(page: Page, patientName: string): Promise<string> {
-  await page.getByRole("link", { name: new RegExp(patientName) }).click();
+  // The report card's accessible name includes the patient email; the activity
+  // feed links do not, so matching on "@" targets the card.
+  await page.getByRole("link", { name: new RegExp(`${patientName}.*@`) }).click();
   await page.getByRole("button", { name: "Read the results" }).click();
   await page.getByRole("button", { name: /Confirm results/ }).click();
   await page.getByRole("button", { name: /Approve for the patient/ }).click();
@@ -70,6 +72,10 @@ test("critical result: approve, DOB gate rejects then accepts, patient reads and
   await page.getByRole("textbox").fill("Should I change anything about my diet?");
   await page.getByRole("button", { name: "Send question" }).click();
   await expect(page.getByText(/question was sent/)).toBeVisible();
+
+  // The question surfaces on the provider dashboard worklist.
+  await page.goto("/provider");
+  await expect(page.getByText(/question from the patient/i)).toBeVisible();
 });
 
 test("patient sees implausible, not-covered, and low states", async ({ page }) => {
