@@ -19,6 +19,11 @@
 
 # local synthetic data store (file-backed dev repository)
 /.data/
+/.data-e2e/
+
+# playwright
+/test-results/
+/playwright-report/
 
 # production
 /build

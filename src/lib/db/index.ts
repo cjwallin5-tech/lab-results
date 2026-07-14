@@ -10,7 +10,8 @@ import type { Repository } from "./repository";
  * dev hot-reloads reuse one store instead of reseeding every request.
  */
 
-const DB_PATH = join(process.cwd(), ".data", "db.json");
+const DATA_DIR = process.env.LAB_DATA_DIR ?? ".data";
+const DB_PATH = join(process.cwd(), DATA_DIR, "db.json");
 
 const globalForDb = globalThis as unknown as { repository?: Repository };
 
