@@ -1,0 +1,7 @@
+{
+  "overallText": "Your thyroid result is in the typical range. Your vitamin D is a little below the typical range, which is very common, especially in winter, and is usually addressed with a supplement your provider can recommend. A couple of other lines on your report could not be read clearly and will be rechecked, and your provider will review everything with you.",
+  "perTest": [
+    { "analyteId": "tsh", "text": "Your TSH is within the typical range. TSH is a hormone that reflects how your thyroid is being signaled." },
+    { "analyteId": "vitamin-d", "text": "Your vitamin D is a little below the typical range. This is common and often improves with a daily supplement, and your provider can tell you what amount is right for you." }
+  ]
+}

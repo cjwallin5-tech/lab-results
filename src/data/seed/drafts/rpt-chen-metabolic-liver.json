@@ -1,0 +1,10 @@
+{
+  "overallText": "One of your results needs prompt attention: your potassium is high enough that the clinic will want to reach you soon, so please follow the guidance at the top of this page. Your other results are in the typical range apart from a mild elevation in one liver value. Your provider will go over all of this with you.",
+  "perTest": [
+    { "analyteId": "sodium", "text": "Your sodium is within the typical range. Sodium is a mineral that helps balance the fluids in your body." },
+    { "analyteId": "potassium", "text": "Your potassium is above the typical range, and the lab flagged it. Potassium affects how your heart and muscles work, so your care team will want to talk with you about this soon. Please follow the contact guidance at the top of this page." },
+    { "analyteId": "creatinine", "text": "Your creatinine is within the typical range. Creatinine is a waste product your kidneys filter out, so it gives a sense of how your kidneys are working." },
+    { "analyteId": "alt", "text": "Your ALT is a little above the typical range. ALT is an enzyme from the liver, and a mild elevation is common and can have many causes. Your provider can interpret it alongside your other results." },
+    { "analyteId": "ast", "text": "Your AST is within the typical range. AST is another enzyme that can reflect how the liver is doing." }
+  ]
+}

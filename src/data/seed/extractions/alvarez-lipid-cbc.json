@@ -1,0 +1,12 @@
+{
+  "rows": [
+    { "rawName": "Total Cholesterol", "value": "198", "unit": "mg/dL", "refLow": "125", "refHigh": "199", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "LDL Cholesterol", "value": "134", "unit": "mg/dL", "refHigh": "99", "labFlags": ["H"], "lowConfidenceFields": [] },
+    { "rawName": "HDL Cholesterol", "value": "58", "unit": "mg/dL", "refLow": "40", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Triglycerides", "value": "90", "unit": "mg/dL", "refHigh": "149", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Hemoglobin", "value": "13.5", "unit": "g/dL", "refLow": "12.0", "refHigh": "15.5", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "WBC", "value": "6.9", "unit": "10*3/uL", "refLow": "4.0", "refHigh": "11.0", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Platelet Count", "value": "250", "unit": "10*3/uL", "refLow": "150", "refHigh": "400", "labFlags": [], "lowConfidenceFields": [] },
+    { "rawName": "Iron", "value": "65", "unit": "mcg/dL", "refLow": "50", "refHigh": "170", "labFlags": [], "lowConfidenceFields": [] }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "overallText": "Most of your results are in the typical range. Your LDL cholesterol is a little above the typical range. That is a common finding and often improves with changes to food and activity, and your provider may want to recheck it. It is not an emergency, and it is worth a conversation at your next visit.",
+  "perTest": [
+    { "analyteId": "total-cholesterol", "text": "Your total cholesterol is within the typical range, just under the usual cutoff. This is the combined amount of cholesterol in your blood." },
+    { "analyteId": "ldl-cholesterol", "text": "Your LDL is a little above the typical range. LDL is the kind that can build up in blood vessels over time. This is very common and often responds to diet and activity changes, and your provider can suggest next steps." },
+    { "analyteId": "hdl-cholesterol", "text": "Your HDL is in a healthy spot. HDL is the kind that helps clear other cholesterol out of your blood, so a higher number here is good." },
+    { "analyteId": "triglycerides", "text": "Your triglycerides are within the typical range. Triglycerides are a type of fat in your blood." },
+    { "analyteId": "hemoglobin", "text": "Your hemoglobin is within the typical range. Hemoglobin is the protein in red blood cells that carries oxygen around your body." },
+    { "analyteId": "white-blood-cell-count", "text": "Your white blood cell count is within the typical range. White blood cells are part of how your body fights infection." },
+    { "analyteId": "platelet-count", "text": "Your platelet count is within the typical range. Platelets help your blood clot." }
+  ]
+}
