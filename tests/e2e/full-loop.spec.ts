@@ -9,7 +9,7 @@ import { test, expect, type Page } from "@playwright/test";
 async function signIn(page: Page): Promise<void> {
   await page.goto("/provider/sign-in");
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page.getByRole("heading", { name: "Reports" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Reports", exact: true })).toBeVisible();
 }
 
 async function walkReportToSent(page: Page, patientName: string): Promise<string> {
@@ -19,7 +19,7 @@ async function walkReportToSent(page: Page, patientName: string): Promise<string
   await page.getByRole("button", { name: /Approve for the patient/ }).click();
   await page.getByRole("button", { name: "Send to patient" }).click();
 
-  const link = page.getByRole("link", { name: /^\/r\// });
+  const link = page.getByRole("link", { name: "Open the patient view" });
   await expect(link).toBeVisible();
   const href = await link.getAttribute("href");
   if (href === null) throw new Error("patient link not found after send");

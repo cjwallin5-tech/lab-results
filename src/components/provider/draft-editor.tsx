@@ -1,12 +1,18 @@
 "use client";
 
 import { approveDraftAction, saveDraftAction } from "@/app/provider/actions";
-import { Button } from "@/components/ui/button";
+import type { Tone } from "@/lib/ui/classification-display";
+import { SubmitButton } from "@/components/ui/submit-button";
+import { StatusPill } from "@/components/ui/status-pill";
 
-interface DraftEntry {
+export interface DraftEntry {
   analyteId: string;
   displayName: string;
   text: string;
+  value: string;
+  unit?: string;
+  tone: Tone;
+  statusLabel: string;
 }
 
 const textareaClasses =
@@ -34,10 +40,19 @@ export function DraftEditor({
         <textarea name="overallText" rows={4} defaultValue={overallText} className={textareaClasses} />
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         {entries.map((entry) => (
           <div key={entry.analyteId}>
-            <label className="mb-1.5 block text-sm font-medium text-ink">{entry.displayName}</label>
+            <div className="mb-1.5 flex items-center justify-between gap-3">
+              <span className="text-sm font-medium text-ink">
+                {entry.displayName}{" "}
+                <span className="font-normal text-muted">
+                  {entry.value}
+                  {entry.unit ? ` ${entry.unit}` : ""}
+                </span>
+              </span>
+              <StatusPill tone={entry.tone} label={entry.statusLabel} />
+            </div>
             <textarea
               name={`text-${entry.analyteId}`}
               rows={3}
@@ -49,12 +64,12 @@ export function DraftEditor({
       </div>
 
       <div className="flex items-center gap-3">
-        <Button type="submit" variant="secondary" formAction={saveDraftAction}>
+        <SubmitButton variant="secondary" formAction={saveDraftAction} pendingLabel="Saving...">
           Save draft
-        </Button>
-        <Button type="submit" formAction={approveDraftAction}>
+        </SubmitButton>
+        <SubmitButton formAction={approveDraftAction} pendingLabel="Approving...">
           {approved ? "Re-approve" : "Approve for the patient"}
-        </Button>
+        </SubmitButton>
       </div>
       <p className="text-xs text-muted">
         Nothing reaches the patient until you approve. Approved text is what they will read.
