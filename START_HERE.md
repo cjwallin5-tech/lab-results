@@ -1,157 +1,190 @@
-# Start here — how we actually begin
+# Start here
 
-> **Scope:** this covers getting started and building v1 (Phase 0–1). Later phases (accounts, FHIR, clinics) live in ROADMAP.md. The team habits below carry through the whole project.
+## What we're building (30 seconds)
 
-## The product
+A doctor uploads a patient's lab report PDF. The app reads it, checks each value against
+the ranges printed on the report, and drafts a plain-language explanation — using real
+text from MedlinePlus (the NIH's patient-education site), not the AI's imagination. The
+doctor reviews and approves it, then the patient gets an email link, confirms their date
+of birth, and reads their results explained simply. They can send the office a question.
 
-A website where someone types in their blood-test results and gets a plain-language
-explanation of each one — what the test measures, and whether their number is low, normal,
-high, or something they should call a doctor about. We write the explanations by hand and a
-human approves every one. Nothing the user types is ever saved or sent anywhere.
+Education, never medical advice. And until the post-course pilot phase, **every patient is
+fake** — we build and demo entirely on made-up people and fabricated lab PDFs.
 
-## The three jobs, in plain words
+## What changed
 
-There's three of us, and the work splits into three jobs.
+The old product — patients typing in their own numbers, no AI, no storage — is retired.
+This is a new product: provider-facing, results pre-populated from an uploaded PDF, AI
+drafts the words, the provider approves them. The Figma results page you've seen (Overall
+picture + per-test cards) is still the heart of it.
 
-- **The Content Coordinator** (the *Content library* track in ROADMAP). Owns the ~50 explanations: keeps them consistent, tracks
-  what's done, and makes sure each one gets reviewed. The *writing itself is shared across all
-  three of us* (with AI help to draft from trusted medical sources — a human always checks and
-  approves), so this is a coordination job plus a share of the writing, not one person
-  authoring 50 entries alone. It's the longest-lead work, so it starts first.
+## The one rule that runs through everything
 
-- **The Logic Builder** (the *Classification engine* track in ROADMAP). Writes the code that makes the decision: given a number and its
-  units, is it low / normal / high / dangerous / probably-a-typo? This is the "brain." It's
-  self-contained coding with a clear right answer. This person also sets up the project
-  skeleton at the very start (explained below), because it has to exist before anyone builds.
+**A human checks every number and every word before a patient sees it.**
+The AI transcribes the PDF → the provider verifies it against the original. Code (not AI)
+decides low/normal/high. The AI drafts the explanation only from MedlinePlus text → the
+provider approves it. If you're ever unsure whether something needs review: it does.
 
-- **The Website Builder** (the *Product UI* track in ROADMAP). Builds the actual pages people see and click — the form where you
-  type results, and the page that shows the explanations. This is the "face." Like the writing,
-  the *design is shared* — we all shape the look and the screens together in Figma (see "Design
-  is ongoing"); the Website Builder is the one who turns that into working pages, not the sole
-  designer.
+## Who does what
 
-They meet in the middle at one thing: **what information we store about each test.** We agree
-that together, first, so all three jobs fit together. (It's written up in SPEC.md's *Data
-model* section — think of it as a shared blank form we each fill in or read from.)
+Three tracks, working in parallel. They meet at the **shared TypeScript types** — agree on
+those first, then nobody blocks anybody.
 
-## The "data shape" — the one shared form every test uses
+- **Logic Builder:** project skeleton + shared types (week 1 priority — it's the gate for
+  everyone else), then the extraction pipeline, the classifier + golden fixtures, and the
+  share-link/DOB flow.
+- **Website Builder:** the provider screens (upload → verify → approve — the verify/approve
+  screen needs Figma design, it's new) and the patient results page. Design keeps evolving
+  in Figma as we build; all three of us weigh in there.
+- **Content Coordinator (now quality owner):** the analyte dictionary (which tests we
+  cover, their MedlinePlus pages), the **synthetic lab PDF corpus** (fake patients, realistic
+  layouts — these double as our test suite), and reviewing the AI's draft quality against
+  its sources.
 
-The three jobs aren't really separate — they're a chain that passes information along:
+Nobody owns a track exclusively — review each other's PRs, ask questions early, and small
+"look what works now" demos to each other beat status meetings.
 
-> **Content** writes the facts and words for each test → **Logic** reads those to decide
-> low / normal / high → **Website** shows the result on screen.
+## Who does what, phase by phase
 
-**What it is.** The "data shape" is the form each test's information is stored in — the exact
-fields and what they're called: the test's name, its normal range, its danger threshold, the
-explanation text, and so on. It's the hand-off point where one job's work becomes the next
-job's input. (It's written up in SPEC.md's *Data model* section.)
+This follows the phases in [ROADMAP.md](ROADMAP.md). Each phase lists every track's
+focus and what "done" looks like for them. Tasks shift between people freely — this is a
+starting map, not a contract.
 
-**Why it's necessary.** Every job either fills this form in or reads from it, so it's the thing
-that lets the three pieces connect at all. Without one fixed form, the Content person might
-write a normal range as text ("13.5–17.5") while the Logic person's code expects two numbers (a
-low and a high) — the pieces don't fit, and we only find out when we try to combine our work.
+**Phase captains.** Each phase has one named person who keeps that phase's "done when"
+list in view and says "this phase is done — next one starts" when it's met. This is so
+we never half-finish a phase while half-starting the next. The captain is whoever's
+track the phase centers on:
+Phases 0–1 → **Logic Builder** · Phase 2 → **Content Coordinator** · Phase 3 →
+**Website Builder** · Phase 4 → whoever is driving the demo rehearsals.
 
-**Why we must all use the same one.** There is exactly one shape, and all three jobs build
-against it — same fields, same names, same meaning, everywhere. It's a shared contract, not
-each person's private choice: if Content fills in one form, Logic reads a different one, and
-Website expects a third, nothing lines up. That single shared form is precisely what lets us
-build our three parts separately and still have them click together at the end.
+### Phase 0 — Skeleton & seam (~week 1)
 
-## The one idea: start tiny
+*Goal: a deployed app shell and the shared types, so nobody blocks anybody after this week.*
 
-Do **not** try to write all 50 tests, or build the whole website, or handle every case at
-once. That's what makes it feel impossible.
+- **Logic Builder** — the gate for everyone else, so this comes first: scaffold
+  Next.js + TypeScript + Tailwind, connect Supabase, deploy to Vercel, set up CI
+  (lint + test). Draft the **shared types** from SPEC's data model and get both
+  teammates to sign off on them in the PR — that review *is* the design meeting.
+  Write the seed script (demo provider + 2–3 synthetic patients).
+- **Website Builder** — Figma the missing screen: verify/approve (S3) — it's the one screen
+  the old design set doesn't cover. Meanwhile build the upload page (S2) against mocked
+  types as soon as the types PR lands.
+- **Content Coordinator** — fabricate the first 3 synthetic lab PDFs: one normal panel, one
+  with a critical value, one containing a test we don't cover. Make them look like real
+  Quest/LabCorp printouts (different layouts on purpose). Start the analyte dictionary:
+  pick the ~15 most common blood tests, find each one's MedlinePlus test page and LOINC code.
 
-Instead, pick **3 simple tests** — say glucose, hemoglobin, and cholesterol — and take *those
-three* all the way through: written up, logic that classifies them, and a web page that shows
-the result. When those 3 work end-to-end, you'll all understand — concretely, not
-hypothetically — what "the data shapes" and "the three jobs" actually mean. Then you repeat
-the pattern for the rest. **Small slice first, then scale.** This is the single most useful
-thing a first-time team can do.
+**Phase done for you when:** app deploys and runs locally for all three (Logic), upload page
+renders against mock data + S3 designed (Website), 3 PDFs exist + dictionary started (Content).
 
----
+### Phase 1 — Extraction & classification (the trust core)
 
-## Week 0 — a few days, all together
+*Goal: upload a synthetic PDF → provider-verified, correctly classified results.*
 
-Short and shared. Just the things everyone depends on:
+- **Logic Builder** — the extraction spike: PDF → structured JSON through `llm.ts`; zod-validate
+  the model's output (treat it as untrusted input). Then the deterministic classifier with
+  **golden fixtures first, code second** — write the fixture cases (below/in/above, one-sided
+  ranges, critical, implausible, unknown) before implementing. Wire extraction → dictionary
+  matching → classification into one pipeline with report statuses.
+- **Website Builder** — build the verify screen (S3, first half): PDF on one side, editable
+  extracted table on the other, confirm button that advances the report status. Start with
+  mocked extraction output; swap in the real pipeline when Logic's spike lands. Handle the
+  ugly cases honestly: low-confidence fields, unknown tests, a row the provider deletes.
+- **Content Coordinator** — turn the PDF corpus into the **eval set**: for each synthetic PDF,
+  write the expected JSON (every test, value, unit, range) by hand. That's the answer key
+  extraction is graded against. Grow the corpus with harder layouts (two-column, scanned-look,
+  multi-page). Help set the extraction accuracy bar from the first spike results (SPEC TODO).
 
-1. **Write down our decisions.** We've talked through the big open questions — put the answers
-   in writing so they're official. The most important one: *we write explanations by hand and
-   a human approves each one — we do not have an AI generate them live. *(This one is already settled.)*
-2. **Confirm the shared "form" for a test** — walk through SPEC.md's *Data model* together; each person checks it fits their part.
-3. **Rough-sketch the two main screens in Figma, together** — the "type your results" screen
-   and the "here's what they mean" screen. Rough. Not finished art. Just so we share a picture.
-4. **Pick who takes which of the three jobs.**
+**Phase done for you when:** golden suite passes 100% (Logic), a provider can upload → verify
+→ see classified rows on screen (Website), eval set covers every PDF and the accuracy bar is
+agreed (Content).
 
-That's it for the all-together part. After this, we split up and work in parallel.
+### Phase 2 — Drafting & approval (the safety core)
 
-## Week 1 — split up, build the tiny slice
+*Goal: verified results become an AI-drafted, provider-approved patient page.*
 
-Everyone works on their own copy of the project (a "branch" — your own workspace that doesn't
-disturb anyone else's), on the *same 3 tests*.
+- **Logic Builder** — MedlinePlus integration: LOINC → test-page text (MedlinePlus Connect),
+  cached per analyte. The drafting call: classifications + source text in, Overall picture +
+  per-test text + sources out — through `llm.ts`, zod-validated. Approval state machine:
+  draft → approved, approved text frozen. Write the gate test: no route ever returns
+  unapproved text.
+- **Website Builder** — the review/approve screen (S3, second half): show the drafted page
+  as the patient will see it, let the provider edit the text inline, approve button. This
+  screen carries the product's safety story — make the "you are approving what your patient
+  will read" framing unmistakable.
+- **Content Coordinator** — your phase. Own the **prompt** — the instructions the app sends
+  the AI when drafting. It lives in its own file (`src/lib/draft/prompt.md`), not inside the
+  pipeline code, so you edit and PR it directly like any document. Iterate it until drafts
+  are faithful to MedlinePlus, plain-language (aim ~8th-grade reading level), and match the
+  tone in the Figma copy ("Yours is a little above the typical range…"). Review every draft the
+  pipeline produces against its sources — you're checking for invented claims, wrong
+  emphasis, and diagnosis-flavored language (the FR-14 rules). File what you find as
+  fixture-worthy cases.
 
-- **Logic Builder — first, set up the skeleton (1–2 days).** Create the empty-but-running
-  website and turn on the **automated checks** ("CI" — a robot that runs every time someone
-  proposes a change and refuses changes that break our rules, e.g. shipping an explanation
-  nobody reviewed). This has to exist before feature work, and it's a one-person job. *Then*
-  start the low/normal/high logic for the 3 tests.
-- **Content — draft the 3 explanations + find the sources.** Shared, AI-assisted drafting;
-  the coordinator keeps it consistent. Get a feel for how long one entry really takes — it
-  tells us a lot about the timeline. (Our clinician reviews the whole library before public
-  launch, and signs off specifically on the "call a doctor" critical thresholds.)
-- **Website Builder — turn the Figma sketch into a rough working page.** Doesn't need to be
-  pretty yet; it needs to display a result. Keep adjusting the design with the team as it
-  becomes real on screen.
+**Phase done for you when:** gate test green + drafts generate reliably (Logic), a provider
+can read/edit/approve end-to-end (Website), you'd let a stranger's parent read the drafts
+without wincing (Content).
 
-## Week 2 — connect the slice, look at it together
+### Phase 3 — Patient side (the loop closes)
 
-- Wire the three pieces together: the page shows the Writer's words, judged by the Logic
-  Builder's code, for the 3 tests. This "connecting" work is real work — whoever built the
-  website usually leads it.
-- Look at the working thing together. *Now* the design conversation gets concrete — react to
-  what's actually on screen, in Figma and in the real page.
-- Add the automated "robot user" test that opens the site, types the 3 tests, and checks the
-  right explanations appear.
+*Goal: the full journey — upload to patient reading to question sent.*
 
-**You'll know the first slice is done when:** a person can open the site, enter those 3
-tests, and read correct, human-approved explanations — including one that shows a "call your
-doctor" warning. Once that works, everything after is repeating the pattern for more tests
-and polishing the design.
+- **Logic Builder** — share links: unguessable token, expiry, DOB gate, one report per link;
+  email sending (link email + ask-a-question email to the office address). Don't log tokens
+  or DOBs. Then the full E2E test: upload → verify → approve → email → DOB → read → ask.
+- **Website Builder** — the patient-facing screens, built from the existing Figma: DOB gate
+  (S1), the results page (S4 — overall box, range markers, per-test cards, MedlinePlus links,
+  disclaimer, plus the critical / implausible / unknown states), ask-a-question (S5).
+- **Content Coordinator** — walk the whole flow as each of your synthetic patients and audit
+  every word on every screen: disclaimer present everywhere, critical callout reads urgent
+  but not terrifying, unknown-test fallback is honest, no "you have" language anywhere.
+  Draft the standing UI copy (disclaimers, error states, email text) — that's people-facing
+  writing, and it's yours.
 
----
+**Phase done for you when:** E2E passes including the critical/implausible/unknown patients
+(Logic), all five screens live (Website), the copy audit is clean (Content).
 
-## How we work together (the day-to-day)
+### Phase 4 — Demo hardening
 
-None of us has done this before, so keep it light — two habits are enough:
+*Goal: a demo the team can run cold, twice, without touching code.*
 
-- **A short check-in a few times a week.** 15 minutes: what I did, what's next, what I'm stuck
-  on. Not a big meeting.
-- **Review each other's work before it becomes final.** When someone finishes a piece, they
-  "open a pull request" — a request to add their work to the shared copy — and one of the
-  other two looks it over and says yes. This is our main way of staying in sync *and* catching
-  mistakes, and it's where design feedback naturally happens. Lean on it.
+- **Logic Builder** — fix what the rehearsals shake out; make the seed script rebuild the
+  full demo state in one command; error handling for the embarrassing cases (bad PDF, expired
+  link, wrong DOB three times).
+- **Website Builder** — polish pass: loading/empty states, mobile check on the patient page
+  (patients open email links on phones), print styles if time allows.
+- **Content Coordinator** — broaden the dictionary and corpus to whatever the demo story
+  needs; write the demo script (which synthetic patient shows off which feature); run the
+  rehearsals and keep the punch list.
 
-Two gentle warnings:
+**Phase done when:** two clean cold runs of the demo, by different drivers.
 
-- **Don't all work on the same thing at once.** It feels safe but it wastes the point of being
-  a team (doing things at the same time) and it's harder to coordinate, not easier.
-- **Don't over-plan.** The docs and the automated checks exist so we *can* work independently
-  and trust that mistakes get caught. Agreeing too much together is as much a trap as too
-  little.
+### If the load feels uneven — rebalance moves
 
-## Design is ongoing, not a phase
+The tracks are sized against the work, not the people, and Logic Builder carries roughly
+half the build. **Checkpoint at the end of Phase 1:** by then everyone's real pace is
+known — look at the map again together. Pre-agreed moves if Logic (or anyone) is
+overloaded, in order:
 
-We keep designing in Figma the whole way through — building the pages is *how we discover* what
-the design should be. The Website Builder does the building; all three of us keep having a say
-through Figma and through reviewing each other's work. The only thing worth pinning down early
-is what the *warning* states need to do (a dangerous-value alert must stand out and not rely on
-color alone) — everything about how it looks stays open and keeps improving.
+1. **Share-link + email flow → Website Builder** (Phase 3). Self-contained Next.js
+   route-handler work, and it lands exactly when Logic is most stretched.
+2. **Dictionary data files → Content Coordinator, written as code.** They're typed,
+   schema-validated data entries — a gentle on-ramp to direct code contributions.
+3. **E2E test authorship → Website Builder** — they know the screens best anyway.
 
----
+And beyond these: shift any task whenever it helps — just say so, so that the map
+stays true.
 
-## The whole plan on one page
+### Phases 5–6 — after the course
 
-- [ ] Week 0: write down decisions · agree the test "form" · rough Figma sketch · pick jobs
-- [ ] Week 1: skeleton + checks (Logic Builder) · 3 explanations (Writer) · rough page (Website)
-- [ ] Week 2: connect the 3 tests end-to-end · look together · add the robot-user test
-- [ ] First slice done → repeat for more tests, keep improving the design
+Real-PHI pilot and EHR connectivity. Deliberately not planned at task level yet — the
+gating decisions are listed in [ROADMAP.md](ROADMAP.md). Expect the tracks to blur here:
+Phase 5 is mostly vendor/compliance work (everyone), Phase 6 is mostly Logic. Plan it when
+Phase 4 ends.
+
+## Where things live
+
+- What exactly are we building? → [SPEC.md](SPEC.md)
+- What order, and when is it done? → [ROADMAP.md](ROADMAP.md)
+- Rules for code and safety (Claude reads this every session) → [CLAUDE.md](CLAUDE.md)
+- Screens → figma-screens.png / the Figma file

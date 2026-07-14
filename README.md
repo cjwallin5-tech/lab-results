@@ -1,58 +1,71 @@
 # Lab Result Explainer
 
-A website where someone types in their blood-test results and gets a plain-language, human-reviewed explanation of each one: what the test measures, and whether their number is low, normal, high, or something to call a doctor about. Educational information only, never medical advice. Nothing the user enters is stored or sent anywhere.
+Plain-language explanations of lab results — for patients, reviewed and sent by their provider. Education, never medical advice.
 
-## Quickstart
+## Overview
 
-```bash
-git clone git@github.com:cjwallin5-tech/lab-results.git
-cd lab-results
-npm ci
-npm run dev
-```
+A provider uploads a patient's lab report PDF. The system extracts the results (AI), the provider verifies them against the PDF, deterministic code classifies each value against the report's own printed ranges, and the AI drafts a plain-language explanation grounded only in MedlinePlus content. The provider reviews and approves, then the patient opens an emailed, DOB-gated link and reads it. It never diagnoses and never gives treatment advice — it consistently redirects to the patient's provider.
 
-Open http://localhost:3000.
+Two human gates are structural: no extracted value is used until the provider verifies it, and no text reaches a patient without provider approval. AI runs at two steps only (extract, draft); the patient page renders stored, approved content with zero AI at view time.
 
-## Status
+**v1 runs on synthetic data only — no real patient information (PHI).** Real connectivity and a real-PHI pilot are later roadmap phases. See [SPEC.md](SPEC.md).
 
-Phase 0 (skeleton and automated checks). The product itself, the entry form and the explanations, is Phase 1 work. See [ROADMAP.md](ROADMAP.md) for phases, [SPEC.md](SPEC.md) for the intended behavior and data model, and [START_HERE.md](START_HERE.md) for how the team works and how v1 gets built.
+## Status: planning — nothing is built yet
 
-## Tech stack
+This repo currently contains only documentation. Every feature described here and in [SPEC.md](SPEC.md) is **planned, not implemented**. Phases are defined in [ROADMAP.md](ROADMAP.md).
 
-- Next.js 16 (App Router) with TypeScript and Tailwind CSS 4
-- Vitest for unit tests
-- Hosted on Vercel (planned)
-- Node 24, npm
+| Phase | Delivers | Status |
+|---|---|---|
+| 0 — Skeleton & seam | Deployed scaffold + shared TypeScript types | Planned (v1) |
+| 1 — Extraction & classification | Upload PDF → AI extract → verify → deterministic classify + golden fixtures | Planned (v1) |
+| 2 — Drafting & approval | AI draft from MedlinePlus + classifications → provider approves | Planned (v1) |
+| 3 — Patient side | Email link, DOB gate, results page, ask-a-question | Planned (v1) |
+| 4 — Demo hardening | Broaden dictionary + corpus, polish, rehearsal | Planned (v1) |
+| 5 — Real-world pilot | BAAs, real auth, one real provider | Post-course |
+| 6 — Connectivity | FHIR import; lab/EHR network access | Someday |
 
-No database and no environment variables in v1: curated data ships as versioned files in the repo, and user input lives only in browser session state.
+Stack: Next.js + TypeScript + Tailwind, Supabase (DB/auth/storage), Vercel, Claude API.
 
-## Commands
+## Prerequisites
 
-```bash
-npm run dev           # start the dev server
-npm run build         # production build
-npm run lint          # ESLint
-npm run typecheck     # TypeScript, no emit
-npm run test          # Vitest unit tests
-npm run golden        # golden classification suite (fixtures arrive with Phase 1)
-npm run content-gate  # fails if any content entry lacks a human reviewer (FR-13)
-npm run check         # all of the above except build
-```
+- Node.js 25 (a version manager like `nvm`/`fnm` is handy; the version is pinned in
+  `.nvmrc` once scaffolded — see CLAUDE.md)
+- npm
 
-CI (GitHub Actions) runs lint, typecheck, tests, both gates, and the build on every push to main and every pull request.
+## Getting started
+
+Not yet possible — there is no application to run.
+# TODO: once scaffolded: clone → install → cp .env.example .env.local → npm run dev
+
+## Scripts
+
+Live once the skeleton PR lands the scaffold (see CLAUDE.md Commands):
+
+- `npm run dev` — start the local dev server
+- `npm run build` — production build
+- `npm start` — run the built app
+- `npm run lint` — ESLint (CI fails on lint)
+- `npm test` — Vitest unit tests
+- `npm run test:e2e` — Playwright E2E (added in Phase 3)
 
 ## Project structure
 
-```
-src/app/          Next.js pages and layout
-src/lib/model/    the three shared data shapes from SPEC.md (Analyte, ContentEntry, UserResult)
-src/data/         curated analyte facts and human-reviewed content entries (JSON, versioned)
-scripts/          the golden-suite runner and the content-review gate
-tests/            unit tests; tests/golden/ holds the golden fixtures
-prototype/        the original paste-and-parse prototype, archived as reference
-.github/          CI workflow
-```
+- `SPEC.md` — product spec: features, flow, data shapes, definition of done (source of truth)
+- `ROADMAP.md` — phases and their gating decisions
+- `START_HERE.md` — plain-language plan for how we work and begin
+- `CLAUDE.md` — instructions for AI agents, code conventions, and safety/privacy rules
+- `figma-screens.png` — the screen designs referenced by the spec
+- `.env.example` — environment variable template
 
-## Contributing
+## Docs
 
-Work happens on short-lived feature branches with pull requests reviewed by a teammate; nothing merges red. Two rules carry the safety model: every user-facing medical text needs a named human reviewer before it ships, and golden fixtures are never edited to make a failing implementation pass.
+- [Start here](START_HERE.md)
+- [Product spec](SPEC.md)
+- [Roadmap](ROADMAP.md)
+- [Conventions & safety rules](CLAUDE.md)
+
+## License
+
+No license yet — **proprietary by default**. The team chose to decide later (2026-07-08).
+</content>
+</invoke>
