@@ -14,6 +14,8 @@ export function buildSeedState(): DbState {
   const reports = seeded.map((report) => ({
     ...report,
     statusHistory: report.statusHistory ?? [{ status: report.status, at: report.createdAt }],
+    outreach: report.outreach ?? [],
+    questions: report.questions ?? [],
   }));
   return {
     reports,

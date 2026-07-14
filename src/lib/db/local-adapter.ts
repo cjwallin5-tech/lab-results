@@ -1,7 +1,15 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { randomBytes, randomUUID } from "node:crypto";
-import type { Explanation, Report, ReportStatus, ResultRow, ShareLink } from "@/lib/model/types";
+import type {
+  Explanation,
+  OutreachEntry,
+  PatientQuestion,
+  Report,
+  ReportStatus,
+  ResultRow,
+  ShareLink,
+} from "@/lib/model/types";
 import { assertTransition } from "@/lib/report/status";
 import type { NewReport, ReportPatch, Repository } from "./repository";
 
@@ -67,6 +75,8 @@ export class LocalRepository implements Repository {
       createdAt: now,
       updatedAt: now,
       statusHistory: [{ status: "uploaded", at: now }],
+      outreach: [],
+      questions: [],
     };
     this.state.reports.push(report);
     this.persist();
@@ -96,6 +106,22 @@ export class LocalRepository implements Repository {
     const report = this.requireReport(id);
     if (patch.providerNote !== undefined) report.providerNote = patch.providerNote;
     if (patch.resultSummary !== undefined) report.resultSummary = patch.resultSummary;
+    report.updatedAt = new Date().toISOString();
+    this.persist();
+    return report;
+  }
+
+  async addOutreach(id: string, entry: OutreachEntry): Promise<Report> {
+    const report = this.requireReport(id);
+    report.outreach.push(entry);
+    report.updatedAt = new Date().toISOString();
+    this.persist();
+    return report;
+  }
+
+  async addQuestion(id: string, question: PatientQuestion): Promise<Report> {
+    const report = this.requireReport(id);
+    report.questions.push(question);
     report.updatedAt = new Date().toISOString();
     this.persist();
     return report;

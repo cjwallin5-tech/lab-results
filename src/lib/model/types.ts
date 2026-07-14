@@ -43,6 +43,20 @@ export interface ResultSummary {
   notCovered: number;
 }
 
+/** A logged direct contact with the patient about one critical result. */
+export interface OutreachEntry {
+  analyteId: string;
+  method: "phone" | "other";
+  note: string;
+  at: string;
+}
+
+/** A question the patient sent from their results page. */
+export interface PatientQuestion {
+  text: string;
+  at: string;
+}
+
 /** One uploaded lab report and where it sits in the workflow. */
 export interface Report {
   id: string;
@@ -58,6 +72,10 @@ export interface Report {
   providerNote?: string;
   /** Result counts, stamped once the rows are classified at verify. */
   resultSummary?: ResultSummary;
+  /** Direct contacts logged for critical results before the link can be sent. */
+  outreach: OutreachEntry[];
+  /** Questions the patient has sent about this report. */
+  questions: PatientQuestion[];
 }
 
 /** Where a value falls relative to the report's own printed reference range. */

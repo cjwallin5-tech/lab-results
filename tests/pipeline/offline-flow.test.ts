@@ -19,6 +19,8 @@ function report(id: string, pdfRef: string): Report {
     createdAt: "2026-07-13T00:00:00.000Z",
     updatedAt: "2026-07-13T00:00:00.000Z",
     statusHistory: [{ status: "verified", at: "2026-07-13T00:00:00.000Z" }],
+    outreach: [],
+    questions: [],
   };
 }
 

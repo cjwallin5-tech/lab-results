@@ -1,6 +1,8 @@
 import type {
   Explanation,
+  OutreachEntry,
   PatientInfo,
+  PatientQuestion,
   Report,
   ReportStatus,
   ResultRow,
@@ -33,6 +35,10 @@ export interface Repository {
   setReportStatus(id: string, status: ReportStatus): Promise<Report>;
   /** Patch non-status fields (provider note, result summary). */
   updateReport(id: string, patch: ReportPatch): Promise<Report>;
+  /** Log a direct contact with the patient about a critical result. */
+  addOutreach(id: string, entry: OutreachEntry): Promise<Report>;
+  /** Record a question the patient sent about the report. */
+  addQuestion(id: string, question: PatientQuestion): Promise<Report>;
 
   saveRows(reportId: string, rows: ResultRow[]): Promise<void>;
   getRows(reportId: string): Promise<ResultRow[]>;
