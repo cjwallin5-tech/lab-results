@@ -4,8 +4,14 @@ import type {
   Report,
   ReportStatus,
   ResultRow,
+  ResultSummary,
   ShareLink,
 } from "@/lib/model/types";
+
+/** Fields a caller may patch on a report outside the status machine. */
+export type ReportPatch = Partial<Pick<Report, "providerNote" | "resultSummary">> & {
+  resultSummary?: ResultSummary;
+};
 
 /** The fields a caller provides to open a new report; the rest are derived. */
 export interface NewReport {
@@ -25,6 +31,8 @@ export interface Repository {
   listReports(): Promise<Report[]>;
   /** Transition a report's status; rejects an illegal jump. */
   setReportStatus(id: string, status: ReportStatus): Promise<Report>;
+  /** Patch non-status fields (provider note, result summary). */
+  updateReport(id: string, patch: ReportPatch): Promise<Report>;
 
   saveRows(reportId: string, rows: ResultRow[]): Promise<void>;
   getRows(reportId: string): Promise<ResultRow[]>;

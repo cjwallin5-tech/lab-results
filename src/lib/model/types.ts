@@ -28,6 +28,21 @@ export interface PatientInfo {
   dob: string;
 }
 
+/** One entry in a report's audit timeline: a status and when it was reached. */
+export interface StatusEvent {
+  status: ReportStatus;
+  at: string;
+}
+
+/** Counts across a report's verified rows, for provider-facing badges. */
+export interface ResultSummary {
+  total: number;
+  inRange: number;
+  outOfRange: number;
+  critical: number;
+  notCovered: number;
+}
+
 /** One uploaded lab report and where it sits in the workflow. */
 export interface Report {
   id: string;
@@ -37,6 +52,12 @@ export interface Report {
   status: ReportStatus;
   createdAt: string;
   updatedAt: string;
+  /** Append-only audit trail of status changes. */
+  statusHistory: StatusEvent[];
+  /** A short note the provider keeps on the report. */
+  providerNote?: string;
+  /** Result counts, stamped once the rows are classified at verify. */
+  resultSummary?: ResultSummary;
 }
 
 /** Where a value falls relative to the report's own printed reference range. */

@@ -10,7 +10,11 @@ import type { DbState } from "./local-adapter";
  */
 export function buildSeedState(): DbState {
   const reportsPath = join(process.cwd(), "src/data/seed/reports.json");
-  const reports = JSON.parse(readFileSync(reportsPath, "utf8")) as Report[];
+  const seeded = JSON.parse(readFileSync(reportsPath, "utf8")) as Report[];
+  const reports = seeded.map((report) => ({
+    ...report,
+    statusHistory: report.statusHistory ?? [{ status: report.status, at: report.createdAt }],
+  }));
   return {
     reports,
     rows: {},

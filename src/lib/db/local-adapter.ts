@@ -3,7 +3,7 @@ import { dirname } from "node:path";
 import { randomBytes, randomUUID } from "node:crypto";
 import type { Explanation, Report, ReportStatus, ResultRow, ShareLink } from "@/lib/model/types";
 import { assertTransition } from "@/lib/report/status";
-import type { NewReport, Repository } from "./repository";
+import type { NewReport, ReportPatch, Repository } from "./repository";
 
 /**
  * File-backed repository for synthetic data. The whole store is a single JSON
@@ -66,6 +66,7 @@ export class LocalRepository implements Repository {
       status: "uploaded",
       createdAt: now,
       updatedAt: now,
+      statusHistory: [{ status: "uploaded", at: now }],
     };
     this.state.reports.push(report);
     this.persist();
@@ -83,7 +84,18 @@ export class LocalRepository implements Repository {
   async setReportStatus(id: string, status: ReportStatus): Promise<Report> {
     const report = this.requireReport(id);
     assertTransition(report.status, status);
+    const now = new Date().toISOString();
     report.status = status;
+    report.updatedAt = now;
+    report.statusHistory.push({ status, at: now });
+    this.persist();
+    return report;
+  }
+
+  async updateReport(id: string, patch: ReportPatch): Promise<Report> {
+    const report = this.requireReport(id);
+    if (patch.providerNote !== undefined) report.providerNote = patch.providerNote;
+    if (patch.resultSummary !== undefined) report.resultSummary = patch.resultSummary;
     report.updatedAt = new Date().toISOString();
     this.persist();
     return report;

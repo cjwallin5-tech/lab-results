@@ -10,7 +10,7 @@ import {
   verifyProviderCredentials,
 } from "@/lib/auth/session";
 import { uploadMetadataSchema } from "@/lib/model/schema";
-import { classifyRows, extractRows } from "@/lib/report/pipeline";
+import { classifyRows, extractRows, summarizeResults } from "@/lib/report/pipeline";
 import { buildDraft } from "@/lib/draft";
 import { availablePdfRefs } from "@/lib/llm/offline";
 import { sendShareLink } from "@/lib/email";
@@ -102,6 +102,7 @@ export async function confirmVerificationAction(formData: FormData): Promise<voi
   const classified = classifyRows(rows);
   const repo = getRepository();
   await repo.saveRows(reportId, classified);
+  await repo.updateReport(reportId, { resultSummary: summarizeResults(classified) });
   await repo.setReportStatus(reportId, "verified");
 
   const report = await repo.getReport(reportId);
@@ -157,5 +158,21 @@ export async function sendLinkAction(formData: FormData): Promise<void> {
   await repo.createShareLink(reportId);
   await repo.setReportStatus(reportId, "sent");
   await sendShareLink();
+  revalidatePath(reportPath(reportId));
+}
+
+export async function resendLinkAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get("reportId") ?? "");
+  const repo = getRepository();
+  const link = await repo.getShareLinkByReport(reportId);
+  if (link !== null) await sendShareLink();
+  revalidatePath(reportPath(reportId));
+}
+
+export async function saveProviderNoteAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get("reportId") ?? "");
+  await getRepository().updateReport(reportId, {
+    providerNote: String(formData.get("note") ?? ""),
+  });
   revalidatePath(reportPath(reportId));
 }

@@ -30,6 +30,30 @@ describe("LocalRepository", () => {
     await expect(repo.setReportStatus(report.id, "sent")).rejects.toThrow(/Illegal/);
   });
 
+  it("records an append-only status history", async () => {
+    const repo = newRepo();
+    const report = await repo.createReport({ patient, pdfRef: "ref-1" });
+    await repo.setReportStatus(report.id, "extracted");
+    const verified = await repo.setReportStatus(report.id, "verified");
+    expect(verified.statusHistory.map((event) => event.status)).toEqual([
+      "uploaded",
+      "extracted",
+      "verified",
+    ]);
+  });
+
+  it("patches the provider note and result summary", async () => {
+    const repo = newRepo();
+    const report = await repo.createReport({ patient, pdfRef: "ref-1" });
+    const updated = await repo.updateReport(report.id, {
+      providerNote: "Called the patient.",
+      resultSummary: { total: 3, inRange: 2, outOfRange: 0, critical: 1, notCovered: 0 },
+    });
+    expect(updated.providerNote).toBe("Called the patient.");
+    expect(updated.resultSummary?.critical).toBe(1);
+    expect((await repo.getReport(report.id))?.status).toBe("uploaded");
+  });
+
   it("stores and returns result rows and an explanation", async () => {
     const repo = newRepo();
     const report = await repo.createReport({ patient, pdfRef: "ref-1" });

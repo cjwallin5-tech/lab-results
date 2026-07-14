@@ -1,4 +1,4 @@
-import type { Report, ResultRow } from "@/lib/model/types";
+import type { Report, ResultRow, ResultSummary } from "@/lib/model/types";
 import { getAnalyte, matchAnalyte } from "@/lib/analytes";
 import { classifyRow } from "@/lib/classify";
 import { extract } from "@/lib/llm";
@@ -47,6 +47,29 @@ export function classifyRows(rows: ResultRow[]): ResultRow[] {
       }),
     };
   });
+}
+
+/** Count classified rows into the buckets shown on provider badges. */
+export function summarizeResults(rows: ResultRow[]): ResultSummary {
+  const summary: ResultSummary = {
+    total: rows.length,
+    inRange: 0,
+    outOfRange: 0,
+    critical: 0,
+    notCovered: 0,
+  };
+  for (const row of rows) {
+    const classification = row.classification;
+    if (classification === undefined) continue;
+    if (classification.kind === "not-covered") {
+      summary.notCovered += 1;
+    } else if (classification.kind === "placed") {
+      if (classification.critical) summary.critical += 1;
+      else if (classification.position === "in") summary.inRange += 1;
+      else summary.outOfRange += 1;
+    }
+  }
+  return summary;
 }
 
 /** Reduce verified rows to the covered, classified summaries the drafter may use. */
