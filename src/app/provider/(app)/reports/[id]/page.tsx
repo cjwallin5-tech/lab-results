@@ -87,17 +87,28 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                     const display = classificationDisplay(
                       row.classification ?? { kind: 'unclassifiable', reason: 'no-range' },
                     );
+                    const lowConf = (field: string) => row.lowConfidenceFields.includes(field);
+                    const flag = 'rounded bg-amber-soft px-1.5 py-0.5 text-amber';
                     return (
                       <tr key={row.id} className="border-b border-line/60 last:border-0">
                         <td className="px-4 py-3 text-ink">
-                          {analyteDisplayName(row.analyteId, row.rawName)}
+                          <span className={lowConf('rawName') ? flag : undefined}>
+                            {analyteDisplayName(row.analyteId, row.rawName)}
+                          </span>
                         </td>
                         <td className="px-4 py-3 text-ink">
-                          {row.value} {row.unit}
+                          <span className={lowConf('value') ? flag : undefined}>
+                            {row.value} {row.unit}
+                          </span>
                         </td>
                         <td className="px-4 py-3 text-muted">
-                          {[row.refLow, row.refHigh].filter((n) => n !== undefined).join(' to ') ||
-                            '-'}
+                          <span
+                            className={lowConf('refLow') || lowConf('refHigh') ? flag : undefined}
+                          >
+                            {[row.refLow, row.refHigh]
+                              .filter((n) => n !== undefined)
+                              .join(' to ') || '-'}
+                          </span>
                         </td>
                         <td className="px-4 py-3">
                           <StatusPill tone={display.tone} label={display.label} />
@@ -108,6 +119,12 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                 </tbody>
               </table>
             </div>
+            {rows.some((row) => row.lowConfidenceFields.length > 0) && (
+              <p className="mt-3 text-xs text-amber">
+                Amber fields were read with low confidence. Check them against the report before you
+                confirm.
+              </p>
+            )}
             <form action={confirmVerificationAction} className="mt-6">
               <input type="hidden" name="reportId" value={report.id} />
               <SubmitButton pendingLabel="Confirming...">Confirm results</SubmitButton>

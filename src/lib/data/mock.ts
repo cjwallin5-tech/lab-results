@@ -69,6 +69,7 @@ export const MOCK_ROWS: Record<string, ResultRow[]> = {
       unit: 'mg/dL',
       refHigh: 99,
       labFlags: ['H'],
+      lowConfidenceFields: ['value'],
       classification: { kind: 'range', band: 'above', critical: false },
     }),
     row({
