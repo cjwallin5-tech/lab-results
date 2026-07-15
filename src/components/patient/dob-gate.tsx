@@ -4,7 +4,7 @@ import { useActionState } from 'react';
 import { confirmDobAction, type DobState } from '@/app/r/[token]/actions';
 import { CLINIC } from '@/lib/clinic';
 import { Button } from '@/components/ui/button';
-import { DobField } from '@/components/ui/field';
+import { DobField, TextField } from '@/components/ui/field';
 
 const initialState: DobState = {};
 
@@ -26,20 +26,27 @@ export function DobGate({ token, expiresAt }: { token: string; expiresAt: string
           {CLINIC.providerName} shared your lab results with you.
         </h1>
         <p className="mt-2 text-sm text-muted">
-          To keep your health information private, confirm your date of birth to open them.
+          To keep your health information private, confirm your last name and date of birth to open
+          them.
         </p>
 
-        <form action={formAction} className="mt-6">
+        <form action={formAction} className="mt-6 flex flex-col gap-4">
           <input type="hidden" name="token" value={token} />
+          <TextField
+            label="Last name"
+            name="lastName"
+            autoComplete="family-name"
+            placeholder="Your last name"
+          />
           <DobField error={state.error} />
-          <Button type="submit" className="mt-5 w-full" disabled={pending}>
+          <Button type="submit" className="mt-1 w-full" disabled={pending}>
             {pending ? 'Opening...' : 'View my results'}
           </Button>
         </form>
 
         <p className="mt-4 text-xs text-muted">
-          Your results are private: only someone with your date of birth can open this link. It
-          expires {expiryLabel}.
+          Your results are private: only someone with your last name and date of birth can open this
+          link. It expires {expiryLabel}.
         </p>
       </div>
       <p className="mt-4 text-center text-xs text-muted">

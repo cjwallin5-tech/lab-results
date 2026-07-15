@@ -20,14 +20,21 @@ function datesMatch(entered: string, stored: string): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
+function lastNameOf(fullName: string): string {
+  return fullName.trim().split(/\s+/).pop()?.toLowerCase() ?? '';
+}
+
 export async function confirmDobAction(_prev: DobState, formData: FormData): Promise<DobState> {
   const token = String(formData.get('token') ?? '');
+  const lastName = String(formData.get('lastName') ?? '')
+    .trim()
+    .toLowerCase();
   const month = String(formData.get('month') ?? '').padStart(2, '0');
   const day = String(formData.get('day') ?? '').padStart(2, '0');
   const year = String(formData.get('year') ?? '').padStart(4, '0');
   const iso = `${year}-${month}-${day}`;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
-    return { error: 'Enter your date of birth as month, day, and year.' };
+  if (lastName.length === 0 || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+    return { error: 'Enter your last name and date of birth.' };
   }
 
   const link = await getShareLinkByToken(token);
@@ -36,9 +43,14 @@ export async function confirmDobAction(_prev: DobState, formData: FormData): Pro
     return { error: 'This link is no longer valid.' };
   }
 
-  // Compared without logging the entered or stored date of birth.
-  if (!datesMatch(iso, report.patient.dob)) {
-    return { error: 'That date of birth did not match. Please check and try again.' };
+  // Both factors checked; a single generic error avoids revealing which was wrong.
+  // The entered and stored last name and date of birth are never logged.
+  const dobOk = datesMatch(iso, report.patient.dob);
+  const lastNameOk = lastName === lastNameOf(report.patient.name);
+  if (!dobOk || !lastNameOk) {
+    return {
+      error: 'That information did not match. Please check your last name and date of birth.',
+    };
   }
 
   await setDobConfirmed(token);
