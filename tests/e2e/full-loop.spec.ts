@@ -48,14 +48,16 @@ test("critical result: approve, DOB gate rejects then accepts, patient reads and
   await page.goto(patientLink);
   await expect(page.getByRole("heading", { name: /shared your lab results/ })).toBeVisible();
 
-  // Wrong date of birth is rejected.
+  // Correct last name but wrong date of birth is rejected.
+  await page.getByLabel("Last name").fill("Chen");
   await page.getByLabel("Month").fill("1");
   await page.getByLabel("Day").fill("1");
   await page.getByLabel("Year").fill("1990");
   await page.getByRole("button", { name: "View my results" }).click();
   await expect(page.getByText(/did not match/)).toBeVisible();
 
-  // Correct date of birth (1971-11-02) opens the results.
+  // Correct last name and date of birth (1971-11-02) opens the results.
+  await page.getByLabel("Last name").fill("Chen");
   await page.getByLabel("Month").fill("11");
   await page.getByLabel("Day").fill("2");
   await page.getByLabel("Year").fill("1971");
@@ -86,6 +88,7 @@ test("patient sees implausible, not-covered, and low states", async ({ page }) =
   const patientLink = await walkReportToSent(page, "Grace Okoro");
 
   await page.goto(patientLink);
+  await page.getByLabel("Last name").fill("Okoro");
   await page.getByLabel("Month").fill("7");
   await page.getByLabel("Day").fill("25");
   await page.getByLabel("Year").fill("1990");
@@ -102,6 +105,7 @@ test("routine report sends with no outreach step and reads as all in range", asy
   const patientLink = await walkReportToSent(page, "Samuel Reyes");
 
   await page.goto(patientLink);
+  await page.getByLabel("Last name").fill("Reyes");
   await page.getByLabel("Month").fill("5");
   await page.getByLabel("Day").fill("9");
   await page.getByLabel("Year").fill("1988");
@@ -119,6 +123,7 @@ test("multi-critical report requires contacting each result, then frames all dir
   const patientLink = await walkReportToSent(page, "Nina Petrov");
 
   await page.goto(patientLink);
+  await page.getByLabel("Last name").fill("Petrov");
   await page.getByLabel("Month").fill("9");
   await page.getByLabel("Day").fill("18");
   await page.getByLabel("Year").fill("1962");

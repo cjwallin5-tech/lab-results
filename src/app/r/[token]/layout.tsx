@@ -16,7 +16,7 @@ export default function PatientLayout({ children }: { children: ReactNode }) {
         Skip to results
       </a>
       <header className="no-print border-b border-line bg-paper">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4 text-sm">
+        <div className="flex items-center justify-between px-6 py-4 text-sm">
           <span className="font-medium text-ink">
             {CLINIC.name} <span className="text-muted">· Lab results</span>
           </span>
@@ -27,7 +27,7 @@ export default function PatientLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       <footer className="border-t border-line">
-        <div className="mx-auto max-w-3xl px-6 py-6">
+        <div className="mx-auto max-w-3xl px-6 py-6 text-center">
           <Disclaimer />
         </div>
       </footer>
