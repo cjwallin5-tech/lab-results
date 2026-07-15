@@ -4,10 +4,12 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import {
   approveExplanation,
+  createReport,
   createShareLink,
   reportHasCritical,
   setReportStatus,
 } from '@/lib/data';
+import { dobSchema } from '@/lib/types';
 import { ensureDraftExplanation, ensureExtractedRows } from '@/lib/data/templates';
 import {
   createProviderSession,
@@ -21,6 +23,18 @@ export interface FormState {
 
 function reportPath(reportId: string): string {
   return `/provider/reports/${reportId}`;
+}
+
+export async function uploadReportAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const name = String(formData.get('name') ?? '').trim();
+  const email = String(formData.get('email') ?? '').trim();
+  const dob = dobSchema.safeParse(String(formData.get('dob') ?? '').trim());
+  if (name.length === 0 || !email.includes('@') || !dob.success) {
+    return { error: 'Enter the patient name, a valid email, and a real date of birth.' };
+  }
+  // The PDF upload itself arrives with Supabase Storage; the report starts here.
+  const report = await createReport({ name, email, dob: dob.data }, 'manual-entry');
+  redirect(reportPath(report.id));
 }
 
 export async function signInAction(_prev: FormState, formData: FormData): Promise<FormState> {
