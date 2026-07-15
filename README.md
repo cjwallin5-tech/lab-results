@@ -28,8 +28,8 @@ Stack: Next.js + TypeScript + Tailwind, Supabase (DB/auth/storage), Vercel, Clau
 
 ## Prerequisites
 
-- Node.js 25 (a version manager like `nvm`/`fnm` is handy; the version is pinned in
-  `.nvmrc` once scaffolded — see CLAUDE.md)
+- Node.js 24 (a version manager like `nvm`/`fnm` is handy; the version is pinned in
+  `.nvmrc` — run `nvm use` in the repo — see CLAUDE.md)
 - npm
 
 ## Getting started

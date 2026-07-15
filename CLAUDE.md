@@ -74,8 +74,9 @@ Non-negotiable; these outrank convenience.
 ## Code conventions
 
 - TypeScript `strict: true`; no `any` without inline justification. ESLint + Prettier; CI
-  fails on lint. Node **25** — pin it in `.nvmrc` + `package.json` `engines` + CI when
-  scaffolding (25 is a non-LTS "Current" release; move to an LTS before Phase 5).
+  fails on lint. Node **24** — pin it in `.nvmrc` + `package.json` `engines`; CI reads the
+  version from `.nvmrc`. (24 is the current LTS and a Vercel-supported build version; Node 25
+  was dropped because Vercel supports only 24.x/22.x/20.x for builds.)
 - Naming: `camelCase` vars/functions, `PascalCase` types/components, `SCREAMING_SNAKE_CASE`
   constants, `kebab-case.ts` files. Analyte ids are stable lowercase slugs (`hemoglobin`,
   `alt`) — never renamed once fixtures reference them.
