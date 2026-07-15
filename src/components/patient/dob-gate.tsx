@@ -44,7 +44,7 @@ export function DobGate({ token, expiresAt }: { token: string; expiresAt: string
           </Button>
         </form>
 
-        <p className="mt-4 text-xs text-muted">
+        <p className="mt-4 text-center text-xs text-muted">
           Your results are private: only someone with your last name and date of birth can open this
           link. It expires {expiryLabel}.
         </p>
