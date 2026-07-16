@@ -38,6 +38,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Interactive elements get the pointer cursor. */
+button:not(:disabled),
+summary,
+[role='button'] {
+  cursor: pointer;
+}
+
 /* Print / download: keep only the results content, flatten for paper. */
 @media print {
   .no-print {

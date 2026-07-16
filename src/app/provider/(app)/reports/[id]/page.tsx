@@ -7,7 +7,12 @@ import {
   reportStatusDisplay,
   stepIndexForStatus,
 } from '@/lib/ui/report-status-display';
-import { approveDraftAction, extractReportAction, sendLinkAction } from '@/app/provider/actions';
+import {
+  approveDraftAction,
+  extractReportAction,
+  resetReportAction,
+  sendLinkAction,
+} from '@/app/provider/actions';
 import { CLINIC } from '@/lib/clinic';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
@@ -41,8 +46,19 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         <StatusPill tone={status.tone} label={status.label} />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
         <Stepper steps={PROVIDER_STEPS} current={stepIndexForStatus(report.status)} />
+        {report.status !== 'uploaded' && (
+          <form action={resetReportAction}>
+            <input type="hidden" name="reportId" value={report.id} />
+            <button
+              type="submit"
+              className="text-sm text-muted transition-colors hover:text-forest"
+            >
+              Start over
+            </button>
+          </form>
+        )}
       </div>
 
       <div className="mt-10">

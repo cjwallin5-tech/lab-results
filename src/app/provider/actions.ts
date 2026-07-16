@@ -7,6 +7,7 @@ import {
   createReport,
   createShareLink,
   reportHasCritical,
+  resetReport,
   saveRows,
   setReportStatus,
 } from '@/lib/data';
@@ -110,6 +111,12 @@ export async function confirmVerificationAction(formData: FormData): Promise<voi
     ensureDraftExplanation(reportId);
     await setReportStatus(reportId, 'drafted');
   }
+  revalidatePath(reportPath(reportId));
+}
+
+export async function resetReportAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get('reportId') ?? '');
+  await resetReport(reportId);
   revalidatePath(reportPath(reportId));
 }
 

@@ -57,6 +57,19 @@ export async function saveRows(reportId: string, rows: ResultRow[]): Promise<voi
   MOCK_ROWS[reportId] = rows;
 }
 
+/** Reset a report to the start of the workflow, clearing its progress. */
+export async function resetReport(reportId: string): Promise<void> {
+  const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
+  if (report === undefined) return;
+  report.status = 'uploaded';
+  report.updatedAt = new Date().toISOString();
+  delete MOCK_ROWS[reportId];
+  delete MOCK_EXPLANATIONS[reportId];
+  for (let i = MOCK_SHARE_LINKS.length - 1; i >= 0; i -= 1) {
+    if (MOCK_SHARE_LINKS[i].reportId === reportId) MOCK_SHARE_LINKS.splice(i, 1);
+  }
+}
+
 export async function setReportStatus(reportId: string, status: ReportStatus): Promise<void> {
   const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
   if (report === undefined) return;
