@@ -2,22 +2,17 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getExplanation, getReport, getRows, getShareLinkByReport } from '@/lib/data';
 import { analyteDisplayName } from '@/lib/data/dictionary';
-import { classificationDisplay } from '@/lib/ui/classification-display';
 import {
   PROVIDER_STEPS,
   reportStatusDisplay,
   stepIndexForStatus,
 } from '@/lib/ui/report-status-display';
-import {
-  approveDraftAction,
-  confirmVerificationAction,
-  extractReportAction,
-  sendLinkAction,
-} from '@/app/provider/actions';
+import { approveDraftAction, extractReportAction, sendLinkAction } from '@/app/provider/actions';
 import { CLINIC } from '@/lib/clinic';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
 import { SubmitButton } from '@/components/ui/submit-button';
+import { VerifyTable } from '@/components/provider/verify-table';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -69,66 +64,25 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           <section>
             <h2 className="font-display text-xl text-ink">Verify the results</h2>
             <p className="mt-1 max-w-prose text-sm text-muted">
-              Check each value against the report. The preview shows how each result classifies. A
-              critical result will hold the report for a direct call.
+              Check each value against the report and correct anything that was misread. The preview
+              shows where each value lands. A critical result will hold the report for a direct
+              call.
             </p>
-            <div className="mt-6 overflow-x-auto rounded-[var(--radius-card)] border border-line bg-paper">
-              <table className="w-full min-w-[560px] text-sm">
-                <thead>
-                  <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
-                    <th className="px-4 py-3 font-medium">Test</th>
-                    <th className="px-4 py-3 font-medium">Value</th>
-                    <th className="px-4 py-3 font-medium">Reference</th>
-                    <th className="px-4 py-3 font-medium">Will show as</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row) => {
-                    const display = classificationDisplay(
-                      row.classification ?? { kind: 'unclassifiable', reason: 'no-range' },
-                    );
-                    const lowConf = (field: string) => row.lowConfidenceFields.includes(field);
-                    const flag = 'rounded bg-amber-soft px-1.5 py-0.5 text-amber';
-                    return (
-                      <tr key={row.id} className="border-b border-line/60 last:border-0">
-                        <td className="px-4 py-3 text-ink">
-                          <span className={lowConf('rawName') ? flag : undefined}>
-                            {analyteDisplayName(row.analyteId, row.rawName)}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-ink">
-                          <span className={lowConf('value') ? flag : undefined}>
-                            {row.value} {row.unit}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-muted">
-                          <span
-                            className={lowConf('refLow') || lowConf('refHigh') ? flag : undefined}
-                          >
-                            {[row.refLow, row.refHigh]
-                              .filter((n) => n !== undefined)
-                              .join(' to ') || '-'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <StatusPill tone={display.tone} label={display.label} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-            {rows.some((row) => row.lowConfidenceFields.length > 0) && (
-              <p className="mt-3 text-xs text-amber">
-                Amber fields were read with low confidence. Check them against the report before you
-                confirm.
-              </p>
-            )}
-            <form action={confirmVerificationAction} className="mt-6">
-              <input type="hidden" name="reportId" value={report.id} />
-              <SubmitButton pendingLabel="Confirming...">Confirm results</SubmitButton>
-            </form>
+            <VerifyTable
+              reportId={report.id}
+              rows={rows.map((row) => ({
+                id: row.id,
+                rawName: row.rawName,
+                analyteId: row.analyteId,
+                value: row.value,
+                unit: row.unit ?? '',
+                refLow: row.refLow?.toString() ?? '',
+                refHigh: row.refHigh?.toString() ?? '',
+                rawRange: row.rawRange ?? '',
+                labFlags: row.labFlags,
+                lowConfidenceFields: row.lowConfidenceFields,
+              }))}
+            />
           </section>
         )}
 

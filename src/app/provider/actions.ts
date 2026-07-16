@@ -7,10 +7,13 @@ import {
   createReport,
   createShareLink,
   reportHasCritical,
+  saveRows,
   setReportStatus,
 } from '@/lib/data';
-import { dobSchema } from '@/lib/types';
+import { dobSchema, type ResultRow } from '@/lib/types';
 import { ensureDraftExplanation, ensureExtractedRows } from '@/lib/data/templates';
+import { previewClassification } from '@/lib/ui/preview-classification';
+import type { EditableRow } from '@/components/provider/verify-table';
 import {
   createProviderSession,
   destroyProviderSession,
@@ -59,8 +62,46 @@ export async function extractReportAction(formData: FormData): Promise<void> {
   revalidatePath(reportPath(reportId));
 }
 
+function toNumber(text: string): number | undefined {
+  const value = Number(text.replace(/,/g, ''));
+  return text.trim() === '' || !Number.isFinite(value) ? undefined : value;
+}
+
 export async function confirmVerificationAction(formData: FormData): Promise<void> {
   const reportId = String(formData.get('reportId') ?? '');
+
+  let edited: EditableRow[] = [];
+  try {
+    edited = JSON.parse(String(formData.get('rows') ?? '[]')) as EditableRow[];
+  } catch {
+    edited = [];
+  }
+
+  // Persist the provider's corrections. The preview classification is a
+  // placeholder; the pipeline's deterministic classifier stamps the real one.
+  const rows: ResultRow[] = edited
+    .filter((row) => row.rawName.trim() !== '')
+    .map((row) => {
+      const analyteId = row.analyteId && row.analyteId.trim() !== '' ? row.analyteId : undefined;
+      const refLow = toNumber(row.refLow);
+      const refHigh = toNumber(row.refHigh);
+      return {
+        id: row.id,
+        reportId,
+        rawName: row.rawName,
+        analyteId,
+        value: row.value,
+        unit: row.unit.trim() === '' ? undefined : row.unit,
+        refLow,
+        refHigh,
+        rawRange: row.rawRange.trim() === '' ? undefined : row.rawRange,
+        labFlags: row.labFlags,
+        lowConfidenceFields: [],
+        classification: previewClassification({ analyteId, value: row.value, refLow, refHigh }),
+      };
+    });
+
+  await saveRows(reportId, rows);
   await setReportStatus(reportId, 'verified');
   // Team model: a critical result holds the report; nothing is drafted or sent.
   if (await reportHasCritical(reportId)) {

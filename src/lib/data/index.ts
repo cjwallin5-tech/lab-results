@@ -53,6 +53,10 @@ export async function createReport(patient: Report['patient'], pdfRef: string): 
   return report;
 }
 
+export async function saveRows(reportId: string, rows: ResultRow[]): Promise<void> {
+  MOCK_ROWS[reportId] = rows;
+}
+
 export async function setReportStatus(reportId: string, status: ReportStatus): Promise<void> {
   const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
   if (report === undefined) return;
