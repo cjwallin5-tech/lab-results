@@ -55,6 +55,7 @@ export function VerifyTable({
   };
   const remove = (index: number) => setEditable((current) => current.filter((_, i) => i !== index));
   const add = () => setEditable((current) => [...current, emptyRow()]);
+  const reset = () => setEditable(rows.map((row) => ({ ...row })));
 
   function previewFor(row: EditableRow) {
     const analyte = matchAnalyteIn(dictionary, row.rawName);
@@ -177,10 +178,17 @@ export function VerifyTable({
         </p>
       )}
 
-      <div className="mt-6">
+      <div className="mt-6 flex items-center gap-3">
         <SubmitButton pendingLabel="Classifying...">
           Confirm results and draft explanation
         </SubmitButton>
+        <button
+          type="button"
+          onClick={reset}
+          className="text-sm text-muted transition-colors hover:text-forest"
+        >
+          Reset changes
+        </button>
       </div>
     </form>
   );
