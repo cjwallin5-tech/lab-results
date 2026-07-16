@@ -54,6 +54,7 @@ export function VerifyTable({ reportId, rows }: { reportId: string; rows: Editab
   };
   const remove = (index: number) => setEditable((current) => current.filter((_, i) => i !== index));
   const add = () => setEditable((current) => [...current, newRow()]);
+  const reset = () => setEditable(rows.map((row) => ({ ...row })));
 
   const anyLowConfidence = editable.some((row) => row.lowConfidenceFields.length > 0);
 
@@ -174,8 +175,15 @@ export function VerifyTable({ reportId, rows }: { reportId: string; rows: Editab
         </p>
       )}
 
-      <div className="mt-6">
+      <div className="mt-6 flex items-center gap-3">
         <SubmitButton pendingLabel="Confirming...">Confirm results</SubmitButton>
+        <button
+          type="button"
+          onClick={reset}
+          className="text-sm text-muted transition-colors hover:text-forest"
+        >
+          Reset changes
+        </button>
       </div>
     </form>
   );
