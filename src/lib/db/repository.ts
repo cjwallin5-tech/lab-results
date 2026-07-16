@@ -33,6 +33,8 @@ export interface Repository {
   listReports(): Promise<Report[]>;
   /** Transition a report's status; rejects an illegal jump. */
   setReportStatus(id: string, status: ReportStatus): Promise<Report>;
+  /** Reset a report to the start of the workflow, clearing its progress. */
+  resetReport(id: string): Promise<Report>;
   /** Patch non-status fields (provider note, result summary). */
   updateReport(id: string, patch: ReportPatch): Promise<Report>;
   /** Log a direct contact with the patient about a critical result. */

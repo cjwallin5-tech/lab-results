@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getRepository } from "@/lib/db";
 import { getAnalyte, loadDictionary } from "@/lib/analytes";
 import { classificationDisplay } from "@/lib/ui/classification-display";
-import { extractReportAction, sendLinkAction } from "@/app/provider/actions";
+import { extractReportAction, resetReportAction, sendLinkAction } from "@/app/provider/actions";
 import { outstandingOutreach } from "@/lib/report/critical";
 import {
   PROVIDER_STEPS,
@@ -92,8 +92,19 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         <StatusPill tone={status.tone} label={status.label} />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
         <Stepper steps={PROVIDER_STEPS} current={stepIndexForStatus(report.status)} />
+        {report.status !== "uploaded" && (
+          <form action={resetReportAction}>
+            <input type="hidden" name="reportId" value={report.id} />
+            <button
+              type="submit"
+              className="text-sm text-muted transition-colors hover:text-forest"
+            >
+              Start over
+            </button>
+          </form>
+        )}
       </div>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_18rem]">

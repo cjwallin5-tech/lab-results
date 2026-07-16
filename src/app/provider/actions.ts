@@ -68,6 +68,12 @@ export async function extractReportAction(formData: FormData): Promise<void> {
   revalidatePath(reportPath(reportId));
 }
 
+export async function resetReportAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get("reportId") ?? "");
+  await getRepository().resetReport(reportId);
+  revalidatePath(reportPath(reportId));
+}
+
 const editedRowSchema = z.object({
   rawName: z.string().min(1),
   value: z.string(),

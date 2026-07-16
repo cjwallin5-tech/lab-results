@@ -102,6 +102,21 @@ export class LocalRepository implements Repository {
     return report;
   }
 
+  async resetReport(id: string): Promise<Report> {
+    const report = this.requireReport(id);
+    const now = new Date().toISOString();
+    report.status = "uploaded";
+    report.updatedAt = now;
+    report.statusHistory = [{ status: "uploaded", at: now }];
+    report.outreach = [];
+    report.resultSummary = undefined;
+    delete this.state.rows[id];
+    delete this.state.explanations[id];
+    this.state.shareLinks = this.state.shareLinks.filter((link) => link.reportId !== id);
+    this.persist();
+    return report;
+  }
+
   async updateReport(id: string, patch: ReportPatch): Promise<Report> {
     const report = this.requireReport(id);
     if (patch.providerNote !== undefined) report.providerNote = patch.providerNote;

@@ -10,7 +10,7 @@ export default async function ProviderAppLayout({ children }: { children: ReactN
   return (
     <div className="flex min-h-screen flex-col">
       <header className="border-b border-line bg-paper">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <div className="flex items-center justify-between px-6 py-4">
           <Link href="/provider" className="flex items-baseline gap-2">
             <span className="font-display text-lg text-ink">Lab Result Explainer</span>
             <span className="text-xs text-muted">Provider workspace</span>
