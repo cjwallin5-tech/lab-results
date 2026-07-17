@@ -13,13 +13,15 @@ export default function SignInPage() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-6 py-16">
       <div className="rounded-[var(--radius-card)] border border-line bg-paper p-8">
-        <p className="text-xs font-semibold uppercase tracking-wide text-forest">
-          Lab Result Explainer
-        </p>
-        <h1 className="mt-3 font-display text-2xl text-ink">Provider sign in</h1>
-        <p className="mt-2 text-sm text-muted">
-          One demo account in this version. All data is synthetic.
-        </p>
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-wide text-forest">
+            Lab Result Explainer
+          </p>
+          <h1 className="mt-3 font-display text-2xl text-ink">Provider sign in</h1>
+          <p className="mt-2 text-sm text-muted">
+            One demo account in this version. All data is synthetic.
+          </p>
+        </div>
 
         <form action={formAction} className="mt-6 flex flex-col gap-4">
           <TextField
