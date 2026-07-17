@@ -23,8 +23,26 @@ export function TextField({
   );
 }
 
-/** The segmented month / day / year date-of-birth field used on the share gate. */
-export function DobField({ error }: { error?: string }) {
+export interface DobValue {
+  month: string;
+  day: string;
+  year: string;
+}
+
+/**
+ * The segmented month / day / year date-of-birth field on the share gate.
+ * Controlled so the values survive a failed submit (a mistyped last name should
+ * not wipe the date of birth).
+ */
+export function DobField({
+  value,
+  onChange,
+  error,
+}: {
+  value: DobValue;
+  onChange: (field: keyof DobValue, next: string) => void;
+  error?: string;
+}) {
   return (
     <fieldset>
       <legend className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted">
@@ -37,6 +55,8 @@ export function DobField({ error }: { error?: string }) {
           aria-label="Month"
           placeholder="MM"
           maxLength={2}
+          value={value.month}
+          onChange={(e) => onChange("month", e.target.value)}
           className={cn(inputClasses, "w-16 text-center")}
         />
         <input
@@ -45,6 +65,8 @@ export function DobField({ error }: { error?: string }) {
           aria-label="Day"
           placeholder="DD"
           maxLength={2}
+          value={value.day}
+          onChange={(e) => onChange("day", e.target.value)}
           className={cn(inputClasses, "w-16 text-center")}
         />
         <input
@@ -53,6 +75,8 @@ export function DobField({ error }: { error?: string }) {
           aria-label="Year"
           placeholder="YYYY"
           maxLength={4}
+          value={value.year}
+          onChange={(e) => onChange("year", e.target.value)}
           className={cn(inputClasses, "w-24 text-center")}
         />
       </div>

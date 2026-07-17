@@ -1,10 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { confirmDobAction, type DobState } from "@/app/r/[token]/actions";
 import { CLINIC } from "@/lib/clinic";
 import { Button } from "@/components/ui/button";
-import { DobField, TextField } from "@/components/ui/field";
+import { DobField, TextField, type DobValue } from "@/components/ui/field";
 
 const initialState: DobState = {};
 
@@ -16,6 +16,8 @@ export function DobGate({
   expiresAt: string;
 }) {
   const [state, formAction, pending] = useActionState(confirmDobAction, initialState);
+  const [lastName, setLastName] = useState("");
+  const [dob, setDob] = useState<DobValue>({ month: "", day: "", year: "" });
   const expiryLabel = new Date(expiresAt).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
@@ -43,8 +45,14 @@ export function DobGate({
             name="lastName"
             autoComplete="family-name"
             placeholder="Your last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
-          <DobField error={state.error} />
+          <DobField
+            value={dob}
+            onChange={(field, next) => setDob((current) => ({ ...current, [field]: next }))}
+            error={state.error}
+          />
           <Button type="submit" className="mt-1 w-full" disabled={pending}>
             {pending ? "Opening..." : "View my results"}
           </Button>
