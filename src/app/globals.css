@@ -45,6 +45,24 @@ summary,
   cursor: pointer;
 }
 
+/* A visible focus ring for keyboard users on anything the components do not style. */
+:where(a, button, summary, [role='button']):focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Respect a reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Print / download: keep only the results content, flatten for paper. */
 @media print {
   .no-print {

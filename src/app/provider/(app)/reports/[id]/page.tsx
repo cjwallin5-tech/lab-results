@@ -17,6 +17,7 @@ import { CLINIC } from '@/lib/clinic';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
 import { SubmitButton } from '@/components/ui/submit-button';
+import { ConfirmButton } from '@/components/ui/confirm-button';
 import { VerifyTable } from '@/components/provider/verify-table';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
@@ -51,12 +52,12 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         {report.status !== 'uploaded' && (
           <form action={resetReportAction}>
             <input type="hidden" name="reportId" value={report.id} />
-            <button
-              type="submit"
+            <ConfirmButton
+              message="Start this report over? This clears its progress and any sent link."
               className="text-sm text-muted transition-colors hover:text-forest"
             >
               Start over
-            </button>
+            </ConfirmButton>
           </form>
         )}
       </div>
