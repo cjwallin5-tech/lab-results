@@ -24,6 +24,7 @@ export function PatientPreview({
           totalCount={view.totalCount}
           overallText={explanation.overallText}
           hasCritical={view.hasCritical}
+          toneCounts={view.toneCounts}
         />
         {view.groups.map((group) => (
           <section key={group.panel}>
