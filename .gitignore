@@ -44,3 +44,7 @@ next-env.d.ts
 .DS_Store
 *.pem
 
+
+# local synthetic data store (dev only)
+/.data/
+/.data-e2e/
