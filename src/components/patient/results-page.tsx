@@ -5,6 +5,7 @@ import { OverallPictureBox } from './overall-picture-box';
 import { ResultCard } from './result-card';
 import { AtAGlance } from './at-a-glance';
 import { Glossary } from './glossary';
+import { NextSteps } from './next-steps';
 import { PrintButton } from './print-button';
 import { CtaBand } from '@/components/ui/cta-band';
 
@@ -28,6 +29,13 @@ export function ResultsPage({
 
   return (
     <div className="flex flex-col gap-8">
+      <div className="hidden print:block">
+        <p className="font-display text-lg text-ink">{CLINIC.name}</p>
+        <p className="text-sm text-muted">
+          {report.patient.name} · collected {collected}
+        </p>
+      </div>
+
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl leading-tight text-ink sm:text-4xl">
@@ -44,6 +52,7 @@ export function ResultsPage({
         inRangeCount={view.inRangeCount}
         totalCount={view.totalCount}
         overallText={explanation.overallText}
+        toneCounts={view.toneCounts}
       />
 
       <AtAGlance counts={view.toneCounts} />
@@ -78,6 +87,8 @@ export function ResultsPage({
           </ul>
         </section>
       )}
+
+      <NextSteps />
 
       <div className="no-print">
         <CtaBand

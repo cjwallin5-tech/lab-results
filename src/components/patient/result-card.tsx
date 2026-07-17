@@ -9,9 +9,17 @@ import { StatusPill } from '@/components/ui/status-pill';
  * holds the whole report (never sent), so a critical card should not normally
  * appear here; it is handled defensively just in case.
  */
+function typicalRangeText(low: number | null, high: number | null): string {
+  if (low !== null && high !== null) return `${low} to ${high}`;
+  if (high !== null) return `under ${high}`;
+  if (low !== null) return `${low} or higher`;
+  return '';
+}
+
 export function ResultCard({ item }: { item: ResultItem }) {
   const isCritical = item.classification.kind === 'range' && item.classification.critical;
   const canDrawMarker = item.display.showMarker && item.numericValue !== null;
+  const rangeText = canDrawMarker ? typicalRangeText(item.low, item.high) : '';
 
   return (
     <article
@@ -33,12 +41,17 @@ export function ResultCard({ item }: { item: ResultItem }) {
       </div>
 
       {canDrawMarker && item.numericValue !== null && (
-        <RangeMarker
-          value={item.numericValue}
-          low={item.low ?? undefined}
-          high={item.high ?? undefined}
-          tone={item.display.tone}
-        />
+        <>
+          <div aria-hidden>
+            <RangeMarker
+              value={item.numericValue}
+              low={item.low ?? undefined}
+              high={item.high ?? undefined}
+              tone={item.display.tone}
+            />
+          </div>
+          {rangeText && <p className="sr-only">Typical range: {rangeText}.</p>}
+        </>
       )}
 
       {isCritical && (

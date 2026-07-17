@@ -1,15 +1,28 @@
+import type { ToneCounts } from '@/lib/ui/results-view';
 import { StatusPill } from '@/components/ui/status-pill';
+
+/** One segment of the at-a-glance bar: a share of the total, in a tone color. */
+const SEGMENTS: { key: keyof ToneCounts; className: string }[] = [
+  { key: 'inRange', className: 'bg-forest' },
+  { key: 'outside', className: 'bg-amber' },
+  { key: 'other', className: 'bg-line' },
+];
 
 /** The summary box at the top of the results page: a count plus the overall text. */
 export function OverallPictureBox({
   inRangeCount,
   totalCount,
   overallText,
+  toneCounts,
 }: {
   inRangeCount: number;
   totalCount: number;
   overallText: string;
+  toneCounts: ToneCounts;
 }) {
+  const allInRange =
+    toneCounts.outside === 0 && toneCounts.other === 0 && toneCounts.critical === 0;
+
   return (
     <section className="rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/50 p-6">
       <div className="flex items-start gap-4">
@@ -21,12 +34,33 @@ export function OverallPictureBox({
             in range
           </span>
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <h2 className="font-display text-xl text-ink">The overall picture</h2>
           <p className="mt-2 text-sm leading-relaxed text-ink/80">{overallText}</p>
+
+          {totalCount > 0 && (
+            <div className="mt-4 flex h-2 overflow-hidden rounded-full bg-line" aria-hidden>
+              {SEGMENTS.map(({ key, className }) =>
+                toneCounts[key] > 0 ? (
+                  <div
+                    key={key}
+                    className={className}
+                    style={{ width: `${(toneCounts[key] / totalCount) * 100}%` }}
+                  />
+                ) : null,
+              )}
+            </div>
+          )}
+
           <div className="mt-4 flex flex-wrap gap-3">
-            <StatusPill tone="in" label="In typical range" />
-            <StatusPill tone="high" label="A little outside" />
+            {allInRange ? (
+              <StatusPill tone="in" label="Every result in the typical range" />
+            ) : (
+              <>
+                <StatusPill tone="in" label="In typical range" />
+                <StatusPill tone="high" label="A little outside" />
+              </>
+            )}
           </div>
         </div>
       </div>
