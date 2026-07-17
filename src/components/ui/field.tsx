@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, ReactNode } from "react";
+import { useRef, type InputHTMLAttributes, type ReactNode } from "react";
 import { cn } from "@/lib/ui/cn";
 
 const inputClasses = cn(
@@ -43,6 +43,9 @@ export function DobField({
   onChange: (field: keyof DobValue, next: string) => void;
   error?: string;
 }) {
+  const dayRef = useRef<HTMLInputElement>(null);
+  const yearRef = useRef<HTMLInputElement>(null);
+
   return (
     <fieldset>
       <legend className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted">
@@ -56,20 +59,28 @@ export function DobField({
           placeholder="MM"
           maxLength={2}
           value={value.month}
-          onChange={(e) => onChange("month", e.target.value)}
+          onChange={(e) => {
+            onChange("month", e.target.value);
+            if (e.target.value.length === 2) dayRef.current?.focus();
+          }}
           className={cn(inputClasses, "w-16 text-center")}
         />
         <input
+          ref={dayRef}
           name="day"
           inputMode="numeric"
           aria-label="Day"
           placeholder="DD"
           maxLength={2}
           value={value.day}
-          onChange={(e) => onChange("day", e.target.value)}
+          onChange={(e) => {
+            onChange("day", e.target.value);
+            if (e.target.value.length === 2) yearRef.current?.focus();
+          }}
           className={cn(inputClasses, "w-16 text-center")}
         />
         <input
+          ref={yearRef}
           name="year"
           inputMode="numeric"
           aria-label="Year"
