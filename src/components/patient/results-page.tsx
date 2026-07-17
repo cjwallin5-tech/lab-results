@@ -71,10 +71,14 @@ export function ResultsPage({
         </section>
       ))}
 
-      <Glossary />
+      <Glossary
+        classifications={view.groups.flatMap((group) =>
+          group.items.map((item) => item.classification),
+        )}
+      />
 
       {explanation.sources.length > 0 && (
-        <section className="border-t border-line pt-6">
+        <section className="border-t border-line pt-6 text-center">
           <h2 className="text-xs font-semibold uppercase tracking-wide text-muted">Sources</h2>
           <ul className="mt-2 flex flex-col gap-1">
             {explanation.sources.map((url) => (

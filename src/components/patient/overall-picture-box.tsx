@@ -32,12 +32,12 @@ export function OverallPictureBox({
         <div>
           <h2 className="font-display text-xl text-ink">The overall picture</h2>
           <p className="mt-2 text-sm leading-relaxed text-ink/80">{overallText}</p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <StatusPill tone="in" label="In typical range" />
+            <StatusPill tone="high" label="A little outside" />
+            {hasCritical && <StatusPill tone="critical" label="Needs prompt attention" />}
+          </div>
         </div>
-      </div>
-      <div className="mt-4 flex flex-wrap gap-3">
-        <StatusPill tone="in" label="In typical range" />
-        <StatusPill tone="high" label="A little outside" />
-        {hasCritical && <StatusPill tone="critical" label="Needs prompt attention" />}
       </div>
     </section>
   );
