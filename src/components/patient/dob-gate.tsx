@@ -21,16 +21,18 @@ export function DobGate({ token, expiresAt }: { token: string; expiresAt: string
   return (
     <div className="mx-auto max-w-md py-8">
       <div className="rounded-[var(--radius-card)] border border-line bg-paper p-8">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-forest-soft text-sm font-semibold text-forest">
-          {CLINIC.providerName.replace('Dr. ', '').slice(0, 2).toUpperCase()}
+        <div className="text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-forest-soft text-sm font-semibold text-forest">
+            {CLINIC.providerName.replace('Dr. ', '').slice(0, 2).toUpperCase()}
+          </div>
+          <h1 className="mt-5 font-display text-2xl leading-snug text-ink">
+            {CLINIC.providerName} shared your lab results with you.
+          </h1>
+          <p className="mt-2 text-sm text-muted">
+            To keep your health information private, confirm your last name and date of birth to
+            open them.
+          </p>
         </div>
-        <h1 className="mt-5 font-display text-2xl leading-snug text-ink">
-          {CLINIC.providerName} shared your lab results with you.
-        </h1>
-        <p className="mt-2 text-sm text-muted">
-          To keep your health information private, confirm your last name and date of birth to open
-          them.
-        </p>
 
         <form action={formAction} className="mt-6 flex flex-col gap-4">
           <input type="hidden" name="token" value={token} />
