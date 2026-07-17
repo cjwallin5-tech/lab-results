@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useActionState, useState } from 'react';
 import { askQuestionAction, type AskState } from '@/app/r/[token]/actions';
 import { CLINIC } from '@/lib/clinic';
@@ -22,8 +23,15 @@ export function AskForm({ token }: { token: string }) {
       <div className="rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-6">
         <h2 className="font-display text-xl text-ink">Your question was sent</h2>
         <p className="mt-2 text-sm text-muted">
-          {CLINIC.providerName} usually replies within one business day.
+          {CLINIC.providerName} usually replies within one business day. For anything urgent, call{' '}
+          {CLINIC.name} at {CLINIC.phone} instead of waiting for a reply.
         </p>
+        <Link
+          href={`/r/${token}`}
+          className="mt-4 inline-block text-sm font-medium text-forest underline underline-offset-2"
+        >
+          Back to your results
+        </Link>
       </div>
     );
   }
