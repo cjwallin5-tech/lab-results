@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { confirmVerificationAction } from '@/app/provider/actions';
-import { analyteDisplayName } from '@/lib/data/dictionary';
 import { previewClassification } from '@/lib/ui/preview-classification';
 import { classificationDisplay } from '@/lib/ui/classification-display';
 import { cn } from '@/lib/ui/cn';
@@ -100,11 +99,6 @@ export function VerifyTable({ reportId, rows }: { reportId: string; rows: Editab
                       aria-label="Test name"
                       onChange={(e) => update(index, 'rawName', e.target.value)}
                     />
-                    {row.analyteId && (
-                      <span className="mt-0.5 block text-[10px] text-muted">
-                        {analyteDisplayName(row.analyteId, row.analyteId)}
-                      </span>
-                    )}
                   </td>
                   <td className="px-3 py-2">
                     <input
