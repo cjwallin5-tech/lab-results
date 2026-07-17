@@ -13,10 +13,13 @@ export default async function ProviderAppLayout({ children }: { children: ReactN
         <div className="flex items-center justify-between px-6 py-4">
           <Link href="/provider" className="flex items-baseline gap-2">
             <span className="font-display text-lg text-ink">Lab Result Explainer</span>
-            <span className="text-xs text-muted">Provider workspace</span>
+            <span className="hidden text-xs text-muted sm:inline">Provider workspace</span>
           </Link>
           <form action={signOutAction}>
-            <button className="text-sm text-muted transition-colors hover:text-forest" type="submit">
+            <button
+              className="shrink-0 whitespace-nowrap text-sm text-muted transition-colors hover:text-forest"
+              type="submit"
+            >
               Sign out
             </button>
           </form>
