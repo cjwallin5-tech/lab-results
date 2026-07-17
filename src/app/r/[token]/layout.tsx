@@ -17,8 +17,9 @@ export default function PatientLayout({ children }: { children: ReactNode }) {
       </a>
       <header className="no-print border-b border-line bg-paper">
         <div className="flex items-center justify-between px-6 py-4 text-sm">
-          <span className="font-medium text-ink">
-            {CLINIC.name} <span className="text-muted">· Lab results</span>
+          <span>
+            <span className="font-display text-lg text-ink">{CLINIC.name}</span>{" "}
+            <span className="text-muted">· Lab results</span>
           </span>
           <span className="text-muted">Shared by {CLINIC.providerName}</span>
         </div>
