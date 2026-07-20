@@ -6,13 +6,15 @@ import {
   approveExplanation,
   createReport,
   createShareLink,
+  getReport,
   reportHasCritical,
   resetReport,
   saveRows,
   setReportStatus,
 } from '@/lib/data';
 import { dobSchema, type ResultRow } from '@/lib/types';
-import { ensureDraftExplanation, ensureExtractedRows } from '@/lib/data/templates';
+import { ensureDraftExplanation } from '@/lib/data/templates';
+import { extractRows } from '@/lib/extract';
 import { matchAnalyte } from '@/lib/analytes';
 import { classifyRow } from '@/lib/classify';
 import type { EditableRow } from '@/components/provider/verify-table';
@@ -59,7 +61,38 @@ export async function signOutAction(): Promise<void> {
 
 export async function extractReportAction(formData: FormData): Promise<void> {
   const reportId = String(formData.get('reportId') ?? '');
-  ensureExtractedRows(reportId);
+  const report = await getReport(reportId);
+  if (report === null) return;
+
+  // The provider may attach the report PDF on this step; its bytes feed the live
+  // extractor in the same request (no persistence needed). With no file — or no
+  // API key — extraction falls back to the offline synthetic path keyed by the
+  // report's pdfRef, so the flow runs end to end without credentials.
+  const file = formData.get('pdf');
+  const pdfBytes =
+    file instanceof File && file.size > 0 ? new Uint8Array(await file.arrayBuffer()) : undefined;
+
+  const { rows } = await extractRows({ pdfRef: report.pdfRef, pdfBytes });
+
+  // Transcription only (FR-03): store rows unmatched and unclassified. The
+  // analyte match and classification are stamped after the provider verifies the
+  // values against the report (FR-05/FR-06), in confirmVerificationAction.
+  const stored: ResultRow[] = rows.map((row, index) => ({
+    id: `${reportId}-${index}`,
+    reportId,
+    rawName: row.rawName,
+    analyteId: undefined,
+    value: row.value,
+    unit: row.unit,
+    refLow: toNumber(row.refLow ?? ''),
+    refHigh: toNumber(row.refHigh ?? ''),
+    rawRange: row.rawRange,
+    labFlags: row.labFlags,
+    lowConfidenceFields: row.lowConfidenceFields,
+    classification: undefined,
+  }));
+
+  await saveRows(reportId, stored);
   await setReportStatus(reportId, 'extracted');
   revalidatePath(reportPath(reportId));
 }
