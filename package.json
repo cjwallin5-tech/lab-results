@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "seed": "tsx --env-file=.env.local scripts/seed.ts"
+    "seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "gen:corpus": "tsx scripts/corpus/generate.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.16",
