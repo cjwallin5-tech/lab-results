@@ -13,7 +13,8 @@ import {
 } from '@/lib/data';
 import { dobSchema, type ResultRow } from '@/lib/types';
 import { ensureDraftExplanation, ensureExtractedRows } from '@/lib/data/templates';
-import { previewClassification } from '@/lib/ui/preview-classification';
+import { matchAnalyte } from '@/lib/analytes';
+import { classifyRow } from '@/lib/classify';
 import type { EditableRow } from '@/components/provider/verify-table';
 import {
   createProviderSession,
@@ -78,27 +79,39 @@ export async function confirmVerificationAction(formData: FormData): Promise<voi
     edited = [];
   }
 
-  // Persist the provider's corrections. The preview classification is a
-  // placeholder; the pipeline's deterministic classifier stamps the real one.
+  // Persist the provider's corrections, stamped with the authoritative
+  // classification (FR-06): the deterministic classifier runs on the verified
+  // values, reading the curated dictionary for critical/plausibility thresholds.
   const rows: ResultRow[] = edited
     .filter((row) => row.rawName.trim() !== '')
     .map((row) => {
-      const analyteId = row.analyteId && row.analyteId.trim() !== '' ? row.analyteId : undefined;
+      // Normalization runs on the verified name: the provider just confirmed
+      // rawName against the PDF, so it — not any stale client-sent analyteId —
+      // decides the dictionary match. No match = honestly "not covered" (FR-04).
+      const analyte = matchAnalyte(row.rawName);
       const refLow = toNumber(row.refLow);
       const refHigh = toNumber(row.refHigh);
+      const unit = row.unit.trim() === '' ? undefined : row.unit;
       return {
         id: row.id,
         reportId,
         rawName: row.rawName,
-        analyteId,
+        analyteId: analyte?.id,
         value: row.value,
-        unit: row.unit.trim() === '' ? undefined : row.unit,
+        unit,
         refLow,
         refHigh,
         rawRange: row.rawRange.trim() === '' ? undefined : row.rawRange,
         labFlags: row.labFlags,
         lowConfidenceFields: [],
-        classification: previewClassification({ analyteId, value: row.value, refLow, refHigh }),
+        classification: classifyRow({
+          value: row.value,
+          unit,
+          refLow,
+          refHigh,
+          labFlags: row.labFlags,
+          analyte,
+        }),
       };
     });
 
