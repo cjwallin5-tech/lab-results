@@ -1,0 +1,41 @@
+{
+  "description": "Hand-built (not from a corpus PDF, since none of our current non-held reports have a non-critical low result). Tests the 'below range' tone and a mixed below/in overall picture. Potassium and hemoglobin values are below their printed ranges but well above this project's curated critical thresholds (critical potassium <2.5, critical hemoglobin <7.0 per src/lib/analytes/dictionary.ts), so this must read as routine, not alarming.",
+  "rows": [
+    {
+      "analyteId": "potassium",
+      "displayName": "Potassium",
+      "rawValue": "3.2",
+      "unit": "mEq/L",
+      "printedRange": "3.5 – 5.1",
+      "band": "below",
+      "critical": false,
+      "medlineplusTitle": "Potassium Blood Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/potassium-blood-test/",
+      "medlineplusExcerpt": "Potassium is an electrolyte that helps control fluid levels and the body's acid-base balance. It's checked during routine exams or to monitor conditions like diabetes, kidney disease, and heart disease. Lower than normal (hypokalemia) may be linked to diuretic medications, fluid loss from diarrhea or vomiting, excessive laxative use, adrenal gland disorders, kidney disease, alcohol use disorder, or low dietary potassium. Higher than normal (hyperkalemia) often relates to kidney disease, Addison disease, injury or burns, uncontrolled diabetes, certain medications, or a very high-potassium diet."
+    },
+    {
+      "analyteId": "hemoglobin",
+      "displayName": "Hemoglobin (Hgb)",
+      "rawValue": "11.2",
+      "unit": "g/dL",
+      "printedRange": "12.0 – 15.5",
+      "band": "below",
+      "critical": false,
+      "medlineplusTitle": "Hemoglobin Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/hemoglobin-test/",
+      "medlineplusExcerpt": "Hemoglobin is an iron-rich protein in red blood cells that carries oxygen from the lungs to the rest of the body. The test is commonly used to screen for anemia and assess red blood cell health. Lower than normal may be a sign of anemia, iron deficiency, liver disease, cancer, blood loss, or a lack of nutrients like iron or vitamin B-12. Higher than normal may be a sign of lung disease, heart disease, polycythemia vera, or sleep apnea."
+    },
+    {
+      "analyteId": "sodium",
+      "displayName": "Sodium",
+      "rawValue": "141",
+      "unit": "mEq/L",
+      "printedRange": "136 – 145",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Sodium Blood Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/sodium-blood-test/",
+      "medlineplusExcerpt": "Sodium is an electrolyte that helps nerves and muscles work properly. Lower than normal may signal sodium loss from diarrhea or vomiting, or a condition causing the body to hold onto fluid. Higher than normal can indicate dehydration, adrenal gland disorders, kidney disease, or diabetes insipidus."
+    }
+  ]
+}

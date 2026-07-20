@@ -132,8 +132,11 @@ Kept FHIR-friendly on purpose: `ResultRow` maps cleanly onto FHIR `Observation`
 
 1. **Golden classification suite** (`tests/golden/`) passes 100% — covers below/in/above,
    one-sided ranges, critical, implausible, unknown test.
-2. **Extraction eval corpus** (synthetic lab PDFs + expected JSON) meets its accuracy bar —
-   TODO set the bar after the first spike.
+2. **Extraction eval corpus** (synthetic lab PDFs + expected JSON) meets its accuracy bar,
+   set from the first spike (`tests/extraction/SPIKE_RESULTS.md`): 100% row fidelity (no
+   dropped/duplicated rows), 100% critical-flag detection, ≥98% exact-match accuracy on
+   `value`/`unit`/`refLow`/`refHigh`/`rawRange`/`labFlags`, ≥95% on `rawName`. Provisional
+   until the corpus adds a true no-text-layer scanned fixture (see that doc).
 3. **E2E (Playwright):** full loop upload → verify → approve → link → DOB → results page,
    including one implausible and one unknown test; plus a **held-critical path** — a report with a
    critical value is held at review (with the critical test named) and never produces a sent page.

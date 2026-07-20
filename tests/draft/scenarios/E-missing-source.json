@@ -1,0 +1,14 @@
+{
+  "description": "DEFENSIVE: simulates a MedlinePlus fetch failure for one analyte that IS in the dictionary and WAS classified normally (this is different from an unmatched/not-covered test, which never reaches drafting at all — this is a covered test where the live fetch happened to fail). Tests that the prompt doesn't fall back on its own general knowledge of chloride to fill the gap.",
+  "rows": [
+    {
+      "analyteId": "chloride",
+      "displayName": "Chloride",
+      "rawValue": "112",
+      "unit": "mEq/L",
+      "printedRange": "98 – 107",
+      "band": "above",
+      "critical": false
+    }
+  ]
+}

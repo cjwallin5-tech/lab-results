@@ -1,0 +1,9 @@
+{
+  "overallText": "This report includes a result that needs your provider's attention before it can be explained here. Please talk with your provider about this report.",
+  "perTest": [
+    { "analyteId": "hemoglobin", "text": "This result needs your provider's attention before we can explain it here." }
+  ],
+  "sources": [
+    { "analyteId": "hemoglobin", "title": "Hemoglobin Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/hemoglobin-test/" }
+  ]
+}

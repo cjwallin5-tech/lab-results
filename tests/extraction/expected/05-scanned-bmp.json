@@ -1,0 +1,82 @@
+[
+  {
+    "rawName": "Glucose",
+    "value": "112",
+    "unit": "mg/dL",
+    "refLow": 70,
+    "refHigh": 99,
+    "rawRange": "70 - 99",
+    "labFlags": ["H"],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "BUN",
+    "value": "22",
+    "unit": "mg/dL",
+    "refLow": 7,
+    "refHigh": 20,
+    "rawRange": "7 - 20",
+    "labFlags": ["H"],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Creatinine",
+    "value": "1.3",
+    "unit": "mg/dL",
+    "refLow": 0.6,
+    "refHigh": 1.3,
+    "rawRange": "0.6 - 1.3",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Sodium",
+    "value": "138",
+    "unit": "mEq/L",
+    "refLow": 136,
+    "refHigh": 145,
+    "rawRange": "136 - 145",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Potassium",
+    "value": "4.1",
+    "unit": "mEq/L",
+    "refLow": 3.5,
+    "refHigh": 5.1,
+    "rawRange": "3.5 - 5.1",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Chloride",
+    "value": "101",
+    "unit": "mEq/L",
+    "refLow": 98,
+    "refHigh": 107,
+    "rawRange": "98 - 107",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "CO2",
+    "value": "24",
+    "unit": "mEq/L",
+    "refLow": 21,
+    "refHigh": 32,
+    "rawRange": "21 - 32",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Calcium",
+    "value": "9.4",
+    "unit": "mg/dL",
+    "refLow": 8.6,
+    "refHigh": 10.2,
+    "rawRange": "8.6 - 10.2",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "description": "All 5 results in range. Tests whether the overall/per-test tone stays plain and doesn't manufacture concern or false reassurance ('great news!') where the rule is just to state the result.",
+  "rows": [
+    {
+      "analyteId": "wbc",
+      "displayName": "White Blood Cell Count (WBC)",
+      "rawValue": "6.8",
+      "unit": "x10³/µL",
+      "printedRange": "4.5 – 11.0",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "White Blood Count (WBC): MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/",
+      "medlineplusExcerpt": "A white blood count measures the number of white blood cells (part of the immune system) in the blood. It's most often used to help diagnose or monitor disorders related to having a high or low white blood cell count. Lower than normal (leukopenia) can result from bone marrow issues, cancers affecting the bone marrow, autoimmune disorders like lupus, or HIV. Higher than normal (leukocytosis) may indicate infection, inflammatory disease, allergies, leukemia, or tissue damage — and can also come from smoking, stress, a reaction to medication, or pregnancy."
+    },
+    {
+      "analyteId": "rbc",
+      "displayName": "Red Blood Cell Count (RBC)",
+      "rawValue": "4.75",
+      "unit": "x10⁶/µL",
+      "printedRange": "4.20 – 5.40",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Red Blood Cell (RBC) Count: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/",
+      "medlineplusExcerpt": "An RBC count measures the number of red blood cells in the blood — the cells that carry hemoglobin and oxygen throughout the body. It's typically part of a complete blood count and helps detect red blood cell disorders, including anemia, before symptoms appear. Lower than normal may indicate anemia, leukemia, malnutrition, multiple myeloma, kidney failure, blood loss, alcohol use disorder, or pregnancy. Higher than normal can result from dehydration, heart disease, polycythemia vera, lung scarring or lung disease, kidney cancer, sleep apnea, anabolic steroid use, or living at high altitude."
+    },
+    {
+      "analyteId": "hemoglobin",
+      "displayName": "Hemoglobin (Hgb)",
+      "rawValue": "13.6",
+      "unit": "g/dL",
+      "printedRange": "12.0 – 15.5",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Hemoglobin Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/hemoglobin-test/",
+      "medlineplusExcerpt": "Hemoglobin is an iron-rich protein in red blood cells that carries oxygen from the lungs to the rest of the body. The test is commonly used to screen for anemia and assess red blood cell health. Lower than normal may be a sign of anemia, iron deficiency, liver disease, cancer, blood loss, or a lack of nutrients like iron or vitamin B-12. Higher than normal may be a sign of lung disease, heart disease, polycythemia vera, or sleep apnea. Altitude, diet, activity level, dehydration, smoking, and certain medications can also affect the result."
+    },
+    {
+      "analyteId": "hematocrit",
+      "displayName": "Hematocrit (Hct)",
+      "rawValue": "40.8",
+      "unit": "%",
+      "printedRange": "36.0 – 46.0",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Hematocrit Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/hematocrit-test/",
+      "medlineplusExcerpt": "Hematocrit is the percent of blood made up of red blood cells. It's commonly included in routine checkups and helps diagnose blood disorders like anemia or polycythemia. Lower than normal can indicate recent or chronic blood loss, not enough red blood cells (anemia), or conditions affecting the bone marrow. Higher than normal may suggest the body is producing too many red blood cells, or that the fluid portion of blood is low from dehydration or shock. Living at high altitude can also raise levels."
+    },
+    {
+      "analyteId": "platelet-count",
+      "displayName": "Platelet Count",
+      "rawValue": "265",
+      "unit": "x10³/µL",
+      "printedRange": "150 – 400",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Platelet Tests: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/platelet-tests/",
+      "medlineplusExcerpt": "A platelet count measures the number of platelets in the blood. It's used to monitor or diagnose conditions involving too much bleeding or clotting, and is often part of a routine complete blood count. Lower than normal (thrombocytopenia) may be linked to blood cancers, viral infections, autoimmune disease, bone marrow damage, cirrhosis, vitamin B12 deficiency, or pregnancy. Higher than normal (thrombocytosis) may be linked to certain cancers, anemia, inflammatory bowel disease, rheumatoid arthritis, infection, or recovering from blood loss."
+    }
+  ]
+}

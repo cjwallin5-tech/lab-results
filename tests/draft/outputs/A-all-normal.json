@@ -1,0 +1,32 @@
+{
+  "overallText": "All five results in this panel—white blood cell count, red blood cell count, hemoglobin, hematocrit, and platelet count—came back within their typical ranges. These tests are commonly grouped together to look at the health of your blood cells overall.",
+  "perTest": [
+    {
+      "analyteId": "wbc",
+      "text": "Your white blood cell count was 6.8, within the typical range of 4.5–11.0. White blood cells are part of your immune system, and this test is often used to help check for a high or low count."
+    },
+    {
+      "analyteId": "rbc",
+      "text": "Your red blood cell count was 4.75, within the typical range of 4.20–5.40. Red blood cells carry hemoglobin and oxygen throughout the body, and this test is typically part of a complete blood count."
+    },
+    {
+      "analyteId": "hemoglobin",
+      "text": "Your hemoglobin was 13.6, within the typical range of 12.0–15.5. Hemoglobin is an iron-rich protein in red blood cells that carries oxygen from your lungs to the rest of your body."
+    },
+    {
+      "analyteId": "hematocrit",
+      "text": "Your hematocrit was 40.8%, within the typical range of 36.0–46.0%. Hematocrit is the percent of your blood made up of red blood cells."
+    },
+    {
+      "analyteId": "platelet-count",
+      "text": "Your platelet count was 265, within the typical range of 150–400. Platelets help your blood clot when you're injured."
+    }
+  ],
+  "sources": [
+    { "analyteId": "wbc", "title": "White Blood Count (WBC): MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/" },
+    { "analyteId": "rbc", "title": "Red Blood Cell (RBC) Count: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/" },
+    { "analyteId": "hemoglobin", "title": "Hemoglobin Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/hemoglobin-test/" },
+    { "analyteId": "hematocrit", "title": "Hematocrit Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/hematocrit-test/" },
+    { "analyteId": "platelet-count", "title": "Platelet Tests: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/platelet-tests/" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "overallText": "This report included one test, chloride, and it came back above the typical range. We don't have enough information on file right now to explain what that result means. Your provider can walk you through it and what it means for you.",
+  "perTest": [
+    { "analyteId": "chloride", "text": "We don't have enough information to explain this result yet — your provider can walk you through it." }
+  ],
+  "sources": [
+    { "analyteId": "chloride", "title": "", "url": "" }
+  ]
+}

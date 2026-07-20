@@ -1,0 +1,101 @@
+{
+  "description": "8-test BMP with 2 results above range (glucose, BUN) and 6 in range. This is the direct test of the Figma tone example ('Yours is a little above the typical range...') and of the multi-result overall-picture synthesis.",
+  "rows": [
+    {
+      "analyteId": "glucose",
+      "displayName": "Glucose",
+      "rawValue": "112",
+      "unit": "mg/dL",
+      "printedRange": "70 - 99",
+      "band": "above",
+      "critical": false,
+      "medlineplusTitle": "Blood Glucose Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-glucose-test/",
+      "medlineplusExcerpt": "Glucose is a sugar that is the body's main source of energy. The test screens for prediabetes and diabetes, helps diagnose symptoms of abnormal glucose levels, and monitors some medications' side effects. Lower than normal is uncommon in people without diabetes; possible causes include liver or kidney disease, underactive adrenal glands, pituitary disorders, hypothyroidism, malnutrition, certain medications, or alcohol use disorder. Higher than normal may mean you have or are at risk for diabetes. Other possible causes include an overactive thyroid, pancreas problems, stress from surgery or serious illness, adrenal gland disorders, or certain medications."
+    },
+    {
+      "analyteId": "bun",
+      "displayName": "BUN",
+      "rawValue": "22",
+      "unit": "mg/dL",
+      "printedRange": "7 - 20",
+      "band": "above",
+      "critical": false,
+      "medlineplusTitle": "BUN (Blood Urea Nitrogen): MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/bun-blood-urea-nitrogen/",
+      "medlineplusExcerpt": "BUN measures urea nitrogen, a waste product from protein breakdown that the kidneys normally filter out. The test helps detect kidney problems early, when treatment is most effective. Lower than normal can indicate not enough protein in the diet, malnutrition, or liver disease. Higher than normal often suggests the kidneys aren't filtering as well as they should, but can also come from dehydration, burns, certain medications, a high-protein diet, or a recent heart attack. An abnormal result doesn't always mean a treatable condition — normal ranges also vary by age and sex."
+    },
+    {
+      "analyteId": "creatinine",
+      "displayName": "Creatinine",
+      "rawValue": "1.3",
+      "unit": "mg/dL",
+      "printedRange": "0.6 - 1.3",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Creatinine Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/creatinine-test/",
+      "medlineplusExcerpt": "Creatinine is a waste product made as muscles break down, normally filtered out by the kidneys. The test checks how well the kidneys are working. Lower than normal can indicate malnutrition, or a condition that shrinks muscle mass. Higher than normal may suggest kidney disease or injury, but can also come from dehydration, muscle disorders or injury, intense exercise, or a diet high in meat — not necessarily a kidney problem."
+    },
+    {
+      "analyteId": "sodium",
+      "displayName": "Sodium",
+      "rawValue": "138",
+      "unit": "mEq/L",
+      "printedRange": "136 - 145",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Sodium Blood Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/sodium-blood-test/",
+      "medlineplusExcerpt": "Sodium is an electrolyte that helps nerves and muscles work properly. The test checks whether sodium is in a healthy range, since abnormal levels can point to kidney problems, dehydration, or other conditions. Lower than normal may signal sodium loss from diarrhea or vomiting, or a condition causing the body to hold onto fluid. Higher than normal can indicate dehydration, adrenal gland disorders, kidney disease, or diabetes insipidus."
+    },
+    {
+      "analyteId": "potassium",
+      "displayName": "Potassium",
+      "rawValue": "4.1",
+      "unit": "mEq/L",
+      "printedRange": "3.5 - 5.1",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Potassium Blood Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/potassium-blood-test/",
+      "medlineplusExcerpt": "Potassium is an electrolyte that helps control fluid levels and the body's acid-base balance. It's checked during routine exams or to monitor conditions like diabetes, kidney disease, and heart disease. Lower than normal (hypokalemia) may be linked to diuretic medications, fluid loss, adrenal gland disorders, kidney disease, alcohol use disorder, or low dietary potassium. Higher than normal (hyperkalemia) often relates to kidney disease, Addison disease, injury or burns, uncontrolled diabetes, certain medications, or a very high-potassium diet."
+    },
+    {
+      "analyteId": "chloride",
+      "displayName": "Chloride",
+      "rawValue": "101",
+      "unit": "mEq/L",
+      "printedRange": "98 - 107",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Chloride Blood Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/chloride-blood-test/",
+      "medlineplusExcerpt": "A chloride blood test measures the amount of chloride in the blood, an electrolyte that helps regulate body fluids and acid-base balance. It's typically ordered as part of routine screening or when evaluating kidney disease, heart failure, or symptoms of fluid imbalance. Lower than normal may indicate heart failure, lung disease, Addison disease, or metabolic alkalosis. Higher than normal may signal dehydration, kidney disease, or metabolic acidosis. An abnormal result doesn't always indicate a medical problem — medications and fluid loss can also affect it."
+    },
+    {
+      "analyteId": "co2",
+      "displayName": "CO2",
+      "rawValue": "24",
+      "unit": "mEq/L",
+      "printedRange": "21 - 32",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Carbon Dioxide (CO2) in Blood: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/carbon-dioxide-co2-in-blood/",
+      "medlineplusExcerpt": "This test measures the amount of carbon dioxide in the blood, mostly in the form of bicarbonate, an electrolyte. It helps diagnose or monitor electrolyte imbalances affecting the kidneys, lungs, or liver. Lower than normal may signal Addison disease, diabetic ketoacidosis, shock, or metabolic/respiratory acid-base problems. Higher than normal can indicate lung disease, Cushing's syndrome, kidney failure, or metabolic alkalosis. An abnormal result doesn't necessarily mean you have a medical condition that needs treatment without further testing."
+    },
+    {
+      "analyteId": "calcium",
+      "displayName": "Calcium",
+      "rawValue": "9.4",
+      "unit": "mg/dL",
+      "printedRange": "8.6 - 10.2",
+      "band": "in",
+      "critical": false,
+      "medlineplusTitle": "Calcium Blood Test: MedlinePlus Medical Test",
+      "medlineplusUrl": "https://medlineplus.gov/lab-tests/calcium-blood-test/",
+      "medlineplusExcerpt": "A calcium blood test checks calcium levels as part of general health screening and to help diagnose conditions affecting the bones, kidneys, digestion, thyroid, and parathyroid glands. Lower than normal (hypocalcemia) can indicate low blood protein, underactive parathyroid glands, low dietary calcium/vitamin D/magnesium, pancreatitis, or kidney disease. Higher than normal (hypercalcemia) may signal overactive parathyroid glands, certain cancers, bone disorders, or too much vitamin D over time."
+    }
+  ]
+}

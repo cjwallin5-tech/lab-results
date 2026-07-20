@@ -1,0 +1,228 @@
+[
+  {
+    "rawName": "White Blood Cell Count (WBC)",
+    "value": "6.2",
+    "unit": "x10³/µL",
+    "refLow": 4.5,
+    "refHigh": 11.0,
+    "rawRange": "4.5 – 11.0",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Red Blood Cell Count (RBC)",
+    "value": "4.55",
+    "unit": "x10⁶/µL",
+    "refLow": 4.20,
+    "refHigh": 5.40,
+    "rawRange": "4.20 – 5.40",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Hemoglobin (Hgb)",
+    "value": "13.2",
+    "unit": "g/dL",
+    "refLow": 12.0,
+    "refHigh": 15.5,
+    "rawRange": "12.0 – 15.5",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Hematocrit (Hct)",
+    "value": "39.5",
+    "unit": "%",
+    "refLow": 36.0,
+    "refHigh": 46.0,
+    "rawRange": "36.0 – 46.0",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Mean Corpuscular Volume (MCV)",
+    "value": "91",
+    "unit": "fL",
+    "refLow": 80,
+    "refHigh": 100,
+    "rawRange": "80 – 100",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Mean Corpuscular Hemoglobin (MCH)",
+    "value": "29.8",
+    "unit": "pg",
+    "refLow": 27.0,
+    "refHigh": 33.0,
+    "rawRange": "27.0 – 33.0",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "MCHC",
+    "value": "33.5",
+    "unit": "g/dL",
+    "refLow": 32.0,
+    "refHigh": 36.0,
+    "rawRange": "32.0 – 36.0",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Red Cell Distribution Width (RDW)",
+    "value": "13.4",
+    "unit": "%",
+    "refLow": 11.5,
+    "refHigh": 14.5,
+    "rawRange": "11.5 – 14.5",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Platelet Count",
+    "value": "232",
+    "unit": "x10³/µL",
+    "refLow": 150,
+    "refHigh": 400,
+    "rawRange": "150 – 400",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Mean Platelet Volume (MPV)",
+    "value": "10.1",
+    "unit": "fL",
+    "refLow": 7.5,
+    "refHigh": 11.5,
+    "rawRange": "7.5 – 11.5",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Glucose",
+    "value": "94",
+    "unit": "mg/dL",
+    "refLow": 70,
+    "refHigh": 99,
+    "rawRange": "70 – 99",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "BUN",
+    "value": "16",
+    "unit": "mg/dL",
+    "refLow": 7,
+    "refHigh": 20,
+    "rawRange": "7 – 20",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Creatinine",
+    "value": "0.9",
+    "unit": "mg/dL",
+    "refLow": 0.6,
+    "refHigh": 1.3,
+    "rawRange": "0.6 – 1.3",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Sodium",
+    "value": "140",
+    "unit": "mEq/L",
+    "refLow": 136,
+    "refHigh": 145,
+    "rawRange": "136 – 145",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Potassium",
+    "value": "4.3",
+    "unit": "mEq/L",
+    "refLow": 3.5,
+    "refHigh": 5.1,
+    "rawRange": "3.5 – 5.1",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Chloride",
+    "value": "103",
+    "unit": "mEq/L",
+    "refLow": 98,
+    "refHigh": 107,
+    "rawRange": "98 – 107",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "CO2",
+    "value": "25",
+    "unit": "mEq/L",
+    "refLow": 21,
+    "refHigh": 32,
+    "rawRange": "21 – 32",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Calcium",
+    "value": "9.6",
+    "unit": "mg/dL",
+    "refLow": 8.6,
+    "refHigh": 10.2,
+    "rawRange": "8.6 – 10.2",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Total Cholesterol",
+    "value": "195",
+    "unit": "mg/dL",
+    "refHigh": 200,
+    "rawRange": "< 200",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "Triglycerides",
+    "value": "110",
+    "unit": "mg/dL",
+    "refHigh": 150,
+    "rawRange": "< 150",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "HDL Cholesterol",
+    "value": "55",
+    "unit": "mg/dL",
+    "refLow": 40,
+    "rawRange": "> 40",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "LDL Cholesterol (calc)",
+    "value": "118",
+    "unit": "mg/dL",
+    "refHigh": 100,
+    "rawRange": "< 100",
+    "labFlags": ["H"],
+    "lowConfidenceFields": []
+  },
+  {
+    "rawName": "TSH",
+    "value": "3.8",
+    "unit": "uIU/mL",
+    "refLow": 0.4,
+    "refHigh": 4.5,
+    "rawRange": "0.4 – 4.5",
+    "labFlags": [],
+    "lowConfidenceFields": []
+  }
+]

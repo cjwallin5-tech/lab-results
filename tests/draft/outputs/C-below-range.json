@@ -1,0 +1,13 @@
+{
+  "overallText": "One of your results, sodium, was within the typical range. Two others — potassium and hemoglobin — came back a little below their typical ranges. Your provider can help you understand what these results mean together.",
+  "perTest": [
+    { "analyteId": "potassium", "text": "Your potassium came back a little below the typical range at 3.2, compared with a typical range of 3.5–5.1 mEq/L. Potassium is an electrolyte that helps control fluid levels and your body's acid-base balance. Talk with your provider about what this result means for you." },
+    { "analyteId": "hemoglobin", "text": "Your hemoglobin came back a little below the typical range at 11.2, compared with a typical range of 12.0–15.5 g/dL. Hemoglobin is an iron-rich protein in red blood cells that carries oxygen from your lungs to the rest of your body. Talk with your provider about what this result means for you." },
+    { "analyteId": "sodium", "text": "Your sodium was 141, within the typical range of 136–145 mEq/L. Sodium is an electrolyte that helps your nerves and muscles work properly." }
+  ],
+  "sources": [
+    { "analyteId": "potassium", "title": "Potassium Blood Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/potassium-blood-test/" },
+    { "analyteId": "hemoglobin", "title": "Hemoglobin Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/hemoglobin-test/" },
+    { "analyteId": "sodium", "title": "Sodium Blood Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/sodium-blood-test/" }
+  ]
+}
