@@ -1,0 +1,11 @@
+{
+  "id": "total-protein",
+  "loinc": "2885-2",
+  "displayName": "Total protein",
+  "aliases": ["Total protein", "Protein, total", "TP"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+  "unit": "g/dL",
+  "panel": "Liver",
+  "plausibleLow": 2,
+  "plausibleHigh": 12
+}

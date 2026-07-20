@@ -1,0 +1,23 @@
+{
+  "id": "glucose",
+  "loinc": "1558-6",
+  "displayName": "Fasting glucose",
+  "aliases": [
+    "Fasting glucose",
+    "Glucose",
+    "Blood glucose",
+    "Fasting blood sugar",
+    "FBS",
+    "FBG",
+    "Glucose, fasting",
+    "GLU"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-glucose-test/",
+  "unit": "mg/dL",
+  "panel": "Blood sugar",
+  "criticalLow": 40,
+  "criticalHigh": 500,
+  "plausibleLow": 10,
+  "plausibleHigh": 1500,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+}

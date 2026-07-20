@@ -1,0 +1,41 @@
+{
+  "rows": [
+    {
+      "rawName": "Total Cholesterol",
+      "value": "198",
+      "unit": "mg/dL",
+      "refHigh": "199",
+      "rawRange": "< 199",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "LDL Cholesterol",
+      "value": "134",
+      "unit": "mg/dL",
+      "refHigh": "99",
+      "rawRange": "< 99",
+      "labFlags": ["H"],
+      "lowConfidenceFields": ["value"]
+    },
+    {
+      "rawName": "HDL Cholesterol",
+      "value": "58",
+      "unit": "mg/dL",
+      "refLow": "40",
+      "rawRange": "> 40",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Iron",
+      "value": "65",
+      "unit": "mcg/dL",
+      "refLow": "50",
+      "refHigh": "170",
+      "rawRange": "50-170",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    }
+  ]
+}

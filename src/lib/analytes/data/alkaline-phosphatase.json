@@ -1,0 +1,11 @@
+{
+  "id": "alkaline-phosphatase",
+  "loinc": "6768-6",
+  "displayName": "Alkaline phosphatase",
+  "aliases": ["Alkaline phosphatase", "ALP", "Alk phos"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/alkaline-phosphatase/",
+  "unit": "U/L",
+  "panel": "Liver",
+  "plausibleLow": 0,
+  "plausibleHigh": 3000
+}

@@ -15,11 +15,14 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "seed": "tsx --env-file=.env.local scripts/seed.ts"
+    "seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "gen:corpus": "tsx scripts/corpus/generate.ts"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.16",
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.5",
+    "ai": "^7.0.31",
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",

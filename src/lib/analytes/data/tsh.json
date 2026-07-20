@@ -1,0 +1,17 @@
+{
+  "id": "tsh",
+  "loinc": "3016-3",
+  "displayName": "TSH",
+  "aliases": [
+    "TSH",
+    "Thyroid stimulating hormone",
+    "Thyrotropin",
+    "TSH (Thyroid-stimulating hormone)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/tsh-thyroid-stimulating-hormone-test/",
+  "unit": "mIU/L",
+  "panel": "Thyroid",
+  "plausibleLow": 0,
+  "plausibleHigh": 150,
+  "thresholdSource": "Endocrine marker with no acute critical value in standard panic-value lists; plausibility bounds guard extraction error only (Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+}
