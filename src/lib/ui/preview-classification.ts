@@ -1,33 +1,30 @@
 import type { Classification } from '@/lib/types';
+import { matchAnalyte } from '@/lib/analytes';
+import { classifyRow } from '@/lib/classify';
 
 /**
- * A lightweight, client-safe preview of how an edited value lands on its printed
- * range, so the provider sees the effect of a correction on the verify screen.
- * This is only a preview: the authoritative classification (including critical
- * and implausible thresholds, which need the dictionary) is computed by the
- * pipeline's deterministic classifier after the provider confirms.
+ * Live preview of the classification a row would receive if confirmed as-is.
+ * Not a parallel implementation: it re-matches the analyte from the edited
+ * name and runs the same deterministic classifier the pipeline stamps after
+ * the provider confirms (FR-06) — both pure and client-safe — so the preview
+ * and the stored classification cannot disagree. The input mapping mirrors
+ * confirmVerificationAction: blank unit means "no unit", which skips the
+ * curated-threshold check rather than guessing (FR-07).
  */
 export function previewClassification(row: {
-  analyteId?: string;
+  rawName: string;
   value: string;
+  unit: string;
   refLow?: number;
   refHigh?: number;
+  labFlags: string[];
 }): Classification {
-  if (row.analyteId === undefined || row.analyteId.trim() === '') {
-    return { kind: 'not-covered' };
-  }
-  const value = Number(row.value.replace(/,/g, ''));
-  if (row.value.trim() === '' || !Number.isFinite(value)) {
-    return { kind: 'unclassifiable', reason: 'non-numeric' };
-  }
-  if (row.refLow === undefined && row.refHigh === undefined) {
-    return { kind: 'unclassifiable', reason: 'no-range' };
-  }
-  if (row.refLow !== undefined && value < row.refLow) {
-    return { kind: 'range', band: 'below', critical: false };
-  }
-  if (row.refHigh !== undefined && value > row.refHigh) {
-    return { kind: 'range', band: 'above', critical: false };
-  }
-  return { kind: 'range', band: 'in', critical: false };
+  return classifyRow({
+    value: row.value,
+    unit: row.unit.trim() === '' ? undefined : row.unit,
+    refLow: row.refLow,
+    refHigh: row.refHigh,
+    labFlags: row.labFlags,
+    analyte: matchAnalyte(row.rawName),
+  });
 }
