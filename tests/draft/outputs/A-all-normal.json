@@ -23,10 +23,30 @@
     }
   ],
   "sources": [
-    { "analyteId": "wbc", "title": "White Blood Count (WBC): MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/" },
-    { "analyteId": "rbc", "title": "Red Blood Cell (RBC) Count: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/" },
-    { "analyteId": "hemoglobin", "title": "Hemoglobin Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/hemoglobin-test/" },
-    { "analyteId": "hematocrit", "title": "Hematocrit Test: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/hematocrit-test/" },
-    { "analyteId": "platelet-count", "title": "Platelet Tests: MedlinePlus Medical Test", "url": "https://medlineplus.gov/lab-tests/platelet-tests/" }
+    {
+      "analyteId": "wbc",
+      "title": "White Blood Count (WBC): MedlinePlus Medical Test",
+      "url": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/"
+    },
+    {
+      "analyteId": "rbc",
+      "title": "Red Blood Cell (RBC) Count: MedlinePlus Medical Test",
+      "url": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/"
+    },
+    {
+      "analyteId": "hemoglobin",
+      "title": "Hemoglobin Test: MedlinePlus Medical Test",
+      "url": "https://medlineplus.gov/lab-tests/hemoglobin-test/"
+    },
+    {
+      "analyteId": "hematocrit",
+      "title": "Hematocrit Test: MedlinePlus Medical Test",
+      "url": "https://medlineplus.gov/lab-tests/hematocrit-test/"
+    },
+    {
+      "analyteId": "platelet-count",
+      "title": "Platelet Tests: MedlinePlus Medical Test",
+      "url": "https://medlineplus.gov/lab-tests/platelet-tests/"
+    }
   ]
 }
