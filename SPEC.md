@@ -76,17 +76,20 @@ The old public landing page is dropped. Design iterates continuously in Figma as
   no randomness. Covered by golden fixtures. Outcomes: below / in / above (each with a critical
   flag), implausible (FR-08), not covered (FR-04), or **unclassifiable** — a value that can't be
   placed on a scale (non-numeric like "Negative," or no printed reference range); shown honestly,
-  never forced onto a range.
+  never forced onto a range. Printed reference ranges are inclusive: a value exactly equal to a
+  printed bound is in range, not below/above — matching the lab's own convention, which flags H/L
+  only for values strictly outside the range.
 - **FR-07** Critical result → **held report, nothing sent.** A critical is detected the same
-  deterministic way (printed flags **or** a curated critical threshold crossed; if the report's
-  unit can't be confidently matched to the dictionary's unit, the curated-threshold check is
-  skipped and only the printed range/flags are used — never guessed). A critical is **not** a
-  routine result: this tool automates the non-urgent results callback, and a critical belongs to
-  the provider's urgent workflow. So if any row is critical, the **whole report is held** — no
-  draft is generated, no patient page exists, nothing is sent. The provider review screen **names
-  the specific critical test(s)** with value and range and directs the office to contact the
-  patient directly. Defense-in-depth: a gate test asserts a held report can never produce a
-  patient-visible page, and the patient renderer fails safe if ever handed a critical row.
+  deterministic way (printed flags **or** a curated critical threshold crossed — inclusive of the
+  threshold value, `≤ criticalLow` / `≥ criticalHigh`, erring toward alarm; if the report's unit
+  can't be confidently matched to the dictionary's unit, the curated-threshold check is skipped
+  and only the printed range/flags are used — never guessed). A critical is **not** a routine
+  result: this tool automates the non-urgent results callback, and a critical belongs to the
+  provider's urgent workflow. So if any row is critical, the **whole report is held** — no draft
+  is generated, no patient page exists, nothing is sent. The provider review screen **names the
+  specific critical test(s)** with value and range and directs the office to contact the patient
+  directly. Defense-in-depth: a gate test asserts a held report can never produce a patient-visible
+  page, and the patient renderer fails safe if ever handed a critical row.
 - **FR-08** Implausible value (fails plausibility bounds): shown as "please double-check with
   your provider," never classified or explained as if real.
 - **FR-09** Drafting inputs are only classifications + fetched MedlinePlus text; output
