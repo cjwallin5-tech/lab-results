@@ -1,0 +1,14 @@
+{
+  "id": "calcium",
+  "loinc": "17861-6",
+  "displayName": "Calcium",
+  "aliases": ["Calcium", "Ca", "Ca++", "Calcium (Ca)", "Total calcium"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/calcium-blood-test/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "criticalLow": 6,
+  "criticalHigh": 13,
+  "plausibleLow": 3,
+  "plausibleHigh": 20,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+}

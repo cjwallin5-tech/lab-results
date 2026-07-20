@@ -1,0 +1,103 @@
+{
+  "rows": [
+    {
+      "rawName": "Glucose",
+      "value": "85",
+      "unit": "mg/dL",
+      "refLow": "65",
+      "refHigh": "99",
+      "rawRange": "65 - 99",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "BUN",
+      "value": "14",
+      "unit": "mg/dL",
+      "refLow": "7",
+      "refHigh": "25",
+      "rawRange": "7 - 25",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Creatinine",
+      "value": "0.89",
+      "unit": "mg/dL",
+      "refLow": "0.70",
+      "refHigh": "1.30",
+      "rawRange": "0.70 - 1.30",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "eGFR",
+      "value": "103",
+      "unit": "mL/min/1.73",
+      "refLow": "60",
+      "rawRange": ">60",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Sodium",
+      "value": "140",
+      "unit": "mmol/L",
+      "refLow": "135",
+      "refHigh": "146",
+      "rawRange": "135 - 146",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Potassium",
+      "value": "4.4",
+      "unit": "mmol/L",
+      "refLow": "3.5",
+      "refHigh": "5.3",
+      "rawRange": "3.5 - 5.3",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Calcium",
+      "value": "9.3",
+      "unit": "mg/dL",
+      "refLow": "8.6",
+      "refHigh": "10.3",
+      "rawRange": "8.6 - 10.3",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Protein, Total",
+      "value": "7.2",
+      "unit": "g/dL",
+      "refLow": "6.1",
+      "refHigh": "8.1",
+      "rawRange": "6.1 - 8.1",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Albumin",
+      "value": "4.4",
+      "unit": "g/dL",
+      "refLow": "3.6",
+      "refHigh": "5.1",
+      "rawRange": "3.6 - 5.1",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "ALT (SGPT)",
+      "value": "20",
+      "unit": "U/L",
+      "refLow": "9",
+      "refHigh": "46",
+      "rawRange": "9 - 46",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    }
+  ]
+}

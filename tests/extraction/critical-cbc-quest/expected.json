@@ -1,0 +1,74 @@
+{
+  "rows": [
+    {
+      "rawName": "WHITE BLOOD CELL COUNT",
+      "value": "6.2",
+      "unit": "Thousand/uL",
+      "refLow": "3.8",
+      "refHigh": "10.8",
+      "rawRange": "3.8-10.8",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "HEMOGLOBIN",
+      "value": "14.1",
+      "unit": "g/dL",
+      "refLow": "13.2",
+      "refHigh": "17.1",
+      "rawRange": "13.2-17.1",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "HEMATOCRIT",
+      "value": "42.0",
+      "unit": "%",
+      "refLow": "38.5",
+      "refHigh": "50.0",
+      "rawRange": "38.5-50.0",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "PLATELET COUNT",
+      "value": "250",
+      "unit": "Thousand/uL",
+      "refLow": "140",
+      "refHigh": "400",
+      "rawRange": "140-400",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "SODIUM",
+      "value": "139",
+      "unit": "mmol/L",
+      "refLow": "135",
+      "refHigh": "146",
+      "rawRange": "135-146",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "POTASSIUM",
+      "value": "6.8",
+      "unit": "mmol/L",
+      "refLow": "3.5",
+      "refHigh": "5.3",
+      "rawRange": "3.5-5.3",
+      "labFlags": ["HIGH"],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "CHLORIDE",
+      "value": "104",
+      "unit": "mmol/L",
+      "refLow": "98",
+      "refHigh": "110",
+      "rawRange": "98-110",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    }
+  ]
+}

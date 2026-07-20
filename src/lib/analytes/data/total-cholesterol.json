@@ -1,0 +1,12 @@
+{
+  "id": "total-cholesterol",
+  "loinc": "2093-3",
+  "displayName": "Total cholesterol",
+  "aliases": ["Total cholesterol", "Cholesterol, total", "Cholesterol", "Chol", "Total chol"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/cholesterol-levels/",
+  "unit": "mg/dL",
+  "panel": "Lipid panel",
+  "plausibleLow": 25,
+  "plausibleHigh": 800,
+  "thresholdSource": "Chronic cardiovascular-risk marker with no acute critical value; plausibility bounds guard extraction error only (Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "alt",
+  "loinc": "1742-6",
+  "displayName": "ALT",
+  "aliases": ["ALT", "Alanine aminotransferase", "SGPT", "Alanine transaminase"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/alt-blood-test/",
+  "unit": "U/L",
+  "panel": "Liver",
+  "plausibleLow": 0,
+  "plausibleHigh": 20000
+}

@@ -1,0 +1,43 @@
+{
+  "rows": [
+    {
+      "rawName": "TSH",
+      "value": "2.10",
+      "unit": "uIU/mL",
+      "refLow": "0.450",
+      "refHigh": "4.500",
+      "rawRange": "0.450 - 4.500",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Free T4",
+      "value": "1.30",
+      "unit": "ng/dL",
+      "refLow": "0.82",
+      "refHigh": "1.77",
+      "rawRange": "0.82 - 1.77",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Thyroglobulin Antibody",
+      "value": "1.5",
+      "unit": "IU/mL",
+      "refHigh": "1.0",
+      "rawRange": "<1.0",
+      "labFlags": ["High"],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Vitamin D, 25-Hydroxy",
+      "value": "32.0",
+      "unit": "ng/mL",
+      "refLow": "30.0",
+      "refHigh": "100.0",
+      "rawRange": "30.0 - 100.0",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    }
+  ]
+}

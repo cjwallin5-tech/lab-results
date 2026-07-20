@@ -1,0 +1,11 @@
+{
+  "id": "free-t4",
+  "loinc": "3024-7",
+  "displayName": "Free T4",
+  "aliases": ["Free T4", "Free thyroxine", "FT4", "T4, free"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/thyroxine-t4-test/",
+  "unit": "ng/dL",
+  "panel": "Thyroid",
+  "plausibleLow": 0,
+  "plausibleHigh": 20
+}

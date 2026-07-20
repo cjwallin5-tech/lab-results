@@ -72,7 +72,22 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
             </p>
             <form action={extractReportAction} className="mt-6">
               <input type="hidden" name="reportId" value={report.id} />
-              <SubmitButton pendingLabel="Reading...">Read the results</SubmitButton>
+              <label className="block text-sm text-muted">
+                Report PDF <span className="text-muted/70">(optional in v1)</span>
+                <input
+                  type="file"
+                  name="pdf"
+                  accept="application/pdf"
+                  className="mt-1 block text-sm text-ink"
+                />
+              </label>
+              <p className="mt-1 max-w-prose text-xs text-muted">
+                With a PDF and an API key configured, the report is transcribed live. Otherwise a
+                synthetic sample is used so the flow can be walked without credentials.
+              </p>
+              <div className="mt-4">
+                <SubmitButton pendingLabel="Reading...">Read the results</SubmitButton>
+              </div>
             </form>
           </section>
         )}

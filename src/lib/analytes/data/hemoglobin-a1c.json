@@ -1,0 +1,17 @@
+{
+  "id": "hemoglobin-a1c",
+  "loinc": "4548-4",
+  "displayName": "Hemoglobin A1c",
+  "aliases": [
+    "Hemoglobin A1c",
+    "HbA1c",
+    "A1c",
+    "Glycated hemoglobin",
+    "Hemoglobin A1c/Hemoglobin.total"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/hemoglobin-a1c-hba1c-test/",
+  "unit": "%",
+  "panel": "Blood sugar",
+  "plausibleLow": 2,
+  "plausibleHigh": 20
+}

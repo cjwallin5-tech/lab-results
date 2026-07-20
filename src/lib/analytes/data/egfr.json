@@ -1,0 +1,11 @@
+{
+  "id": "egfr",
+  "loinc": "33914-3",
+  "displayName": "eGFR",
+  "aliases": ["eGFR", "Estimated GFR", "Glomerular filtration rate", "GFR"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/glomerular-filtration-rate-gfr-test/",
+  "unit": "mL/min/1.73m2",
+  "panel": "Metabolic panel",
+  "plausibleLow": 1,
+  "plausibleHigh": 200
+}

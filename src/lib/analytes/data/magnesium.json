@@ -1,0 +1,11 @@
+{
+  "id": "magnesium",
+  "loinc": "2601-3",
+  "displayName": "Magnesium",
+  "aliases": ["Magnesium", "Mg", "Mg++"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/magnesium-blood-test/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "plausibleLow": 0.5,
+  "plausibleHigh": 10
+}

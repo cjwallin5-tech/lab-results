@@ -81,10 +81,12 @@ export function VerifyTable({ reportId, rows }: { reportId: string; rows: Editab
             {editable.map((row, index) => {
               const preview = classificationDisplay(
                 previewClassification({
-                  analyteId: row.analyteId,
+                  rawName: row.rawName,
                   value: row.value,
+                  unit: row.unit,
                   refLow: toNumber(row.refLow),
                   refHigh: toNumber(row.refHigh),
+                  labFlags: row.labFlags,
                 }),
               );
               const lowConf = (field: string) => row.lowConfidenceFields.includes(field);
