@@ -30,8 +30,7 @@ export function isLiveLLM(): boolean {
 
 /** One content part the model reads: printed text, or a document (e.g. a report PDF). */
 export type LlmPart =
-  | { type: 'text'; text: string }
-  | { type: 'file'; data: Uint8Array; mediaType: string };
+  { type: 'text'; text: string } | { type: 'file'; data: Uint8Array; mediaType: string };
 
 /**
  * The one call site for the model. Returns output validated against `schema`
