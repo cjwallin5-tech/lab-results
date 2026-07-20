@@ -1,0 +1,13 @@
+{
+  "id": "hematocrit",
+  "loinc": "4544-3",
+  "displayName": "Hematocrit",
+  "aliases": ["Hematocrit", "HCT", "Hct", "Haematocrit"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/hematocrit-test/",
+  "unit": "%",
+  "panel": "Complete blood count",
+  "criticalLow": 20,
+  "criticalHigh": 60,
+  "plausibleLow": 5,
+  "plausibleHigh": 80
+}

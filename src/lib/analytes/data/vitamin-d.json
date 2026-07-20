@@ -1,0 +1,17 @@
+{
+  "id": "vitamin-d",
+  "loinc": "62292-8",
+  "displayName": "Vitamin D, 25-hydroxy",
+  "aliases": [
+    "Vitamin D, 25-hydroxy",
+    "Vitamin D",
+    "25-OH vitamin D",
+    "25-hydroxyvitamin D",
+    "Vitamin D 25 hydroxy"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/vitamin-d-test/",
+  "unit": "ng/mL",
+  "panel": "Vitamins",
+  "plausibleLow": 0,
+  "plausibleHigh": 200
+}

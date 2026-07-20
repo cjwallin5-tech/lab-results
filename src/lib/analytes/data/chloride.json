@@ -1,0 +1,11 @@
+{
+  "id": "chloride",
+  "loinc": "2075-0",
+  "displayName": "Chloride",
+  "aliases": ["Chloride", "Cl", "Cl-"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/chloride-blood-test/",
+  "unit": "mmol/L",
+  "panel": "Metabolic panel",
+  "plausibleLow": 70,
+  "plausibleHigh": 140
+}

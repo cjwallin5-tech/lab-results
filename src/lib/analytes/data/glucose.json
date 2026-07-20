@@ -1,0 +1,21 @@
+{
+  "id": "glucose",
+  "loinc": "1558-6",
+  "displayName": "Fasting glucose",
+  "aliases": [
+    "Fasting glucose",
+    "Glucose",
+    "Blood glucose",
+    "Fasting blood sugar",
+    "FBS",
+    "FBG",
+    "Glucose, fasting"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-glucose-test/",
+  "unit": "mg/dL",
+  "panel": "Blood sugar",
+  "criticalLow": 40,
+  "criticalHigh": 500,
+  "plausibleLow": 10,
+  "plausibleHigh": 1500
+}
