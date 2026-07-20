@@ -2,11 +2,18 @@
   "id": "bun",
   "loinc": "3094-0",
   "displayName": "BUN",
-  "aliases": ["BUN", "Blood urea nitrogen", "Urea nitrogen"],
+  "aliases": [
+    "BUN",
+    "Blood urea nitrogen",
+    "Urea nitrogen",
+    "Urea nitrogen (BUN)",
+    "BUN (BLOOD UREA NITROGEN)"
+  ],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
   "unit": "mg/dL",
   "panel": "Metabolic panel",
   "criticalHigh": 100,
   "plausibleLow": 1,
-  "plausibleHigh": 300
+  "plausibleHigh": 300,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

@@ -2,11 +2,12 @@
   "id": "creatinine",
   "loinc": "2160-0",
   "displayName": "Creatinine",
-  "aliases": ["Creatinine", "Creat", "Serum creatinine"],
+  "aliases": ["Creatinine", "Creat", "Serum creatinine", "Cr"],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/creatinine-test/",
   "unit": "mg/dL",
   "panel": "Metabolic panel",
   "criticalHigh": 10,
   "plausibleLow": 0.1,
-  "plausibleHigh": 40
+  "plausibleHigh": 40,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

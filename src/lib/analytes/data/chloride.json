@@ -2,10 +2,13 @@
   "id": "chloride",
   "loinc": "2075-0",
   "displayName": "Chloride",
-  "aliases": ["Chloride", "Cl", "Cl-"],
+  "aliases": ["Chloride", "Cl", "Cl-", "Chloride (Cl)"],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/chloride-blood-test/",
   "unit": "mmol/L",
   "panel": "Metabolic panel",
+  "criticalLow": 80,
+  "criticalHigh": 120,
   "plausibleLow": 70,
-  "plausibleHigh": 140
+  "plausibleHigh": 140,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

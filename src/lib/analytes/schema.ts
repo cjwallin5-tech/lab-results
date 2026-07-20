@@ -26,6 +26,11 @@ export const analyteEntrySchema = z
     criticalHigh: z.number().optional(),
     plausibleLow: z.number().optional(),
     plausibleHigh: z.number().optional(),
+    // Provenance for the curated thresholds. Present = sourced (the entry cites
+    // where its critical/plausibility numbers come from); absent = still an
+    // uncited demo value. Extra data beyond the shared AnalyteEntry type, like
+    // `panel`; per CLAUDE.md, changing a threshold needs a human-provided source.
+    thresholdSource: z.string().min(1).optional(),
   })
   .refine((entry) => entry.aliases.includes(entry.displayName), {
     message: 'aliases must include the displayName',
@@ -44,10 +49,27 @@ export const analyteEntrySchema = z
       entry.plausibleHigh === undefined ||
       entry.plausibleLow < entry.plausibleHigh,
     { message: 'plausibleLow must be below plausibleHigh', path: ['plausibleLow'] },
+  )
+  // A critical value must never fall outside the plausible range, or a real
+  // emergency result could be dismissed as an extraction error (FR-07/FR-08).
+  .refine(
+    (entry) =>
+      entry.criticalLow === undefined ||
+      entry.plausibleLow === undefined ||
+      entry.plausibleLow <= entry.criticalLow,
+    { message: 'plausibleLow must be at or below criticalLow', path: ['plausibleLow'] },
+  )
+  .refine(
+    (entry) =>
+      entry.criticalHigh === undefined ||
+      entry.plausibleHigh === undefined ||
+      entry.plausibleHigh >= entry.criticalHigh,
+    { message: 'plausibleHigh must be at or above criticalHigh', path: ['plausibleHigh'] },
   );
 
 // Compile-time guarantee that the schema output satisfies the shared contract.
-// (`panel` is extra data the shared type doesn't require; that's allowed.)
+// (`panel` and `thresholdSource` are extra data the shared type doesn't require;
+// that's allowed.)
 type SchemaOut = z.infer<typeof analyteEntrySchema>;
 const _typeCheck: SchemaOut extends AnalyteEntry ? true : never = true;
 void _typeCheck;

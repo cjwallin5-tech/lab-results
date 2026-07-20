@@ -2,12 +2,20 @@
   "id": "white-blood-cell-count",
   "loinc": "6690-2",
   "displayName": "White blood cell count",
-  "aliases": ["White blood cell count", "WBC", "Leukocytes", "White blood count"],
+  "aliases": [
+    "White blood cell count",
+    "WBC",
+    "Leukocytes",
+    "White blood count",
+    "White blood cell count (WBC)",
+    "WBC (WHITE BLOOD CELL CT)"
+  ],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/white-blood-count-wbc/",
   "unit": "10*3/uL",
   "panel": "Complete blood count",
   "criticalLow": 2,
   "criticalHigh": 30,
   "plausibleLow": 0,
-  "plausibleHigh": 500
+  "plausibleHigh": 500,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

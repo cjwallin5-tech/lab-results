@@ -2,12 +2,13 @@
   "id": "potassium",
   "loinc": "2823-3",
   "displayName": "Potassium",
-  "aliases": ["Potassium", "K", "K+"],
+  "aliases": ["Potassium", "K", "K+", "Potassium (K)"],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/potassium-blood-test/",
   "unit": "mmol/L",
   "panel": "Metabolic panel",
   "criticalLow": 2.5,
   "criticalHigh": 6.5,
   "plausibleLow": 0.5,
-  "plausibleHigh": 15
+  "plausibleHigh": 15,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

@@ -2,12 +2,13 @@
   "id": "platelet-count",
   "loinc": "777-3",
   "displayName": "Platelet count",
-  "aliases": ["Platelet count", "Platelets", "PLT"],
+  "aliases": ["Platelet count", "Platelets", "PLT", "PLT (PLATELET COUNT)"],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/platelet-tests/",
   "unit": "10*3/uL",
   "panel": "Complete blood count",
-  "criticalLow": 50,
+  "criticalLow": 20,
   "criticalHigh": 1000,
   "plausibleLow": 0,
-  "plausibleHigh": 5000
+  "plausibleHigh": 5000,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

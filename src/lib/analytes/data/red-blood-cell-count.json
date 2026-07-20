@@ -1,0 +1,18 @@
+{
+  "id": "red-blood-cell-count",
+  "loinc": "789-8",
+  "displayName": "Red blood cell count",
+  "aliases": [
+    "Red blood cell count",
+    "RBC",
+    "Red blood count",
+    "Erythrocytes",
+    "RBC (RED BLOOD CELL CT)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-count/",
+  "unit": "10*6/uL",
+  "panel": "Complete blood count",
+  "plausibleLow": 1,
+  "plausibleHigh": 8,
+  "thresholdSource": "No independent critical value; severe anemia or polycythemia is flagged via hemoglobin and hematocrit (Kost; Tietz). Plausibility bounds guard extraction error only. Draft — not clinician-approved."
+}

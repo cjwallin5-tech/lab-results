@@ -2,12 +2,21 @@
   "id": "hemoglobin",
   "loinc": "718-7",
   "displayName": "Hemoglobin",
-  "aliases": ["Hemoglobin", "Haemoglobin", "HGB", "Hgb", "Hb"],
+  "aliases": [
+    "Hemoglobin",
+    "Haemoglobin",
+    "HGB",
+    "Hgb",
+    "Hb",
+    "Hemoglobin (Hgb)",
+    "HGB (HEMOGLOBIN)"
+  ],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/hemoglobin-test/",
   "unit": "g/dL",
   "panel": "Complete blood count",
   "criticalLow": 7,
   "criticalHigh": 20,
   "plausibleLow": 2,
-  "plausibleHigh": 30
+  "plausibleHigh": 30,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }

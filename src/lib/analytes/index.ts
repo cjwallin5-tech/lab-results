@@ -24,6 +24,7 @@ import ldlCholesterol from './data/ldl-cholesterol.json';
 import magnesium from './data/magnesium.json';
 import plateletCount from './data/platelet-count.json';
 import potassium from './data/potassium.json';
+import redBloodCellCount from './data/red-blood-cell-count.json';
 import sodium from './data/sodium.json';
 import totalCholesterol from './data/total-cholesterol.json';
 import totalProtein from './data/total-protein.json';
@@ -64,6 +65,7 @@ const RAW_ENTRIES = [
   magnesium,
   plateletCount,
   potassium,
+  redBloodCellCount,
   sodium,
   totalCholesterol,
   totalProtein,

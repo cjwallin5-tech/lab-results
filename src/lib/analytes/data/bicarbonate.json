@@ -2,10 +2,13 @@
   "id": "bicarbonate",
   "loinc": "1963-8",
   "displayName": "Bicarbonate",
-  "aliases": ["Bicarbonate", "CO2", "Carbon dioxide", "HCO3"],
+  "aliases": ["Bicarbonate", "CO2", "Carbon dioxide", "HCO3", "Total CO2", "CO2, Total"],
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/electrolyte-panel/",
   "unit": "mmol/L",
   "panel": "Metabolic panel",
+  "criticalLow": 10,
+  "criticalHigh": 40,
   "plausibleLow": 5,
-  "plausibleHigh": 50
+  "plausibleHigh": 50,
+  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
 }
