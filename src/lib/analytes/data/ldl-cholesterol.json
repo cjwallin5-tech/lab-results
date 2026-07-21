@@ -7,5 +7,6 @@
   "unit": "mg/dL",
   "panel": "Lipid panel",
   "plausibleLow": 5,
-  "plausibleHigh": 700
+  "plausibleHigh": 1000,
+  "thresholdSource": "Chronic CV marker, no critical value. plausibleHigh 1000: avoids clipping genuine HoFH LDL (often >500 mg/dL; PMC3505937). Accuracy bound only. Draft — not clinician-approved."
 }

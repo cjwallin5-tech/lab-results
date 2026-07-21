@@ -7,5 +7,6 @@
   "unit": "mg/L",
   "panel": "Inflammation",
   "plausibleLow": 0,
-  "plausibleHigh": 500
+  "plausibleHigh": 600,
+  "thresholdSource": "No lab panic value (StatPearls NBK441843). plausibleHigh 600: above documented max 576 mg/L (PMC5471098). Unit is mg/L (some US sources use mg/dL, ×10). Accuracy bound only. Draft — not clinician-approved."
 }

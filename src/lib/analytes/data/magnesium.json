@@ -6,6 +6,9 @@
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/magnesium-blood-test/",
   "unit": "mg/dL",
   "panel": "Metabolic panel",
+  "criticalLow": 1,
+  "criticalHigh": 5,
   "plausibleLow": 0.5,
-  "plausibleHigh": 10
+  "plausibleHigh": 20,
+  "thresholdSource": "criticalLow 1.0 / criticalHigh 5.0: 'Alert levels: < 1.0 or > 5.0 mg/dL' (NIH Clinical Center lab alert list, tabulated in PMC9186275 — institutional tier, adopted per standing decision that published hospital lists clear the bar for a cited draft). plausibleHigh 20: above documented survivable hypermagnesemia 18.6 mg/dL (PMC6028801, no deaths). plausibleLow 0.5: conservative floor below symptomatic 0.6 mmol/L. Draft — not clinician-approved."
 }

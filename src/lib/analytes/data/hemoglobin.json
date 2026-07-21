@@ -16,7 +16,7 @@
   "panel": "Complete blood count",
   "criticalLow": 7,
   "criticalHigh": 20,
-  "plausibleLow": 2,
+  "plausibleLow": 0.4,
   "plausibleHigh": 30,
-  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+  "thresholdSource": "criticalLow/High and plausibleHigh: published adult ranges (Kost GJ; Tietz), UIowa-corroborated. plausibleLow 0.4: literature-lowest survivor 0.4 g/dL; survivor discharged at 1.6 g/dL (PMC11188282 / PMC8046282). Draft — not clinician-approved."
 }

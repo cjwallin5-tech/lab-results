@@ -12,6 +12,6 @@
   "unit": "mIU/L",
   "panel": "Thyroid",
   "plausibleLow": 0,
-  "plausibleHigh": 150,
-  "thresholdSource": "Endocrine marker with no acute critical value in standard panic-value lists; plausibility bounds guard extraction error only (Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+  "plausibleHigh": 500,
+  "thresholdSource": "Endocrine marker, no acute critical value (thyroid emergencies are clinical + free-T4, not a TSH number). plausibleHigh 500: above documented survivors 183 and 468 mIU/L (PMC3407020). Accuracy bound only. Draft — not clinician-approved."
 }

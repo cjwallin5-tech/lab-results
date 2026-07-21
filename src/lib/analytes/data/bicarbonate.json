@@ -8,7 +8,7 @@
   "panel": "Metabolic panel",
   "criticalLow": 10,
   "criticalHigh": 40,
-  "plausibleLow": 5,
-  "plausibleHigh": 50,
-  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+  "plausibleLow": 1,
+  "plausibleHigh": 90,
+  "thresholdSource": "criticalLow/High corroborated by ARUP (<10 / >40 mmol/L). plausibleLow 1: below undetectable-bicarbonate survivor (PMC12203034). plausibleHigh 90: above survivor 82.0 mmol/L (PMC1507297). Draft — not clinician-approved."
 }

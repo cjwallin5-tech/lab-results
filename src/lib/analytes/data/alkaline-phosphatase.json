@@ -7,5 +7,6 @@
   "unit": "U/L",
   "panel": "Liver",
   "plausibleLow": 0,
-  "plausibleHigh": 3000
+  "plausibleHigh": 8000,
+  "thresholdSource": "No acute critical value (not on panic-value lists). plausibleHigh 8000: above documented real ALP — 7000 U/L Paget's (PMC7273920), 3143 U/L pregnancy. Accuracy bound only. Draft — not clinician-approved."
 }

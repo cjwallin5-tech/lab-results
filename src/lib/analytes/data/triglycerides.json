@@ -8,5 +8,6 @@
   "panel": "Lipid panel",
   "criticalHigh": 1000,
   "plausibleLow": 10,
-  "plausibleHigh": 5000
+  "plausibleHigh": 20000,
+  "thresholdSource": "plausibleHigh 20000: above highest documented survivable triglycerides 16,900 mg/dL (PMC6717367). criticalHigh 1000: acute pancreatitis risk threshold (Endotext NBK279082). Draft — not clinician-approved."
 }

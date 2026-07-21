@@ -6,9 +6,9 @@
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/potassium-blood-test/",
   "unit": "mmol/L",
   "panel": "Metabolic panel",
-  "criticalLow": 2.5,
-  "criticalHigh": 6.5,
+  "criticalLow": 3.0,
+  "criticalHigh": 6.1,
   "plausibleLow": 0.5,
   "plausibleHigh": 15,
-  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+  "thresholdSource": "criticalLow 3.0 / criticalHigh 6.1: tightened from textbook 2.5/6.5 to published hospital panic values (ARUP <3.0 / >6.1; Cheyenne <3.0 / >6.2) for earlier warning on an acutely arrhythmogenic electrolyte (institutional tier, per standing hospital-list decision). plausibleLow 0.5 / plausibleHigh 15: plausibility fences above documented survivor max 14.0 mmol/L (acutecaretesting). Draft — not clinician-approved."
 }

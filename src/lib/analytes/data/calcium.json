@@ -9,6 +9,6 @@
   "criticalLow": 6,
   "criticalHigh": 13,
   "plausibleLow": 3,
-  "plausibleHigh": 20,
-  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+  "plausibleHigh": 25,
+  "thresholdSource": "criticalLow/High and plausibleLow: published adult critical/panic-value ranges (Kost GJ; Tietz). plausibleHigh 25: above documented survivable hypercalcemia — 19.5 mg/dL survived, 22.5 mg/dL fatal case (PMC10888302 / PMC7899288). Draft — not clinician-approved."
 }

@@ -12,6 +12,8 @@
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/vitamin-d-test/",
   "unit": "ng/mL",
   "panel": "Vitamins",
+  "criticalHigh": 150,
   "plausibleLow": 0,
-  "plausibleHigh": 200
+  "plausibleHigh": 1000,
+  "thresholdSource": "criticalHigh 150: vitamin D intoxication threshold — 'Concentrations over 150 ng/mL (325 nmol/L) may result in vitamin D intoxication' (StatPearls NBK441912). plausibleHigh 1000: above documented survivable 25-OH-D 516 ng/mL (1289 nmol/L; PMC10333361), so real toxicity is held, not masked. No criticalLow (deficiency is chronic, not acute). Draft — not clinician-approved."
 }

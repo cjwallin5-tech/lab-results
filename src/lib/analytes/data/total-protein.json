@@ -6,6 +6,9 @@
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
   "unit": "g/dL",
   "panel": "Liver",
+  "criticalLow": 4,
+  "criticalHigh": 12.9,
   "plausibleLow": 2,
-  "plausibleHigh": 12
+  "plausibleHigh": 15,
+  "thresholdSource": "criticalLow 4.0 / criticalHigh 12.9: 'TP < 4.0 g/dl or > 12.9 g/dl' (Brown Health critical-values list — institutional tier; no gov/society panic value exists for total protein). plausibleHigh raised 12→15 so criticalHigh 12.9 stays inside the plausible fence (schema invariant); highest documented real value ~11.6 g/dL (Waldenström case, J Hematology). Draft — not clinician-approved."
 }

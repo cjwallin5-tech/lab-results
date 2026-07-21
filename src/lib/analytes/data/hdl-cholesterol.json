@@ -6,6 +6,7 @@
   "medlineplusUrl": "https://medlineplus.gov/hdlthegoodcholesterol.html",
   "unit": "mg/dL",
   "panel": "Lipid panel",
-  "plausibleLow": 5,
-  "plausibleHigh": 200
+  "plausibleLow": 2,
+  "plausibleHigh": 250,
+  "thresholdSource": "Chronic CV marker, no critical value. plausibleHigh 250: above CETP-deficiency HDL 208 mg/dL (PubMed 19200546). plausibleLow 2: below Tangier HDL <5 mg/dL (StatPearls NBK562250). Accuracy bounds only. Draft — not clinician-approved."
 }

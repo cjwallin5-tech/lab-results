@@ -6,7 +6,8 @@
   "medlineplusUrl": "https://medlineplus.gov/lab-tests/bilirubin-blood-test/",
   "unit": "mg/dL",
   "panel": "Liver",
-  "criticalHigh": 15,
+  "criticalHigh": 12,
   "plausibleLow": 0,
-  "plausibleHigh": 50
+  "plausibleHigh": 70,
+  "thresholdSource": "criticalHigh 12: adult critical bilirubin — 'Adult: > 12 mg/dL' (ebmconsult; Brown Health critical-values list). Tool serves adults, so the adult threshold is used over the neonatal ~15. plausibleHigh 70: above documented survivor 63.71 mg/dL (PMC8442038). Draft — not clinician-approved."
 }

@@ -8,6 +8,6 @@
   "panel": "Metabolic panel",
   "criticalHigh": 10,
   "plausibleLow": 0.1,
-  "plausibleHigh": 40,
-  "thresholdSource": "Published adult critical/panic-value ranges (Kost GJ, Arch Pathol Lab Med; Tietz Fundamentals of Clinical Chemistry). Draft — not clinician-approved."
+  "plausibleHigh": 80,
+  "thresholdSource": "criticalHigh and plausibleLow: published adult critical/panic-value ranges (Kost GJ; Tietz). plausibleHigh 80: above highest survivable creatinine 73.8 mg/dL (PMC8531789). Draft — not clinician-approved."
 }
