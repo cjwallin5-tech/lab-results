@@ -4,6 +4,43 @@ Referenced by SPEC.md "Definition of done" #2. This is the one-time record of th
 that set the bar; it is not re-run automatically and will go stale — treat it as a
 snapshot, not a live dashboard.
 
+---
+
+## UPDATE 2026-07-22 — measured against the current corpus (supersedes the spike below)
+
+**The spike below is historical** — it describes an earlier corpus that has since been replaced.
+The current corpus is the 5-scenario `tests/extraction/<id>/` set, measured by
+`npm run eval:extract` (opt-in, not CI).
+
+**Result (2026-07-22 · 5 scenarios · 38 rows):** 0 missing, 0 fabricated, 100% exact-match on all
+scored fields, 100% `rawName`. Snapshot, not a verdict — small n; re-run before shipping.
+
+**Bar (SPEC DoD #2):** row fidelity **100%**, safety fields **≥98%**, `rawName` **≥95%** — all met.
+
+**Critical-flag detection — REFRAMED (was "100%" above).**
+
+- **The threshold path is the real net.** Detection is threshold-based: the classifier compares the
+  value to the curated limit (golden-tested, DoD #1). It's **representation-agnostic** — it flags
+  potassium 6.8 as critical no matter what token, or no token, the report prints. The printed flag
+  is a _secondary_ signal.
+- **The realistic printed-critical is already covered.** On a real provider PDF a critical shows as
+  an `H`/`L` flag + a phoned-in footnote (CAP requires phone notify with read-back).
+  `liver-metabolic-quest` already models exactly this: glucose 2500 with a `HIGH` flag + the footnote
+  _"Critical result called to the ordering physician per laboratory policy"_ — a flag plus a
+  phone-call comment.
+- **The flag key already covers the real word tokens.** `classify.ts`'s critical markers are
+  `{hh, ll, crit, critical, panic}` — so `CRIT`/`PANIC`/`CRITICAL` are already caught; nothing to add.
+- **The un-covered symbols (`*`/`**`/`C`) should stay un-covered.** `*` usually means just
+  "abnormal," not "critical" — adding it would fire _false_ criticals and over-hold reports. Not
+  enumerating them is correct, not a gap.
+- **`HH`/`LL` are the data layer, not the PDF.** They're the HL7/FHIR interpretation code — a
+  Phase-6 ingest concern, not something a v1 PDF prints.
+
+So the standalone printed-critical-flag sub-bar is retired for the PDF corpus; critical safety is
+covered by DoD #1 (classifier) + DoD #3/#4 (held-critical gate + E2E).
+
+---
+
 ## Method
 
 For each of the 6 corpus PDFs (`tests/extraction/pdfs/`), a fresh agent instance — with
