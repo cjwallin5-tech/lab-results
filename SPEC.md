@@ -131,15 +131,17 @@ ShareLink      // reportId, token, expiresAt, openedAt?
 Kept FHIR-friendly on purpose: `ResultRow` maps cleanly onto FHIR `Observation`
 (code/value/referenceRange/interpretation) so EHR import later is additive, not a rewrite.
 
-## Definition of done — v1 CI gates
+## Definition of done — v1 gates
 
 1. **Golden classification suite** (`tests/golden/`) passes 100% — covers below/in/above,
    one-sided ranges, critical, implausible, unknown test.
 2. **Extraction eval corpus** (synthetic lab PDFs + expected JSON) meets its accuracy bar,
-   set from the first spike (`tests/extraction/SPIKE_RESULTS.md`): 100% row fidelity (no
-   dropped/duplicated rows), 100% critical-flag detection, ≥98% exact-match accuracy on
-   `value`/`unit`/`refLow`/`refHigh`/`rawRange`/`labFlags`, ≥95% on `rawName`. Provisional
-   until the corpus adds a true no-text-layer scanned fixture (see that doc).
+   measured by `npm run eval:extract` (`scripts/eval/extract-eval.ts`) against each frozen
+   `expected.json` and recorded in `tests/extraction/SPIKE_RESULTS.md`: 100% row fidelity (no
+   dropped/duplicated rows), ≥98% exact-match on
+   `value`/`unit`/`refLow`/`refHigh`/`rawRange`/`labFlags`, ≥95% on `rawName`. Opt-in eval (needs
+   `ANTHROPIC_API_KEY`), not CI-automated. Provisional until the corpus adds a true no-text-layer
+   scanned fixture (see that doc).
 3. **E2E (Playwright):** full loop upload → verify → approve → link → DOB → results page,
    including one implausible and one unknown test; plus a **held-critical path** — a report with a
    critical value is held at review (with the critical test named) and never produces a sent page.
