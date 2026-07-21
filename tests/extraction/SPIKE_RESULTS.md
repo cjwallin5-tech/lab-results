@@ -21,13 +21,8 @@ scored fields, 100% `rawName`. Snapshot, not a verdict — small n; re-run befor
 
 - **The threshold path is the real net.** Detection is threshold-based: the classifier compares the
   value to the curated limit (golden-tested, DoD #1). It's **representation-agnostic** — it flags
-  potassium 6.8 as critical no matter what token, or no token, the report prints. The printed flag
-  is a _secondary_ signal.
-- **The realistic printed-critical is already covered.** On a real provider PDF a critical shows as
-  an `H`/`L` flag + a phoned-in footnote (CAP requires phone notify with read-back).
-  `liver-metabolic-quest` already models exactly this: glucose 2500 with a `HIGH` flag + the footnote
-  _"Critical result called to the ordering physician per laboratory policy"_ — a flag plus a
-  phone-call comment.
+  `critical-cbc-quest`'s potassium 6.8 as critical no matter what token, or no token, the report
+  prints. The printed flag is a _secondary_ signal.
 - **The flag key already covers the real word tokens.** `classify.ts`'s critical markers are
   `{hh, ll, crit, critical, panic}` — so `CRIT`/`PANIC`/`CRITICAL` are already caught; nothing to add.
 - **The un-covered symbols (`*`/`**`/`C`) should stay un-covered.** `*` usually means just
