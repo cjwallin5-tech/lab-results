@@ -9,11 +9,12 @@ import {
   getReport,
   reportHasCritical,
   resetReport,
+  saveExplanation,
   saveRows,
   setReportStatus,
 } from '@/lib/data';
 import { dobSchema, type ResultRow } from '@/lib/types';
-import { ensureDraftExplanation } from '@/lib/data/templates';
+import { draftExplanation } from '@/lib/draft';
 import { extractRows } from '@/lib/extract';
 import { matchAnalyte } from '@/lib/analytes';
 import { classifyRow } from '@/lib/classify';
@@ -154,8 +155,19 @@ export async function confirmVerificationAction(formData: FormData): Promise<voi
   if (await reportHasCritical(reportId)) {
     await setReportStatus(reportId, 'held');
   } else {
-    ensureDraftExplanation(reportId);
-    await setReportStatus(reportId, 'drafted');
+    // Draft the patient explanation from the verified rows (FR-09). A drafting
+    // failure — an LLM error or a failed structural check — must not throw out of
+    // this verification gate, which has already succeeded (rows saved + classified).
+    // Leave the report at 'verified' (the pre-draft state) so drafting is
+    // retryable; only advance to 'drafted' on a clean draft.
+    try {
+      const draft = await draftExplanation({ rows });
+      await saveExplanation(reportId, draft);
+      await setReportStatus(reportId, 'drafted');
+    } catch {
+      // Draft failed; report stays 'verified' and drafting can be retried. No
+      // logging here — never route lab values to logs (safety rule 5).
+    }
   }
   revalidatePath(reportPath(reportId));
 }
