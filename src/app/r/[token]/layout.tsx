@@ -16,19 +16,19 @@ export default function PatientLayout({ children }: { children: ReactNode }) {
         Skip to results
       </a>
       <header className="no-print border-b border-line bg-paper">
-        <div className="flex items-center justify-between px-6 py-4 text-sm">
-          <span>
-            <span className="font-display text-lg text-ink">{CLINIC.name}</span>{' '}
-            <span className="text-muted">· Lab results</span>
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 px-4 py-4 text-sm sm:px-6">
+          <span className="whitespace-nowrap">
+            <span className="font-display text-lg text-ink">{CLINIC.name}</span>
+            <span className="hidden text-muted sm:inline"> · Lab results</span>
           </span>
-          <span className="text-muted">Shared by {CLINIC.providerName}</span>
+          <span className="whitespace-nowrap text-muted">Shared by {CLINIC.providerName}</span>
         </div>
       </header>
-      <main id="patient-main" className="mx-auto w-full max-w-3xl flex-1 px-6 py-10">
+      <main id="patient-main" className="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6">
         {children}
       </main>
       <footer className="border-t border-line">
-        <div className="mx-auto max-w-3xl px-6 py-6 text-center">
+        <div className="mx-auto max-w-3xl px-4 py-6 text-center sm:px-6">
           <Disclaimer />
         </div>
       </footer>

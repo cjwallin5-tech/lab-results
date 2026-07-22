@@ -6,7 +6,7 @@ const TONE_STYLES: Record<Tone, string> = {
   high: 'bg-amber-soft text-amber',
   low: 'bg-amber-soft text-amber',
   critical: 'bg-critical-soft text-critical',
-  neutral: 'bg-line/60 text-muted',
+  neutral: 'bg-line/70 text-ink',
 };
 
 const DOT_STYLES: Record<Tone, string> = {

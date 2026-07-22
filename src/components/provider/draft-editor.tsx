@@ -40,10 +40,14 @@ export function DraftEditor({
       <input type="hidden" name="reportId" value={reportId} />
 
       <div>
-        <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted">
+        <label
+          htmlFor="overallText"
+          className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted"
+        >
           Overall picture
         </label>
         <textarea
+          id="overallText"
           name="overallText"
           rows={4}
           defaultValue={overallText}
@@ -55,16 +59,17 @@ export function DraftEditor({
         {entries.map((entry) => (
           <div key={entry.analyteId}>
             <div className="mb-1.5 flex items-center justify-between gap-3">
-              <span className="text-sm font-medium text-ink">
+              <label htmlFor={`text-${entry.analyteId}`} className="text-sm font-medium text-ink">
                 {entry.displayName}{' '}
                 <span className="font-normal text-muted">
                   {entry.value}
                   {entry.unit ? ` ${entry.unit}` : ''}
                 </span>
-              </span>
+              </label>
               <StatusPill tone={entry.tone} label={entry.statusLabel} />
             </div>
             <textarea
+              id={`text-${entry.analyteId}`}
               name={`text-${entry.analyteId}`}
               rows={3}
               defaultValue={entry.text}
