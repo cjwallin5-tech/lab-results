@@ -1,0 +1,12 @@
+{
+  "id": "uric-acid",
+  "loinc": "3084-1",
+  "displayName": "Uric Acid",
+  "aliases": ["Uric Acid", "Urate", "UA"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/uric-acid-test/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "criticalHigh": 15,
+  "plausibleHigh": 75,
+  "thresholdSource": "criticalHigh 15: Beaumont Laboratory Critical (Panic) Values list, Uric Acid >15 mg/dL, called as RED alert inpatient and outpatient (BL.OP.RG.006.r04, effective 03/04/2024 — institutional tier). plausibleHigh 75: above the documented survived extreme of 71.3 mg/dL in a tumor-lysis-syndrome patient with anuric acute renal failure, treated with sequential hemodialysis and discharged after recovery — reported as the highest known uric acid level at publication (Renal Failure, 2010; PMID 20662707). No criticalLow/plausibleLow — hypouricemia has no recognized lab panic value. Draft — not clinician-approved."
+}

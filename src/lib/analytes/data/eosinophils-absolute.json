@@ -1,0 +1,18 @@
+{
+  "id": "eosinophils-absolute",
+  "loinc": "711-2",
+  "displayName": "Eosinophils (absolute)",
+  "aliases": [
+    "Eosinophils (absolute)",
+    "Absolute Eosinophil Count",
+    "AEC",
+    "Eosinophils Absolute",
+    "EOS#",
+    "Eosinophils (Absolute)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-differential/",
+  "unit": "10*3/uL",
+  "panel": "Complete blood count",
+  "criticalHigh": 5.0,
+  "thresholdSource": "criticalHigh 5.0 (x10^3/uL): StatPearls classifies severe eosinophilia as AEC > 5,000/mm3 (5.0 x10^9/L), the tier associated with risk of eosinophil-mediated end-organ damage warranting urgent workup (\"Eosinophilia,\" StatPearls, NCBI Bookshelf NBK560929). No citable criticalLow or plausibility bounds found. Draft — not clinician-approved."
+}

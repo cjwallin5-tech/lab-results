@@ -1,0 +1,11 @@
+{
+  "id": "ferritin",
+  "loinc": "2276-4",
+  "displayName": "Ferritin",
+  "aliases": ["Ferritin", "Serum Ferritin"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/ferritin-blood-test/",
+  "unit": "ng/mL",
+  "panel": "Iron studies",
+  "plausibleHigh": 100000,
+  "thresholdSource": "No lab panic value established for ferritin (no StatPearls/Tietz acute critical-value source found). plausibleHigh 100000: above a documented serum ferritin of 78,662 ng/mL in a case of adult-onset Still's disease with hemophagocytic syndrome, patient alive and transferred for further care (PMC5726146); values >100,000 ng/mL have also been reported in critically ill patients with hyperferritinemia (PMC8964169). Accuracy bound only, not a clinical-action threshold. No criticalLow/plausibleLow — low ferritin reflects depleted stores, not an acute emergency. Draft — not clinician-approved."
+}

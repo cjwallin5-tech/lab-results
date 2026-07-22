@@ -1,0 +1,16 @@
+{
+  "id": "lymphocytes-absolute",
+  "loinc": "731-0",
+  "displayName": "Lymphocytes (absolute)",
+  "aliases": [
+    "Lymphocytes (absolute)",
+    "Absolute Lymphocyte Count",
+    "ALC",
+    "Lymphocytes Absolute",
+    "LYMPH#",
+    "Lymphocytes (Absolute)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-differential/",
+  "unit": "10*3/uL",
+  "panel": "Complete blood count"
+}

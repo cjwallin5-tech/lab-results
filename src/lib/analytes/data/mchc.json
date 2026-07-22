@@ -1,0 +1,13 @@
+{
+  "id": "mchc",
+  "loinc": "786-4",
+  "displayName": "MCHC",
+  "aliases": [
+    "MCHC",
+    "MCHC (mean corpuscular hemoglobin concentration)",
+    "Mean corpuscular hemoglobin concentration"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-indices/",
+  "unit": "g/dL",
+  "panel": "Complete blood count"
+}

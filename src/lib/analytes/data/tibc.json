@@ -1,0 +1,9 @@
+{
+  "id": "tibc",
+  "loinc": "2500-7",
+  "displayName": "TIBC",
+  "aliases": ["TIBC", "Total Iron Binding Capacity", "Iron Binding Capacity", "IBC"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/iron-tests/",
+  "unit": "mcg/dL",
+  "panel": "Iron studies"
+}

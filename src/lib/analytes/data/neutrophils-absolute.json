@@ -1,0 +1,18 @@
+{
+  "id": "neutrophils-absolute",
+  "loinc": "751-8",
+  "displayName": "Neutrophils (absolute)",
+  "aliases": [
+    "Neutrophils (absolute)",
+    "Absolute Neutrophil Count",
+    "ANC",
+    "Neutrophils Absolute",
+    "NEUT#",
+    "Neutrophils (Absolute)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-differential/",
+  "unit": "10*3/uL",
+  "panel": "Complete blood count",
+  "criticalLow": 0.5,
+  "thresholdSource": "criticalLow 0.5 (x10^3/uL): StatPearls defines severe neutropenia as ANC < 0.5 x10^9/L, the tier carrying high risk of bacterial/fungal infection (\"Neutropenia,\" StatPearls, NCBI Bookshelf NBK507702). No citable criticalHigh or plausibility bounds found for the absolute count itself; extreme total-WBC extraction errors are already guarded via the white-blood-cell-count entry. Draft — not clinician-approved."
+}

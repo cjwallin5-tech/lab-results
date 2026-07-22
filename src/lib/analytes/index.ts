@@ -5,7 +5,9 @@ import { normalizeName } from './match';
 import albumin from './data/albumin.json';
 import alkalinePhosphatase from './data/alkaline-phosphatase.json';
 import alt from './data/alt.json';
+import anionGap from './data/anion-gap.json';
 import ast from './data/ast.json';
+import basophilsAbsolute from './data/basophils-absolute.json';
 import bicarbonate from './data/bicarbonate.json';
 import bilirubinTotal from './data/bilirubin-total.json';
 import bun from './data/bun.json';
@@ -14,22 +16,40 @@ import chloride from './data/chloride.json';
 import creatinine from './data/creatinine.json';
 import crp from './data/crp.json';
 import egfr from './data/egfr.json';
+import eosinophilsAbsolute from './data/eosinophils-absolute.json';
+import ferritin from './data/ferritin.json';
+import folate from './data/folate.json';
+import freeT3 from './data/free-t3.json';
 import freeT4 from './data/free-t4.json';
 import glucose from './data/glucose.json';
 import hdlCholesterol from './data/hdl-cholesterol.json';
 import hematocrit from './data/hematocrit.json';
 import hemoglobin from './data/hemoglobin.json';
 import hemoglobinA1c from './data/hemoglobin-a1c.json';
+import iron from './data/iron.json';
 import ldlCholesterol from './data/ldl-cholesterol.json';
+import lymphocytesAbsolute from './data/lymphocytes-absolute.json';
 import magnesium from './data/magnesium.json';
+import mch from './data/mch.json';
+import mchc from './data/mchc.json';
+import mcv from './data/mcv.json';
+import monocytesAbsolute from './data/monocytes-absolute.json';
+import neutrophilsAbsolute from './data/neutrophils-absolute.json';
+import phosphorus from './data/phosphorus.json';
 import plateletCount from './data/platelet-count.json';
 import potassium from './data/potassium.json';
+import rdw from './data/rdw.json';
 import redBloodCellCount from './data/red-blood-cell-count.json';
 import sodium from './data/sodium.json';
+import tibc from './data/tibc.json';
 import totalCholesterol from './data/total-cholesterol.json';
 import totalProtein from './data/total-protein.json';
+import totalT3 from './data/total-t3.json';
+import totalT4 from './data/total-t4.json';
 import triglycerides from './data/triglycerides.json';
 import tsh from './data/tsh.json';
+import uricAcid from './data/uric-acid.json';
+import vitaminB12 from './data/vitamin-b12.json';
 import vitaminD from './data/vitamin-d.json';
 import whiteBloodCellCount from './data/white-blood-cell-count.json';
 
@@ -46,7 +66,9 @@ const RAW_ENTRIES = [
   albumin,
   alkalinePhosphatase,
   alt,
+  anionGap,
   ast,
+  basophilsAbsolute,
   bicarbonate,
   bilirubinTotal,
   bun,
@@ -55,22 +77,40 @@ const RAW_ENTRIES = [
   creatinine,
   crp,
   egfr,
+  eosinophilsAbsolute,
+  ferritin,
+  folate,
+  freeT3,
   freeT4,
   glucose,
   hdlCholesterol,
   hematocrit,
   hemoglobin,
   hemoglobinA1c,
+  iron,
   ldlCholesterol,
+  lymphocytesAbsolute,
   magnesium,
+  mch,
+  mchc,
+  mcv,
+  monocytesAbsolute,
+  neutrophilsAbsolute,
+  phosphorus,
   plateletCount,
   potassium,
+  rdw,
   redBloodCellCount,
   sodium,
+  tibc,
   totalCholesterol,
   totalProtein,
+  totalT3,
+  totalT4,
   triglycerides,
   tsh,
+  uricAcid,
+  vitaminB12,
   vitaminD,
   whiteBloodCellCount,
 ];

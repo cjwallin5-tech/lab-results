@@ -1,0 +1,11 @@
+{
+  "id": "free-t3",
+  "loinc": "3051-0",
+  "displayName": "Free T3",
+  "aliases": ["Free T3", "Free Triiodothyronine (T3)", "T3, Free", "FT3", "Triiodothyronine, Free"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/triiodothyronine-t3-tests/",
+  "unit": "pg/mL",
+  "panel": "Thyroid",
+  "plausibleHigh": 25,
+  "thresholdSource": "Endocrine marker; thyroid storm is diagnosed clinically, not by a specific free T3 cutoff — no citable acute critical value. plausibleHigh 25: above a documented survivor with free T3 >20.00 pg/mL (with free T4 >8.00 ng/dL, TSH <0.01 uIU/mL) during thyroid-storm-induced dilated cardiomyopathy, who improved dramatically and was extubated at 48 hours (PMC6726417). Accuracy bound only. Draft — not clinician-approved."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "anion-gap",
+  "loinc": "10466-1",
+  "displayName": "Anion Gap",
+  "aliases": ["Anion Gap", "AG", "Serum Anion Gap"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/anion-gap-blood-test/",
+  "unit": "mmol/L",
+  "panel": "Metabolic panel"
+}

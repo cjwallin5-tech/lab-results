@@ -1,0 +1,11 @@
+{
+  "id": "total-t3",
+  "loinc": "3053-6",
+  "displayName": "Total T3",
+  "aliases": ["Total T3", "Total Triiodothyronine (T3)", "T3, Total", "Triiodothyronine", "TT3"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/triiodothyronine-t3-tests/",
+  "unit": "ng/dL",
+  "panel": "Thyroid",
+  "plausibleHigh": 400,
+  "thresholdSource": "Endocrine marker; thyroid storm is diagnosed clinically, not by a specific total T3 cutoff — no citable acute critical value. plausibleHigh 400: above a documented survivor with total T3 358 ng/dL (ref 97-169 ng/dL) during thyroid-storm-related multiorgan failure treated with plasmapheresis, discharged home three weeks later (PMC6811794). Accuracy bound only. Draft — not clinician-approved."
+}

@@ -1,0 +1,16 @@
+{
+  "id": "monocytes-absolute",
+  "loinc": "742-7",
+  "displayName": "Monocytes (absolute)",
+  "aliases": [
+    "Monocytes (absolute)",
+    "Absolute Monocyte Count",
+    "AMC",
+    "Monocytes Absolute",
+    "MONO#",
+    "Monocytes (Absolute)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-differential/",
+  "unit": "10*3/uL",
+  "panel": "Complete blood count"
+}

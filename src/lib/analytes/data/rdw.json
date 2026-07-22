@@ -1,0 +1,9 @@
+{
+  "id": "rdw",
+  "loinc": "788-0",
+  "displayName": "RDW",
+  "aliases": ["RDW", "RDW (red cell distribution width)", "RDW-CV", "Red cell distribution width"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/rdw-red-cell-distribution-width/",
+  "unit": "%",
+  "panel": "Complete blood count"
+}

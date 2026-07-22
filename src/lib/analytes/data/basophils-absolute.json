@@ -1,0 +1,16 @@
+{
+  "id": "basophils-absolute",
+  "loinc": "704-7",
+  "displayName": "Basophils (absolute)",
+  "aliases": [
+    "Basophils (absolute)",
+    "Absolute Basophil Count",
+    "ABC",
+    "Basophils Absolute",
+    "BASO#",
+    "Basophils (Absolute)"
+  ],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/blood-differential/",
+  "unit": "10*3/uL",
+  "panel": "Complete blood count"
+}

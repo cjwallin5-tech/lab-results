@@ -1,0 +1,9 @@
+{
+  "id": "mcv",
+  "loinc": "787-2",
+  "displayName": "MCV",
+  "aliases": ["MCV", "MCV (mean corpuscular volume)", "Mean corpuscular volume"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/mcv-mean-corpuscular-volume/",
+  "unit": "fL",
+  "panel": "Complete blood count"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "vitamin-b12",
+  "loinc": "2132-9",
+  "displayName": "Vitamin B12",
+  "aliases": ["Vitamin B12", "B12", "Cobalamin", "Vit B12"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/vitamin-b-test/",
+  "unit": "pg/mL",
+  "panel": "Vitamins",
+  "plausibleHigh": 6500,
+  "thresholdSource": "No lab panic value established for vitamin B12 (no cited acute critical-value source found). plausibleHigh 6500: above a documented serum cobalamin level of 6173 pg/mL caused by macro-B12 (cobalamin bound to anti-intrinsic-factor antibody complexes), where the patient's true underlying B12 status was normal ('Diagnostic challenge of high vitamin B12 levels: a case report and review of the literature,' Journal of Medical Case Reports, DOI 10.1186/s13256-026-05898-z). Accuracy bound only. No criticalLow/plausibleLow — no acute-low citable source found. Draft — not clinician-approved."
+}
