@@ -22,6 +22,9 @@ export default defineConfig({
     // .env.local. Drafting gates on the key alone, so without this a local E2E
     // run would make real, paid, non-deterministic model calls while CI (no key)
     // takes the offline path — different code for the same assertion.
-    env: { LLM_OFFLINE: '1' },
+    // DATA_OFFLINE does the same for the data layer: next dev auto-loads
+    // .env.local, so without it a local run with Supabase creds would drive the
+    // real dev database (and its persisted state) instead of the seeded mock.
+    env: { LLM_OFFLINE: '1', DATA_OFFLINE: '1' },
   },
 });
