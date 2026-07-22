@@ -1,12 +1,6 @@
 import { randomBytes } from 'node:crypto';
-import type {
-  Explanation,
-  OutreachEntry,
-  Report,
-  ReportStatus,
-  ResultRow,
-  ShareLink,
-} from '@/lib/types';
+import type { Explanation, PatientInfo, Report, ReportStatus, ResultRow } from '@/lib/types';
+import type { DataLayer } from './mapping';
 import {
   MOCK_EXPLANATIONS,
   MOCK_OUTREACH,
@@ -16,140 +10,218 @@ import {
 } from './mock';
 
 /**
- * The web page's read layer. Async on purpose: today it returns mock data, and
- * when the Supabase data-access functions exist these bodies swap to real
- * queries with no change to any screen.
+ * The web page's read/write layer. Two drivers implement the same DataLayer seam:
+ * the in-memory mock below, and the Supabase-backed ./supabase. index.ts picks one
+ * per call (see `layer()`); the screens never change.
+ *
+ * Offline by default: with DATA_OFFLINE=1, or without both Supabase env vars, the mock
+ * runs so the app (and CI/E2E) works with no credentials — mirroring how llm.ts and the
+ * extractor gate the live path. The Supabase driver imports 'server-only', so it is
+ * loaded dynamically: a static import would crash the plain-Node vitest suites that
+ * import this file.
  */
 
-export async function listReports(): Promise<Report[]> {
-  return [...MOCK_REPORTS].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-}
+// ---------------------------------------------------------------------------
+// Mock driver (offline default)
+// ---------------------------------------------------------------------------
 
-export async function getReport(id: string): Promise<Report | null> {
-  return MOCK_REPORTS.find((report) => report.id === id) ?? null;
-}
+/**
+ * Mock writes mutate the in-memory data so the provider workflow can be clicked
+ * through within a dev session (state resets on restart). The Supabase driver is the
+ * persistent counterpart; both satisfy DataLayer, so this object is also the reference
+ * that documents each function's intended behavior.
+ */
+const mockLayer: DataLayer = {
+  async listReports() {
+    return [...MOCK_REPORTS].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  },
 
-export async function getRows(reportId: string): Promise<ResultRow[]> {
-  return MOCK_ROWS[reportId] ?? [];
-}
+  async getReport(id) {
+    return MOCK_REPORTS.find((report) => report.id === id) ?? null;
+  },
 
-export async function getExplanation(reportId: string): Promise<Explanation | null> {
-  return MOCK_EXPLANATIONS[reportId] ?? null;
-}
+  async getRows(reportId) {
+    return MOCK_ROWS[reportId] ?? [];
+  },
 
-export async function getShareLinkByToken(token: string): Promise<ShareLink | null> {
-  return MOCK_SHARE_LINKS.find((link) => link.token === token) ?? null;
-}
+  async getExplanation(reportId) {
+    return MOCK_EXPLANATIONS[reportId] ?? null;
+  },
 
-export async function getShareLinkByReport(reportId: string): Promise<ShareLink | null> {
-  return MOCK_SHARE_LINKS.find((link) => link.reportId === reportId) ?? null;
+  async getShareLinkByToken(token) {
+    return MOCK_SHARE_LINKS.find((link) => link.token === token) ?? null;
+  },
+
+  async getShareLinkByReport(reportId) {
+    return MOCK_SHARE_LINKS.find((link) => link.reportId === reportId) ?? null;
+  },
+
+  async getOutreach(reportId) {
+    return MOCK_OUTREACH[reportId] ?? [];
+  },
+
+  async createReport(patient: PatientInfo, pdfRef: string) {
+    const now = new Date().toISOString();
+    const report: Report = {
+      id: `rpt-${randomBytes(4).toString('hex')}`,
+      patient,
+      pdfRef,
+      status: 'uploaded',
+      createdAt: now,
+      updatedAt: now,
+    };
+    MOCK_REPORTS.push(report);
+    return report;
+  },
+
+  async saveRows(reportId, rows: ResultRow[]) {
+    MOCK_ROWS[reportId] = rows;
+  },
+
+  async resetReport(reportId) {
+    const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
+    if (report === undefined) return;
+    report.status = 'uploaded';
+    report.updatedAt = new Date().toISOString();
+    delete MOCK_ROWS[reportId];
+    delete MOCK_EXPLANATIONS[reportId];
+    delete MOCK_OUTREACH[reportId];
+    for (let i = MOCK_SHARE_LINKS.length - 1; i >= 0; i -= 1) {
+      if (MOCK_SHARE_LINKS[i].reportId === reportId) MOCK_SHARE_LINKS.splice(i, 1);
+    }
+  },
+
+  async addOutreach(reportId, entry) {
+    (MOCK_OUTREACH[reportId] ??= []).push(entry);
+  },
+
+  async setReportStatus(reportId, status: ReportStatus) {
+    const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
+    if (report === undefined) return;
+    report.status = status;
+    report.updatedAt = new Date().toISOString();
+  },
+
+  async saveExplanation(
+    reportId,
+    content: Pick<Explanation, 'overallText' | 'perTest' | 'sources'>,
+  ) {
+    // Freeze guard (FR-10): approved explanations are frozen; a re-draft replaces a
+    // prior draft only. The sanctioned re-draft route is resetReport, which deletes the
+    // explanation (clearing approval) first. Enforced in the write layer so no caller
+    // can bypass it; the Supabase driver keeps the identical guard and message.
+    if (MOCK_EXPLANATIONS[reportId]?.status === 'approved') {
+      throw new Error(
+        'refusing to overwrite an approved explanation: approved records are frozen (FR-10)',
+      );
+    }
+    MOCK_EXPLANATIONS[reportId] = {
+      id: `exp-${reportId}`,
+      reportId,
+      status: 'draft',
+      approvedAt: undefined,
+      ...content,
+    };
+  },
+
+  async approveExplanation(reportId) {
+    const explanation = MOCK_EXPLANATIONS[reportId];
+    if (explanation === undefined) return;
+    explanation.status = 'approved';
+    explanation.approvedAt = new Date().toISOString();
+  },
+
+  async createShareLink(reportId) {
+    const existing = MOCK_SHARE_LINKS.find((link) => link.reportId === reportId);
+    if (existing !== undefined) return existing;
+    const link = {
+      id: `sl-${randomBytes(4).toString('hex')}`,
+      reportId,
+      token: randomBytes(18).toString('base64url'),
+      expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      openedAt: undefined,
+    };
+    MOCK_SHARE_LINKS.push(link);
+    return link;
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Driver selection
+// ---------------------------------------------------------------------------
+
+/**
+ * Whether the persistent Supabase driver is configured. DATA_OFFLINE=1 forces the mock
+ * even when the env vars are present (keeps unit tests and E2E hermetic), mirroring
+ * LLM_OFFLINE in llm.ts.
+ */
+function isLiveData(): boolean {
+  if (process.env.DATA_OFFLINE === '1') return false;
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SECRET_KEY);
 }
 
 /**
- * Mock writes: mutate the in-memory data so the provider workflow can be clicked
- * through within a dev session (state resets on restart). These become Supabase
- * writes later; the screens do not change. Classification and drafting are the
- * Logic and Content tracks' jobs, so here they are pre-baked in the mock rows.
+ * The active driver. The Supabase module is imported dynamically so its 'server-only'
+ * dependency never loads on the mock path. The `Promise<DataLayer>` return also makes
+ * a missing or mistyped Supabase export a build error.
  */
-
-export async function createReport(patient: Report['patient'], pdfRef: string): Promise<Report> {
-  const now = new Date().toISOString();
-  const report: Report = {
-    id: `rpt-${randomBytes(4).toString('hex')}`,
-    patient,
-    pdfRef,
-    status: 'uploaded',
-    createdAt: now,
-    updatedAt: now,
-  };
-  MOCK_REPORTS.push(report);
-  return report;
+async function layer(): Promise<DataLayer> {
+  if (isLiveData()) return import('./supabase');
+  return mockLayer;
 }
 
-export async function saveRows(reportId: string, rows: ResultRow[]): Promise<void> {
-  MOCK_ROWS[reportId] = rows;
-}
+// ---------------------------------------------------------------------------
+// Public seam — each delegates to the active driver
+// ---------------------------------------------------------------------------
 
-/** Reset a report to the start of the workflow, clearing its progress. */
-export async function resetReport(reportId: string): Promise<void> {
-  const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
-  if (report === undefined) return;
-  report.status = 'uploaded';
-  report.updatedAt = new Date().toISOString();
-  delete MOCK_ROWS[reportId];
-  delete MOCK_EXPLANATIONS[reportId];
-  delete MOCK_OUTREACH[reportId];
-  for (let i = MOCK_SHARE_LINKS.length - 1; i >= 0; i -= 1) {
-    if (MOCK_SHARE_LINKS[i].reportId === reportId) MOCK_SHARE_LINKS.splice(i, 1);
-  }
-}
+export const listReports: DataLayer['listReports'] = async () => (await layer()).listReports();
 
-/** Direct-contact records a provider logged for a held report's critical results. */
-export async function getOutreach(reportId: string): Promise<OutreachEntry[]> {
-  return MOCK_OUTREACH[reportId] ?? [];
-}
+export const getReport: DataLayer['getReport'] = async (id) => (await layer()).getReport(id);
 
-/** Append one contact record. Provider documentation only; never lifts the hold. */
-export async function addOutreach(reportId: string, entry: OutreachEntry): Promise<void> {
-  (MOCK_OUTREACH[reportId] ??= []).push(entry);
-}
+export const getRows: DataLayer['getRows'] = async (reportId) => (await layer()).getRows(reportId);
 
-export async function setReportStatus(reportId: string, status: ReportStatus): Promise<void> {
-  const report = MOCK_REPORTS.find((candidate) => candidate.id === reportId);
-  if (report === undefined) return;
-  report.status = status;
-  report.updatedAt = new Date().toISOString();
-}
+export const getExplanation: DataLayer['getExplanation'] = async (reportId) =>
+  (await layer()).getExplanation(reportId);
+
+export const getShareLinkByToken: DataLayer['getShareLinkByToken'] = async (token) =>
+  (await layer()).getShareLinkByToken(token);
+
+export const getShareLinkByReport: DataLayer['getShareLinkByReport'] = async (reportId) =>
+  (await layer()).getShareLinkByReport(reportId);
+
+export const getOutreach: DataLayer['getOutreach'] = async (reportId) =>
+  (await layer()).getOutreach(reportId);
+
+export const createReport: DataLayer['createReport'] = async (patient, pdfRef) =>
+  (await layer()).createReport(patient, pdfRef);
+
+export const saveRows: DataLayer['saveRows'] = async (reportId, rows) =>
+  (await layer()).saveRows(reportId, rows);
+
+export const resetReport: DataLayer['resetReport'] = async (reportId) =>
+  (await layer()).resetReport(reportId);
+
+export const addOutreach: DataLayer['addOutreach'] = async (reportId, entry) =>
+  (await layer()).addOutreach(reportId, entry);
+
+export const setReportStatus: DataLayer['setReportStatus'] = async (reportId, status) =>
+  (await layer()).setReportStatus(reportId, status);
+
+export const saveExplanation: DataLayer['saveExplanation'] = async (reportId, content) =>
+  (await layer()).saveExplanation(reportId, content);
+
+export const approveExplanation: DataLayer['approveExplanation'] = async (reportId) =>
+  (await layer()).approveExplanation(reportId);
+
+export const createShareLink: DataLayer['createShareLink'] = async (reportId) =>
+  (await layer()).createShareLink(reportId);
 
 /**
- * Store a freshly drafted explanation as a `draft` (FR-09/FR-10): unapproved
- * until a provider approves it. Overwrites a prior *draft* so a re-draft
- * replaces it — but never an approved record: approved explanations are frozen
- * (CLAUDE.md); the sanctioned route to re-draft is resetReport, which deletes
- * the explanation (clearing approval) first. Enforced here in the write layer so
- * no caller can bypass it; the Supabase swap must keep this guard.
+ * Whether any of a report's rows classifies as critical (FR-07). Derived from getRows
+ * so the critical-detection predicate lives in one place and rides on whichever driver
+ * is active — never duplicated as a separate query.
  */
-export async function saveExplanation(
-  reportId: string,
-  content: Pick<Explanation, 'overallText' | 'perTest' | 'sources'>,
-): Promise<void> {
-  if (MOCK_EXPLANATIONS[reportId]?.status === 'approved') {
-    throw new Error(
-      'refusing to overwrite an approved explanation: approved records are frozen (FR-10)',
-    );
-  }
-  MOCK_EXPLANATIONS[reportId] = {
-    id: `exp-${reportId}`,
-    reportId,
-    status: 'draft',
-    approvedAt: undefined,
-    ...content,
-  };
-}
-
-export async function approveExplanation(reportId: string): Promise<void> {
-  const explanation = MOCK_EXPLANATIONS[reportId];
-  if (explanation === undefined) return;
-  explanation.status = 'approved';
-  explanation.approvedAt = new Date().toISOString();
-}
-
-export async function createShareLink(reportId: string): Promise<ShareLink> {
-  const existing = MOCK_SHARE_LINKS.find((link) => link.reportId === reportId);
-  if (existing !== undefined) return existing;
-  const link: ShareLink = {
-    id: `sl-${randomBytes(4).toString('hex')}`,
-    reportId,
-    token: randomBytes(18).toString('base64url'),
-    expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-    openedAt: undefined,
-  };
-  MOCK_SHARE_LINKS.push(link);
-  return link;
-}
-
 export async function reportHasCritical(reportId: string): Promise<boolean> {
-  return (MOCK_ROWS[reportId] ?? []).some(
-    (row) => row.classification?.kind === 'range' && row.classification.critical,
-  );
+  const rows = await getRows(reportId);
+  return rows.some((row) => row.classification?.kind === 'range' && row.classification.critical);
 }
