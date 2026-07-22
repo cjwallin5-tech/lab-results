@@ -44,6 +44,21 @@ function toNumber(value: string): number | null {
 }
 
 export function buildResultsView(rows: ResultRow[], explanation: Explanation): ResultsView {
+  // Renderer fail-safe (CLAUDE.md rule 7, FR-07): a critical row must never
+  // become a patient view model, no matter how this function was reached — the
+  // route gate (patient-gate.ts) is the primary defense; this is the last line.
+  // Refusing the WHOLE view (not hiding one row) matches FR-07's whole-report
+  // hold; the row-level "honest error state" rule is for input problems, and a
+  // critical is a safety state, not an input problem. The message is deliberately
+  // content-neutral — no test name, no value — since it can surface in logs or a
+  // dev overlay; the patient sees the route's generic error boundary.
+  const hasCriticalRow = rows.some(
+    (row) => row.classification?.kind === 'range' && row.classification.critical,
+  );
+  if (hasCriticalRow) {
+    throw new Error('refusing to build a patient results view: report contains a critical result');
+  }
+
   const meaningByAnalyte = new Map(
     explanation.perTest.map((entry) => [entry.analyteId, entry.text]),
   );

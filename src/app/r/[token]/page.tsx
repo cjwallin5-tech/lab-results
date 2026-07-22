@@ -3,6 +3,7 @@ import { getExplanation, getReport, getRows, getShareLinkByToken } from '@/lib/d
 import { isDobConfirmed } from '@/lib/auth/dob-gate';
 import { isExpired } from '@/lib/share-link';
 import { buildResultsView } from '@/lib/ui/results-view';
+import { patientGate } from '@/lib/ui/patient-gate';
 import { CLINIC } from '@/lib/clinic';
 import { DobGate } from '@/components/patient/dob-gate';
 import { ResultsPage } from '@/components/patient/results-page';
@@ -32,17 +33,18 @@ export default async function PatientShare({ params }: { params: Promise<{ token
 
   const report = await getReport(link.reportId);
   const explanation = await getExplanation(link.reportId);
-  // The approval gate: results render only for an approved report and explanation.
-  if (
-    report === null ||
-    explanation === null ||
-    !(report.status === 'approved' || report.status === 'sent') ||
-    explanation.status !== 'approved'
-  ) {
+  const rows = await getRows(link.reportId);
+
+  // The render gate (pure, exhaustively tested in patient-gate.test.ts): only an
+  // approved explanation on an approved/sent report renders, and a report with a
+  // critical row never renders even if its statuses say approved (FR-07/FR-10).
+  // Blocked is a content-neutral notFound — it reveals nothing. The null checks
+  // narrow the types here; patientGate re-checks them as part of its contract.
+  if (report === null || explanation === null) notFound();
+  if (patientGate({ report, explanation, rows }) === 'blocked') {
     notFound();
   }
 
-  const rows = await getRows(link.reportId);
   const view = buildResultsView(rows, explanation);
   return <ResultsPage report={report} explanation={explanation} view={view} token={token} />;
 }
