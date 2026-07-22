@@ -79,13 +79,21 @@ export async function setReportStatus(reportId: string, status: ReportStatus): P
 
 /**
  * Store a freshly drafted explanation as a `draft` (FR-09/FR-10): unapproved
- * until a provider approves it. Overwrites any prior draft for the report so a
- * re-draft replaces it. Becomes a Supabase write later; the screens do not change.
+ * until a provider approves it. Overwrites a prior *draft* so a re-draft
+ * replaces it — but never an approved record: approved explanations are frozen
+ * (CLAUDE.md); the sanctioned route to re-draft is resetReport, which deletes
+ * the explanation (clearing approval) first. Enforced here in the write layer so
+ * no caller can bypass it; the Supabase swap must keep this guard.
  */
 export async function saveExplanation(
   reportId: string,
   content: Pick<Explanation, 'overallText' | 'perTest' | 'sources'>,
 ): Promise<void> {
+  if (MOCK_EXPLANATIONS[reportId]?.status === 'approved') {
+    throw new Error(
+      'refusing to overwrite an approved explanation: approved records are frozen (FR-10)',
+    );
+  }
   MOCK_EXPLANATIONS[reportId] = {
     id: `exp-${reportId}`,
     reportId,

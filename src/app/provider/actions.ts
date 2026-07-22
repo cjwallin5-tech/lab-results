@@ -7,6 +7,7 @@ import {
   createReport,
   createShareLink,
   getReport,
+  getRows,
   reportHasCritical,
   resetReport,
   saveExplanation,
@@ -151,24 +152,47 @@ export async function confirmVerificationAction(formData: FormData): Promise<voi
 
   await saveRows(reportId, rows);
   await setReportStatus(reportId, 'verified');
-  // Team model: a critical result holds the report; nothing is drafted or sent.
+  await draftFromVerifiedRows(reportId, rows);
+  revalidatePath(reportPath(reportId));
+}
+
+/**
+ * The one post-verification drafting step, shared by confirmVerificationAction
+ * and retryDraftAction so the two paths cannot drift. Team model: a critical
+ * result holds the report — nothing is drafted or sent (FR-07). Otherwise draft
+ * the patient explanation from the verified rows (FR-09); a drafting failure —
+ * an LLM error or a failed structural check — must not throw out of a gate that
+ * already succeeded, so the report stays 'verified' (the pre-draft state, shown
+ * as retryable on the report page) and only advances to 'drafted' on a clean
+ * draft. No logging in the failure path — never route lab values to logs
+ * (safety rule 5).
+ */
+async function draftFromVerifiedRows(reportId: string, rows: ResultRow[]): Promise<void> {
   if (await reportHasCritical(reportId)) {
     await setReportStatus(reportId, 'held');
-  } else {
-    // Draft the patient explanation from the verified rows (FR-09). A drafting
-    // failure — an LLM error or a failed structural check — must not throw out of
-    // this verification gate, which has already succeeded (rows saved + classified).
-    // Leave the report at 'verified' (the pre-draft state) so drafting is
-    // retryable; only advance to 'drafted' on a clean draft.
-    try {
-      const draft = await draftExplanation({ rows });
-      await saveExplanation(reportId, draft);
-      await setReportStatus(reportId, 'drafted');
-    } catch {
-      // Draft failed; report stays 'verified' and drafting can be retried. No
-      // logging here — never route lab values to logs (safety rule 5).
-    }
+    return;
   }
+  try {
+    const draft = await draftExplanation({ rows });
+    await saveExplanation(reportId, draft);
+    await setReportStatus(reportId, 'drafted');
+  } catch {
+    // Draft failed; report stays 'verified' and drafting can be retried.
+  }
+}
+
+/**
+ * Retry drafting for a report stuck at 'verified' (a prior draft attempt
+ * failed). Status-guarded: from 'verified' only, so it can never re-draft an
+ * already-drafted or approved report. Rows are already provider-verified and
+ * classified (FR-05/FR-06); this re-runs only the drafting step.
+ */
+export async function retryDraftAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get('reportId') ?? '');
+  const report = await getReport(reportId);
+  if (report === null || report.status !== 'verified') return;
+  const rows = await getRows(reportId);
+  await draftFromVerifiedRows(reportId, rows);
   revalidatePath(reportPath(reportId));
 }
 

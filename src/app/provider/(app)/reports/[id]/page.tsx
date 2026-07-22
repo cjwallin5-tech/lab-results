@@ -11,6 +11,7 @@ import {
   approveDraftAction,
   extractReportAction,
   resetReportAction,
+  retryDraftAction,
   sendLinkAction,
 } from '@/app/provider/actions';
 import { CLINIC } from '@/lib/clinic';
@@ -115,6 +116,20 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                 lowConfidenceFields: row.lowConfidenceFields,
               }))}
             />
+          </section>
+        )}
+
+        {report.status === 'verified' && (
+          <section>
+            <h2 className="font-display text-xl text-ink">Drafting didn&apos;t complete</h2>
+            <p className="mt-1 max-w-prose text-sm text-muted">
+              The results are verified and classified, but the plain-language draft could not be
+              generated. Nothing is lost — try drafting again.
+            </p>
+            <form action={retryDraftAction} className="mt-4">
+              <input type="hidden" name="reportId" value={report.id} />
+              <SubmitButton pendingLabel="Drafting...">Draft the explanation</SubmitButton>
+            </form>
           </section>
         )}
 
