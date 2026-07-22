@@ -25,6 +25,8 @@ export default defineConfig({
     // DATA_OFFLINE does the same for the data layer: next dev auto-loads
     // .env.local, so without it a local run with Supabase creds would drive the
     // real dev database (and its persisted state) instead of the seeded mock.
-    env: { LLM_OFFLINE: '1', DATA_OFFLINE: '1' },
+    // E2E_TEST_HOOKS exposes the read-only email-count route the suite uses to
+    // prove a send reached the seam; it 404s everywhere else.
+    env: { LLM_OFFLINE: '1', DATA_OFFLINE: '1', E2E_TEST_HOOKS: '1' },
   },
 });

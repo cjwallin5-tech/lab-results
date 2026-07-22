@@ -19,7 +19,7 @@ describe('offline extraction', () => {
 
   it('transcribes the manual-entry fixture into rows', () => {
     const { rows } = offlineExtract('manual-entry');
-    expect(rows.length).toBe(4);
+    expect(rows.length).toBe(5);
     expect(rows[0].rawName).toBe('Total Cholesterol');
     // Values and ranges stay verbatim strings — parsing happens later.
     expect(rows[0].value).toBe('198');
