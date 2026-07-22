@@ -26,6 +26,7 @@ import {
   CriticalOutreachPanel,
   type CriticalItem,
 } from '@/components/provider/critical-outreach-panel';
+import { CopyLinkButton } from '@/components/provider/copy-link-button';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -233,14 +234,17 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
             <h2 className="font-display text-xl text-ink">Sent to the patient</h2>
             <p className="mt-1 text-sm text-muted">
               The patient link opens after they confirm their date of birth ({CLINIC.providerName}
-              &apos;s patients enter their DOB).
+              &apos;s patients enter their DOB). Copy it to share directly.
             </p>
-            <Link
-              href={`/r/${shareLink.token}`}
-              className="mt-4 inline-block break-all font-mono text-sm text-forest underline underline-offset-2"
-            >
-              /r/{shareLink.token}
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Link
+                href={`/r/${shareLink.token}`}
+                className="break-all font-mono text-sm text-forest underline underline-offset-2"
+              >
+                /r/{shareLink.token}
+              </Link>
+              <CopyLinkButton path={`/r/${shareLink.token}`} />
+            </div>
           </section>
         )}
       </div>
