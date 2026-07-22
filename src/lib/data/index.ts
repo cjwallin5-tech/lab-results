@@ -77,6 +77,24 @@ export async function setReportStatus(reportId: string, status: ReportStatus): P
   report.updatedAt = new Date().toISOString();
 }
 
+/**
+ * Store a freshly drafted explanation as a `draft` (FR-09/FR-10): unapproved
+ * until a provider approves it. Overwrites any prior draft for the report so a
+ * re-draft replaces it. Becomes a Supabase write later; the screens do not change.
+ */
+export async function saveExplanation(
+  reportId: string,
+  content: Pick<Explanation, 'overallText' | 'perTest' | 'sources'>,
+): Promise<void> {
+  MOCK_EXPLANATIONS[reportId] = {
+    id: `exp-${reportId}`,
+    reportId,
+    status: 'draft',
+    approvedAt: undefined,
+    ...content,
+  };
+}
+
 export async function approveExplanation(reportId: string): Promise<void> {
   const explanation = MOCK_EXPLANATIONS[reportId];
   if (explanation === undefined) return;

@@ -17,5 +17,11 @@ export default defineConfig({
     url: `http://localhost:${PORT}/provider/sign-in`,
     reuseExistingServer: false,
     timeout: 60_000,
+    // Keep the suite hermetic ("no external services"): force the offline
+    // drafting/extraction path even when ANTHROPIC_API_KEY is present in
+    // .env.local. Drafting gates on the key alone, so without this a local E2E
+    // run would make real, paid, non-deterministic model calls while CI (no key)
+    // takes the offline path — different code for the same assertion.
+    env: { LLM_OFFLINE: '1' },
   },
 });

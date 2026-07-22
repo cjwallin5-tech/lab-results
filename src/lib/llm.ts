@@ -25,6 +25,11 @@ const DEFAULT_MODEL = 'claude-opus-4-8';
  * offline/synthetic path so the app runs fully on localhost with no credentials.
  */
 export function isLiveLLM(): boolean {
+  // LLM_OFFLINE forces the offline/synthetic path even when a key is present, so
+  // deterministic contexts (the E2E suite, CI) never reach the paid model. It only
+  // selects the offline path — it cannot skip a safety gate (the held-critical
+  // check and deterministic classification run regardless).
+  if (process.env.LLM_OFFLINE === '1') return false;
   return Boolean(process.env.ANTHROPIC_API_KEY);
 }
 
