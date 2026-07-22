@@ -86,3 +86,33 @@ test('the patient gate rejects wrong info and accepts the right last name and DO
   await page.getByRole('button', { name: 'View my results' }).click();
   await expect(page.getByRole('heading', { name: /here are your results/ })).toBeVisible();
 });
+
+async function openPatient(
+  page: Page,
+  token: string,
+  last: string,
+  m: string,
+  d: string,
+  y: string,
+) {
+  await page.goto(`/r/${token}`);
+  await page.getByLabel('Last name').fill(last);
+  await page.getByLabel('Month').fill(m);
+  await page.getByLabel('Day').fill(d);
+  await page.getByLabel('Year').fill(y);
+  await page.getByRole('button', { name: 'View my results' }).click();
+  await expect(page.getByRole('heading', { name: /here are your results/ })).toBeVisible();
+}
+
+test('an all-in-range report shows the every-result-typical affirmation', async ({ page }) => {
+  await openPatient(page, 'demo-nguyen-token', 'Nguyen', '9', '14', '1979');
+  await expect(page.getByText(/Every result in the typical range/)).toBeVisible();
+});
+
+test('an implausible value is flagged to double-check, never explained as real', async ({
+  page,
+}) => {
+  await openPatient(page, 'demo-park-token', 'Park', '2', '28', '1995');
+  await expect(page.getByText('Please double-check').first()).toBeVisible();
+  await expect(page.getByText(/looks unusual and will be double-checked/)).toBeVisible();
+});
