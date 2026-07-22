@@ -3,9 +3,11 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import {
+  addOutreach,
   approveExplanation,
   createReport,
   createShareLink,
+  getExplanation,
   getReport,
   getRows,
   reportHasCritical,
@@ -14,11 +16,12 @@ import {
   saveRows,
   setReportStatus,
 } from '@/lib/data';
-import { dobSchema, type ResultRow } from '@/lib/types';
+import { dobSchema, type Explanation, type OutreachMethod, type ResultRow } from '@/lib/types';
 import { draftExplanation } from '@/lib/draft';
 import { extractRows } from '@/lib/extract';
 import { matchAnalyte } from '@/lib/analytes';
 import { classifyRow } from '@/lib/classify';
+import { criticalAnalyteIds, OUTREACH_NOTE_MAX } from '@/lib/ui/outreach';
 import type { EditableRow } from '@/components/provider/verify-table';
 import {
   createProviderSession,
@@ -202,8 +205,80 @@ export async function resetReportAction(formData: FormData): Promise<void> {
   revalidatePath(reportPath(reportId));
 }
 
+/**
+ * Record that the provider contacted the patient about a critical result (FR-07).
+ * Documentation only: it never lifts the hold, drafts, or sends. Guards re-derive
+ * the report's real state and criticals from stored rows, never trusting the form:
+ * a report that is not held, or an analyte that is not genuinely critical for it,
+ * is refused. The note is stored but never logged (safety rule 5).
+ */
+export async function logOutreachAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get('reportId') ?? '');
+  const report = await getReport(reportId);
+  if (report === null || report.status !== 'held') return;
+
+  const analyteId = String(formData.get('analyteId') ?? '');
+  const rows = await getRows(reportId);
+  if (!criticalAnalyteIds(rows).includes(analyteId)) return;
+
+  const method = String(formData.get('method') ?? '');
+  if (method !== 'phone' && method !== 'other') return;
+
+  const note = String(formData.get('note') ?? '').trim();
+  if (note === '' || note.length > OUTREACH_NOTE_MAX) return;
+
+  await addOutreach(reportId, {
+    reportId,
+    analyteId,
+    method: method as OutreachMethod,
+    note,
+    at: new Date().toISOString(),
+  });
+  revalidatePath(reportPath(reportId));
+}
+
+/**
+ * Read the provider's edited wording out of the review form, falling back to the
+ * drafted text for any field left untouched. Sources are carried through
+ * unchanged: they are built deterministically from the grounding, never edited
+ * here (safety rule 1).
+ */
+function parseDraftEdits(
+  formData: FormData,
+  explanation: Explanation,
+): Pick<Explanation, 'overallText' | 'perTest' | 'sources'> {
+  return {
+    overallText: String(formData.get('overallText') ?? explanation.overallText),
+    perTest: explanation.perTest.map((entry) => ({
+      analyteId: entry.analyteId,
+      text: String(formData.get(`text-${entry.analyteId}`) ?? entry.text),
+    })),
+    sources: explanation.sources,
+  };
+}
+
+/**
+ * Save the provider's wording edits while the report is still a draft. The
+ * report stays 'drafted' (unapproved); the approval gate is a separate action.
+ * Approved explanations are frozen (FR-10), so an approved record is never
+ * touched here; the write layer also refuses it as defense in depth.
+ */
+export async function saveDraftAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get('reportId') ?? '');
+  const explanation = await getExplanation(reportId);
+  if (explanation !== null && explanation.status !== 'approved') {
+    await saveExplanation(reportId, parseDraftEdits(formData, explanation));
+  }
+  revalidatePath(reportPath(reportId));
+}
+
 export async function approveDraftAction(formData: FormData): Promise<void> {
   const reportId = String(formData.get('reportId') ?? '');
+  // Persist any final wording edits, then freeze as approved (gate 2, FR-10).
+  const explanation = await getExplanation(reportId);
+  if (explanation !== null && explanation.status !== 'approved') {
+    await saveExplanation(reportId, parseDraftEdits(formData, explanation));
+  }
   await approveExplanation(reportId);
   await setReportStatus(reportId, 'approved');
   revalidatePath(reportPath(reportId));

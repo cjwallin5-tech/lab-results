@@ -65,3 +65,22 @@ describe('buildResultsView — critical fail-safe', () => {
     expect(view.items[0].meaning).toBe('Explained.');
   });
 });
+
+describe('buildResultsView: tone counts', () => {
+  it('counts a not-covered test apart from a value to double-check', () => {
+    const view = buildResultsView(
+      [
+        row({ id: 'a', classification: { kind: 'range', band: 'in', critical: false } }),
+        row({ id: 'b', analyteId: undefined, classification: { kind: 'not-covered' } }),
+        row({ id: 'c', classification: { kind: 'implausible' } }),
+        row({ id: 'd', classification: { kind: 'unclassifiable', reason: 'non-numeric' } }),
+      ],
+      explanation,
+    );
+    // A not-covered test has no explanation yet (FR-04); it must not be lumped
+    // in with values the classifier flagged to double-check (FR-08).
+    expect(view.toneCounts.notCovered).toBe(1);
+    expect(view.toneCounts.flagged).toBe(2);
+    expect(view.toneCounts.inRange).toBe(1);
+  });
+});

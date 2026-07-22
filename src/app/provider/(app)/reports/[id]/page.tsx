@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getExplanation, getReport, getRows, getShareLinkByReport } from '@/lib/data';
+import { getExplanation, getOutreach, getReport, getRows, getShareLinkByReport } from '@/lib/data';
 import { analyteDisplayName } from '@/lib/data/dictionary';
 import {
   PROVIDER_STEPS,
@@ -8,18 +8,25 @@ import {
   stepIndexForStatus,
 } from '@/lib/ui/report-status-display';
 import {
-  approveDraftAction,
   extractReportAction,
   resetReportAction,
   retryDraftAction,
   sendLinkAction,
 } from '@/app/provider/actions';
+import { classificationDisplay } from '@/lib/ui/classification-display';
+import { criticalAnalyteIds, outstandingOutreach } from '@/lib/ui/outreach';
 import { CLINIC } from '@/lib/clinic';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
 import { SubmitButton } from '@/components/ui/submit-button';
 import { ConfirmButton } from '@/components/ui/confirm-button';
 import { VerifyTable } from '@/components/provider/verify-table';
+import { DraftEditor, type DraftEntry } from '@/components/provider/draft-editor';
+import {
+  CriticalOutreachPanel,
+  type CriticalItem,
+} from '@/components/provider/critical-outreach-panel';
+import { CopyLinkButton } from '@/components/provider/copy-link-button';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -29,10 +36,38 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
   const rows = await getRows(id);
   const explanation = await getExplanation(id);
   const shareLink = report.status === 'sent' ? await getShareLinkByReport(id) : null;
+  const outreach = report.status === 'held' ? await getOutreach(id) : [];
   const status = reportStatusDisplay(report.status);
   const criticalRows = rows.filter(
     (row) => row.classification?.kind === 'range' && row.classification.critical,
   );
+  const criticalItems: CriticalItem[] = criticalRows.map((row) => ({
+    analyteId: row.analyteId,
+    displayName: analyteDisplayName(row.analyteId, row.rawName),
+    value: row.value,
+    unit: row.unit,
+    contacts: outreach.filter((entry) => entry.analyteId === row.analyteId),
+  }));
+  const outstandingCritical = outstandingOutreach(criticalAnalyteIds(rows), outreach);
+
+  const rowByAnalyte = new Map(
+    rows.filter((row) => row.analyteId).map((row) => [row.analyteId as string, row]),
+  );
+  const draftEntries: DraftEntry[] = (explanation?.perTest ?? []).map((entry) => {
+    const row = rowByAnalyte.get(entry.analyteId);
+    const display = classificationDisplay(
+      row?.classification ?? { kind: 'unclassifiable', reason: 'no-range' },
+    );
+    return {
+      analyteId: entry.analyteId,
+      displayName: analyteDisplayName(entry.analyteId, entry.analyteId),
+      text: entry.text,
+      value: row?.value ?? '',
+      unit: row?.unit,
+      tone: display.tone,
+      statusLabel: display.label,
+    };
+  });
 
   return (
     <div>
@@ -134,39 +169,35 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         )}
 
         {report.status === 'held' && (
-          <section className="rounded-[var(--radius-card)] border border-critical/40 bg-critical-soft/40 p-6">
-            <h2 className="font-display text-xl text-critical">
-              Held: contact the patient directly
-            </h2>
-            <p className="mt-1 max-w-prose text-sm text-ink/80">
-              This report has a critical result. Nothing is drafted or sent to the patient. Reach
-              the patient directly about the result below, then follow your clinic&apos;s process.
-            </p>
-            <ul className="mt-4 flex flex-col gap-2">
-              {criticalRows.map((row) => (
-                <li
-                  key={row.id}
-                  className="flex items-center justify-between rounded-lg border border-line bg-paper px-4 py-3"
-                >
-                  <span className="font-medium text-ink">
-                    {analyteDisplayName(row.analyteId, row.rawName)}{' '}
-                    <span className="font-normal text-muted">
-                      {row.value} {row.unit}
-                    </span>
-                  </span>
-                  <StatusPill tone="critical" label="Needs prompt attention" />
-                </li>
-              ))}
-            </ul>
-          </section>
+          <CriticalOutreachPanel
+            reportId={report.id}
+            items={criticalItems}
+            outstandingCount={outstandingCritical.length}
+          />
         )}
 
-        {(report.status === 'drafted' || report.status === 'approved') && explanation !== null && (
+        {report.status === 'drafted' && explanation !== null && (
           <section>
             <h2 className="font-display text-xl text-ink">Review the explanation</h2>
             <p className="mt-1 max-w-prose text-sm text-muted">
-              Drafted from the classifications and MedlinePlus. Approve to make it what the patient
-              reads.
+              Drafted from the classifications and MedlinePlus. Edit any wording, then approve to
+              make it what the patient reads.
+            </p>
+            <div className="mt-6">
+              <DraftEditor
+                reportId={report.id}
+                overallText={explanation.overallText}
+                entries={draftEntries}
+              />
+            </div>
+          </section>
+        )}
+
+        {report.status === 'approved' && explanation !== null && (
+          <section>
+            <h2 className="font-display text-xl text-ink">Approved explanation</h2>
+            <p className="mt-1 max-w-prose text-sm text-muted">
+              This is the frozen text the patient reads. To change it, start the report over.
             </p>
             <div className="mt-6 rounded-[var(--radius-card)] border border-line bg-paper p-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
@@ -185,25 +216,16 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
 
-            {report.status === 'drafted' && (
-              <form action={approveDraftAction} className="mt-6">
+            <div className="mt-6 rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-5">
+              <h3 className="font-medium text-ink">Ready to send</h3>
+              <p className="mt-1 text-sm text-muted">
+                Send the patient their private, date-of-birth protected link.
+              </p>
+              <form action={sendLinkAction} className="mt-4">
                 <input type="hidden" name="reportId" value={report.id} />
-                <SubmitButton pendingLabel="Approving...">Approve for the patient</SubmitButton>
+                <SubmitButton pendingLabel="Sending...">Send to patient</SubmitButton>
               </form>
-            )}
-
-            {report.status === 'approved' && (
-              <div className="mt-6 rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-5">
-                <h3 className="font-medium text-ink">Approved</h3>
-                <p className="mt-1 text-sm text-muted">
-                  Send the patient their private, date-of-birth protected link.
-                </p>
-                <form action={sendLinkAction} className="mt-4">
-                  <input type="hidden" name="reportId" value={report.id} />
-                  <SubmitButton pendingLabel="Sending...">Send to patient</SubmitButton>
-                </form>
-              </div>
-            )}
+            </div>
           </section>
         )}
 
@@ -212,14 +234,17 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
             <h2 className="font-display text-xl text-ink">Sent to the patient</h2>
             <p className="mt-1 text-sm text-muted">
               The patient link opens after they confirm their date of birth ({CLINIC.providerName}
-              &apos;s patients enter their DOB).
+              &apos;s patients enter their DOB). Copy it to share directly.
             </p>
-            <Link
-              href={`/r/${shareLink.token}`}
-              className="mt-4 inline-block break-all font-mono text-sm text-forest underline underline-offset-2"
-            >
-              /r/{shareLink.token}
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Link
+                href={`/r/${shareLink.token}`}
+                className="break-all font-mono text-sm text-forest underline underline-offset-2"
+              >
+                /r/{shareLink.token}
+              </Link>
+              <CopyLinkButton path={`/r/${shareLink.token}`} />
+            </div>
           </section>
         )}
       </div>

@@ -1,13 +1,6 @@
 import type { ToneCounts } from '@/lib/ui/results-view';
 import { StatusPill } from '@/components/ui/status-pill';
 
-/** One segment of the at-a-glance bar: a share of the total, in a tone color. */
-const SEGMENTS: { key: keyof ToneCounts; className: string }[] = [
-  { key: 'inRange', className: 'bg-forest' },
-  { key: 'outside', className: 'bg-amber' },
-  { key: 'other', className: 'bg-line' },
-];
-
 /** The summary box at the top of the results page: a count plus the overall text. */
 export function OverallPictureBox({
   inRangeCount,
@@ -20,8 +13,15 @@ export function OverallPictureBox({
   overallText: string;
   toneCounts: ToneCounts;
 }) {
-  const allInRange =
-    toneCounts.outside === 0 && toneCounts.other === 0 && toneCounts.critical === 0;
+  // Everything that isn't a plain in-range result: a little outside, flagged to
+  // double-check, or not covered yet. Grouped as one neutral share on the bar.
+  const neutralCount = toneCounts.flagged + toneCounts.notCovered;
+  const segments = [
+    { key: 'inRange', value: toneCounts.inRange, className: 'bg-forest' },
+    { key: 'outside', value: toneCounts.outside, className: 'bg-amber' },
+    { key: 'neutral', value: neutralCount, className: 'bg-line' },
+  ];
+  const allInRange = toneCounts.outside === 0 && neutralCount === 0 && toneCounts.critical === 0;
 
   return (
     <section className="rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/50 p-6">
@@ -40,12 +40,12 @@ export function OverallPictureBox({
 
           {totalCount > 0 && (
             <div className="mt-4 flex h-2 overflow-hidden rounded-full bg-line" aria-hidden>
-              {SEGMENTS.map(({ key, className }) =>
-                toneCounts[key] > 0 ? (
+              {segments.map(({ key, value, className }) =>
+                value > 0 ? (
                   <div
                     key={key}
                     className={className}
-                    style={{ width: `${(toneCounts[key] / totalCount) * 100}%` }}
+                    style={{ width: `${(value / totalCount) * 100}%` }}
                   />
                 ) : null,
               )}

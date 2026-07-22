@@ -6,7 +6,8 @@ export function AtAGlance({ counts }: { counts: ToneCounts }) {
   const chips = [
     { n: counts.inRange, label: 'in typical range', tone: 'in' as const },
     { n: counts.outside, label: 'a little outside', tone: 'high' as const },
-    { n: counts.other, label: 'to double-check', tone: 'neutral' as const },
+    { n: counts.flagged, label: 'to double-check', tone: 'neutral' as const },
+    { n: counts.notCovered, label: 'not explained here', tone: 'neutral' as const },
   ].filter((chip) => chip.n > 0);
 
   return (
