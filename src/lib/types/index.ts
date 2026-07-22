@@ -163,3 +163,18 @@ export type ShareLink = {
   expiresAt: string;
   openedAt?: string;
 };
+
+export type OutreachMethod = 'phone' | 'other';
+
+/**
+ * A provider's record of directly contacting the patient about a critical result
+ * (FR-07). Documentation only: it never notifies the patient and never lifts the
+ * hold. The note is provider-entered and never written to logs (safety rule 5).
+ */
+export type OutreachEntry = {
+  reportId: string;
+  analyteId: string;
+  method: OutreachMethod;
+  note: string;
+  at: string; // ISO timestamp
+};

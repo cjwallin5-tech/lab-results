@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getExplanation, getReport, getRows, getShareLinkByReport } from '@/lib/data';
+import { getExplanation, getOutreach, getReport, getRows, getShareLinkByReport } from '@/lib/data';
 import { analyteDisplayName } from '@/lib/data/dictionary';
 import {
   PROVIDER_STEPS,
@@ -14,6 +14,7 @@ import {
   sendLinkAction,
 } from '@/app/provider/actions';
 import { classificationDisplay } from '@/lib/ui/classification-display';
+import { criticalAnalyteIds, outstandingOutreach } from '@/lib/ui/outreach';
 import { CLINIC } from '@/lib/clinic';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
@@ -21,6 +22,10 @@ import { SubmitButton } from '@/components/ui/submit-button';
 import { ConfirmButton } from '@/components/ui/confirm-button';
 import { VerifyTable } from '@/components/provider/verify-table';
 import { DraftEditor, type DraftEntry } from '@/components/provider/draft-editor';
+import {
+  CriticalOutreachPanel,
+  type CriticalItem,
+} from '@/components/provider/critical-outreach-panel';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -30,10 +35,19 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
   const rows = await getRows(id);
   const explanation = await getExplanation(id);
   const shareLink = report.status === 'sent' ? await getShareLinkByReport(id) : null;
+  const outreach = report.status === 'held' ? await getOutreach(id) : [];
   const status = reportStatusDisplay(report.status);
   const criticalRows = rows.filter(
     (row) => row.classification?.kind === 'range' && row.classification.critical,
   );
+  const criticalItems: CriticalItem[] = criticalRows.map((row) => ({
+    analyteId: row.analyteId,
+    displayName: analyteDisplayName(row.analyteId, row.rawName),
+    value: row.value,
+    unit: row.unit,
+    contacts: outreach.filter((entry) => entry.analyteId === row.analyteId),
+  }));
+  const outstandingCritical = outstandingOutreach(criticalAnalyteIds(rows), outreach);
 
   const rowByAnalyte = new Map(
     rows.filter((row) => row.analyteId).map((row) => [row.analyteId as string, row]),
@@ -154,31 +168,11 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         )}
 
         {report.status === 'held' && (
-          <section className="rounded-[var(--radius-card)] border border-critical/40 bg-critical-soft/40 p-6">
-            <h2 className="font-display text-xl text-critical">
-              Held: contact the patient directly
-            </h2>
-            <p className="mt-1 max-w-prose text-sm text-ink/80">
-              This report has a critical result. Nothing is drafted or sent to the patient. Reach
-              the patient directly about the result below, then follow your clinic&apos;s process.
-            </p>
-            <ul className="mt-4 flex flex-col gap-2">
-              {criticalRows.map((row) => (
-                <li
-                  key={row.id}
-                  className="flex items-center justify-between rounded-lg border border-line bg-paper px-4 py-3"
-                >
-                  <span className="font-medium text-ink">
-                    {analyteDisplayName(row.analyteId, row.rawName)}{' '}
-                    <span className="font-normal text-muted">
-                      {row.value} {row.unit}
-                    </span>
-                  </span>
-                  <StatusPill tone="critical" label="Needs prompt attention" />
-                </li>
-              ))}
-            </ul>
-          </section>
+          <CriticalOutreachPanel
+            reportId={report.id}
+            items={criticalItems}
+            outstandingCount={outstandingCritical.length}
+          />
         )}
 
         {report.status === 'drafted' && explanation !== null && (

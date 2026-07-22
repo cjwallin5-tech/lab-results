@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import {
+  addOutreach,
   approveExplanation,
   createReport,
   createShareLink,
@@ -15,11 +16,12 @@ import {
   saveRows,
   setReportStatus,
 } from '@/lib/data';
-import { dobSchema, type Explanation, type ResultRow } from '@/lib/types';
+import { dobSchema, type Explanation, type OutreachMethod, type ResultRow } from '@/lib/types';
 import { draftExplanation } from '@/lib/draft';
 import { extractRows } from '@/lib/extract';
 import { matchAnalyte } from '@/lib/analytes';
 import { classifyRow } from '@/lib/classify';
+import { criticalAnalyteIds, OUTREACH_NOTE_MAX } from '@/lib/ui/outreach';
 import type { EditableRow } from '@/components/provider/verify-table';
 import {
   createProviderSession,
@@ -200,6 +202,38 @@ export async function retryDraftAction(formData: FormData): Promise<void> {
 export async function resetReportAction(formData: FormData): Promise<void> {
   const reportId = String(formData.get('reportId') ?? '');
   await resetReport(reportId);
+  revalidatePath(reportPath(reportId));
+}
+
+/**
+ * Record that the provider contacted the patient about a critical result (FR-07).
+ * Documentation only: it never lifts the hold, drafts, or sends. Guards re-derive
+ * the report's real state and criticals from stored rows, never trusting the form:
+ * a report that is not held, or an analyte that is not genuinely critical for it,
+ * is refused. The note is stored but never logged (safety rule 5).
+ */
+export async function logOutreachAction(formData: FormData): Promise<void> {
+  const reportId = String(formData.get('reportId') ?? '');
+  const report = await getReport(reportId);
+  if (report === null || report.status !== 'held') return;
+
+  const analyteId = String(formData.get('analyteId') ?? '');
+  const rows = await getRows(reportId);
+  if (!criticalAnalyteIds(rows).includes(analyteId)) return;
+
+  const method = String(formData.get('method') ?? '');
+  if (method !== 'phone' && method !== 'other') return;
+
+  const note = String(formData.get('note') ?? '').trim();
+  if (note === '' || note.length > OUTREACH_NOTE_MAX) return;
+
+  await addOutreach(reportId, {
+    reportId,
+    analyteId,
+    method: method as OutreachMethod,
+    note,
+    at: new Date().toISOString(),
+  });
   revalidatePath(reportPath(reportId));
 }
 

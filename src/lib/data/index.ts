@@ -1,6 +1,19 @@
 import { randomBytes } from 'node:crypto';
-import type { Explanation, Report, ReportStatus, ResultRow, ShareLink } from '@/lib/types';
-import { MOCK_EXPLANATIONS, MOCK_REPORTS, MOCK_ROWS, MOCK_SHARE_LINKS } from './mock';
+import type {
+  Explanation,
+  OutreachEntry,
+  Report,
+  ReportStatus,
+  ResultRow,
+  ShareLink,
+} from '@/lib/types';
+import {
+  MOCK_EXPLANATIONS,
+  MOCK_OUTREACH,
+  MOCK_REPORTS,
+  MOCK_ROWS,
+  MOCK_SHARE_LINKS,
+} from './mock';
 
 /**
  * The web page's read layer. Async on purpose: today it returns mock data, and
@@ -65,9 +78,20 @@ export async function resetReport(reportId: string): Promise<void> {
   report.updatedAt = new Date().toISOString();
   delete MOCK_ROWS[reportId];
   delete MOCK_EXPLANATIONS[reportId];
+  delete MOCK_OUTREACH[reportId];
   for (let i = MOCK_SHARE_LINKS.length - 1; i >= 0; i -= 1) {
     if (MOCK_SHARE_LINKS[i].reportId === reportId) MOCK_SHARE_LINKS.splice(i, 1);
   }
+}
+
+/** Direct-contact records a provider logged for a held report's critical results. */
+export async function getOutreach(reportId: string): Promise<OutreachEntry[]> {
+  return MOCK_OUTREACH[reportId] ?? [];
+}
+
+/** Append one contact record. Provider documentation only; never lifts the hold. */
+export async function addOutreach(reportId: string, entry: OutreachEntry): Promise<void> {
+  (MOCK_OUTREACH[reportId] ??= []).push(entry);
 }
 
 export async function setReportStatus(reportId: string, status: ReportStatus): Promise<void> {

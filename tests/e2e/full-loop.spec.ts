@@ -42,13 +42,28 @@ test('provider creates a report, walks it, and the patient reads it', async ({ p
   await expect(page.getByText(/not medical advice/)).toBeVisible();
 });
 
-test('a critical result holds the report and is not sent', async ({ page }) => {
+test('a critical result holds the report, is not sent, and its contact is logged', async ({
+  page,
+}) => {
   await signIn(page);
   await page.getByRole('link', { name: /David Chen/ }).click();
   await expect(
     page.getByRole('heading', { name: /Held: contact the patient directly/ }),
   ).toBeVisible();
-  await expect(page.getByText('Potassium')).toBeVisible();
+  await expect(page.getByText('Potassium 6.8 mmol/L')).toBeVisible();
+  // Held report: nothing is sent (no patient link) and its status says held.
+  await expect(page.getByRole('link', { name: /^\/r\// })).toHaveCount(0);
+  await expect(page.getByText(/Held: critical result/)).toBeVisible();
+  await expect(page.getByText(/still to contact/)).toBeVisible();
+
+  // Record the direct contact and confirm it is documented on the page.
+  await page
+    .getByPlaceholder(/Who you reached/)
+    .fill('Reached David by phone; advised same-day visit.');
+  await page.getByRole('button', { name: 'Record contact' }).click();
+  await expect(page.getByText('Contacted')).toBeVisible();
+  await expect(page.getByText(/advised same-day visit/)).toBeVisible();
+  await expect(page.getByText(/Every critical result has a logged contact/)).toBeVisible();
 });
 
 test('the patient gate rejects wrong info and accepts the right last name and DOB', async ({

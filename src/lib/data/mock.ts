@@ -1,4 +1,4 @@
-import type { Explanation, Report, ResultRow, ShareLink } from '@/lib/types';
+import type { Explanation, OutreachEntry, Report, ResultRow, ShareLink } from '@/lib/types';
 
 /**
  * Synthetic data for developing the web page before the Supabase data-access
@@ -259,3 +259,10 @@ export const MOCK_SHARE_LINKS: ShareLink[] = [
     openedAt: undefined,
   },
 ];
+
+/**
+ * Provider records of direct patient contact about critical results, keyed by
+ * reportId (FR-07). Seeded empty for the held report so the demo starts with the
+ * contact still to be logged.
+ */
+export const MOCK_OUTREACH: Record<string, OutreachEntry[]> = {};
