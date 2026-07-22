@@ -27,7 +27,10 @@ export interface ToneCounts {
   inRange: number;
   outside: number;
   critical: number;
-  other: number;
+  /** Values the classifier set aside to double-check: implausible or unreadable (FR-08). */
+  flagged: number;
+  /** Tests with no plain-language explanation yet, the honest fallback (FR-04). */
+  notCovered: number;
 }
 
 export interface ResultsView {
@@ -83,15 +86,17 @@ export function buildResultsView(rows: ResultRow[], explanation: Explanation): R
     };
   });
 
-  const toneCounts: ToneCounts = { inRange: 0, outside: 0, critical: 0, other: 0 };
+  const toneCounts: ToneCounts = { inRange: 0, outside: 0, critical: 0, flagged: 0, notCovered: 0 };
   for (const item of items) {
     const classification = item.classification;
     if (classification.kind === 'range') {
       if (classification.critical) toneCounts.critical += 1;
       else if (classification.band === 'in') toneCounts.inRange += 1;
       else toneCounts.outside += 1;
+    } else if (classification.kind === 'not-covered') {
+      toneCounts.notCovered += 1;
     } else {
-      toneCounts.other += 1;
+      toneCounts.flagged += 1;
     }
   }
 
