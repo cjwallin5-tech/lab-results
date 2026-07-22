@@ -18,6 +18,7 @@ import {
 } from '@/lib/data';
 import { dobSchema, type Explanation, type OutreachMethod, type ResultRow } from '@/lib/types';
 import { draftExplanation } from '@/lib/draft';
+import { sendShareLink } from '@/lib/email';
 import { extractRows } from '@/lib/extract';
 import { matchAnalyte } from '@/lib/analytes';
 import { classifyRow } from '@/lib/classify';
@@ -287,6 +288,9 @@ export async function approveDraftAction(formData: FormData): Promise<void> {
 export async function sendLinkAction(formData: FormData): Promise<void> {
   const reportId = String(formData.get('reportId') ?? '');
   await createShareLink(reportId);
+  // Notify the patient their results are ready. Offline this records the event only;
+  // the link and token are never passed to or logged by the email seam (safety rule 5).
+  await sendShareLink();
   await setReportStatus(reportId, 'sent');
   revalidatePath(reportPath(reportId));
 }

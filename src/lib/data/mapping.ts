@@ -200,6 +200,7 @@ export interface DataLayer {
   getExplanation(reportId: string): Promise<Explanation | null>;
   getShareLinkByToken(token: string): Promise<ShareLink | null>;
   getShareLinkByReport(reportId: string): Promise<ShareLink | null>;
+  markShareLinkOpened(token: string): Promise<void>;
   createReport(patient: PatientInfo, pdfRef: string): Promise<Report>;
   saveRows(reportId: string, rows: ResultRow[]): Promise<void>;
   resetReport(reportId: string): Promise<void>;
