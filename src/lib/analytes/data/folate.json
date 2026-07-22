@@ -1,0 +1,9 @@
+{
+  "id": "folate",
+  "loinc": "2284-8",
+  "displayName": "Folate",
+  "aliases": ["Folate", "Folic Acid", "Vitamin B9", "Serum Folate"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/vitamin-b-test/",
+  "unit": "ng/mL",
+  "panel": "Vitamins"
+}

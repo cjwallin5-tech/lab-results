@@ -1,0 +1,9 @@
+{
+  "id": "mch",
+  "loinc": "785-6",
+  "displayName": "MCH",
+  "aliases": ["MCH", "MCH (mean corpuscular hemoglobin)", "Mean corpuscular hemoglobin"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/red-blood-cell-rbc-indices/",
+  "unit": "pg",
+  "panel": "Complete blood count"
+}

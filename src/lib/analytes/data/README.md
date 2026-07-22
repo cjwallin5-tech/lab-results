@@ -45,11 +45,43 @@ reconfirmed against [loinc.org](https://loinc.org) before any real-world use.
 | hematocrit | 4544-3 | lab-tests/hematocrit-test |
 | free-t4 | 3024-7 | lab-tests/thyroxine-t4-test |
 | crp | 1988-5 | lab-tests/c-reactive-protein-crp-test |
+| neutrophils-absolute | 751-8 | lab-tests/blood-differential |
+| lymphocytes-absolute | 731-0 | lab-tests/blood-differential |
+| monocytes-absolute | 742-7 | lab-tests/blood-differential |
+| eosinophils-absolute | 711-2 | ency/article/003649.htm |
+| basophils-absolute | 704-7 | lab-tests/blood-differential |
+| mcv | 787-2 | lab-tests/mcv-mean-corpuscular-volume |
+| mch | 785-6 | lab-tests/red-blood-cell-rbc-indices |
+| mchc | 786-4 | lab-tests/red-blood-cell-rbc-indices |
+| rdw | 788-0 | lab-tests/rdw-red-cell-distribution-width |
+| anion-gap | 10466-1 | lab-tests/anion-gap-blood-test |
+| uric-acid | 3084-1 | lab-tests/uric-acid-test |
+| phosphorus | 2777-1 | lab-tests/phosphate-in-blood |
+| total-t4 | 3026-2 | lab-tests/thyroxine-t4-test |
+| total-t3 | 3053-6 | lab-tests/triiodothyronine-t3-tests |
+| free-t3 | 3051-0 | lab-tests/triiodothyronine-t3-tests |
+| iron | 2498-4 | lab-tests/iron-tests |
+| ferritin | 2276-4 | lab-tests/ferritin-blood-test |
+| tibc | 2500-7 | lab-tests/iron-tests |
+| vitamin-b12 | 2132-9 | lab-tests/vitamin-b-test |
+| folate | 2284-8 | lab-tests/vitamin-b-test |
 
 LDL and HDL have no dedicated MedlinePlus lab-test page, so they point at the
 matching MedlinePlus health-topic pages. BUN and total protein point at the
 Comprehensive Metabolic Panel page, and bicarbonate at the Electrolyte Panel
 page, since those tests are described there rather than on their own page.
+Neutrophils/lymphocytes/monocytes/basophils (absolute counts) have no
+dedicated MedlinePlus page and point at the general Blood Differential page;
+MCH and MCHC point at the RBC Indices page for the same reason. TIBC has no
+dedicated page and shares the Iron Tests page with `iron`. Total T4 shares
+its MedlinePlus page with `free-t4` (one page covers both), and Total T3 /
+Free T3 both share the Triiodothyronine (T3) Tests page. Vitamin B12 and folate have no dedicated page; each points at the combined
+"Vitamin B Test" page, which covers all B vitamins including B12 and folate.
+Eosinophils (absolute) also shares the Blood Differential page rather than a
+dedicated page. None of the new entries use a MedlinePlus `/ency/` (A.D.A.M.
+Medical Encyclopedia) page — that content is licensed, not ours to ingest
+(CLAUDE.md safety rule 6), and the drafting layer's grounding-cache schema
+(`src/lib/draft/medlineplus/schema.ts`) rejects `/ency/` URLs outright.
 
 ## Thresholds are demo values, not clinical truth
 
@@ -65,3 +97,12 @@ HDL has no critical high).
 Classification always prefers the reference range printed on the report itself;
 these thresholds only add the orthogonal critical flag when the report's unit
 confidently matches the `unit` here.
+
+Several of the CBC-differential, RBC-index, and vitamin/iron-study entries
+added alongside this table intentionally carry **no** `criticalLow`/`criticalHigh`/
+`plausibleLow`/`plausibleHigh` fields at all (e.g. lymphocytes-absolute,
+monocytes-absolute, basophils-absolute, mcv, mch, mchc, rdw, anion-gap, tibc,
+folate). No credible, citable source (StatPearls, a published institutional
+panic-value list, or a PMC case report of a survived extreme) could be found
+for those specific values, and per the sourcing policy above an uncited
+number is omitted rather than invented.

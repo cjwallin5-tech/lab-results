@@ -1,0 +1,12 @@
+{
+  "id": "iron",
+  "loinc": "2498-4",
+  "displayName": "Iron",
+  "aliases": ["Iron", "Serum Iron", "Fe"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/iron-tests/",
+  "unit": "mcg/dL",
+  "panel": "Iron studies",
+  "criticalHigh": 500,
+  "plausibleHigh": 1800,
+  "thresholdSource": "criticalHigh 500: severe systemic toxicity threshold — 'concentrations greater than 500 mcg/dL are associated with severe systemic toxicity,' the level at which IV deferoxamine chelation is indicated (StatPearls NBK526131, \"Iron Overload and Toxicity\"). plausibleHigh 1800: above a documented case of serum iron 1799 mcg/dL after a 5x IV iron sucrose overdose that resolved without deferoxamine (PMC9772055), so a real severe-but-survivable level is held as critical, not masked as implausible. No criticalLow/plausibleLow — iron deficiency is a chronic finding, not an acute lab emergency. Draft — not clinician-approved."
+}

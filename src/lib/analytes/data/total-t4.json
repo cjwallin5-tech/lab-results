@@ -1,0 +1,11 @@
+{
+  "id": "total-t4",
+  "loinc": "3026-2",
+  "displayName": "Total T4",
+  "aliases": ["Total T4", "Total Thyroxine (T4)", "T4, Total", "Thyroxine", "TT4", "T4"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/thyroxine-t4-test/",
+  "unit": "mcg/dL",
+  "panel": "Thyroid",
+  "plausibleHigh": 30,
+  "thresholdSource": "Endocrine marker; thyroid storm is diagnosed clinically (Burch-Wartofsky score), not by a specific total T4 cutoff — no citable acute critical value. plausibleHigh 30: above a documented survivor with total T4 >24.9 mcg/dL (ref 5.9-13.2 mcg/dL) during thyroid-storm-related encephalopathy in an adolescent with Graves' disease, who fully recovered after thyroidectomy (PMC7170342). Accuracy bound only. Draft — not clinician-approved."
+}

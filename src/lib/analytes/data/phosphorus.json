@@ -1,0 +1,14 @@
+{
+  "id": "phosphorus",
+  "loinc": "2777-1",
+  "displayName": "Phosphorus",
+  "aliases": ["Phosphorus", "Phosphate", "Inorganic Phosphorus", "Serum Phosphate", "PHOS"],
+  "medlineplusUrl": "https://medlineplus.gov/lab-tests/phosphate-in-blood/",
+  "unit": "mg/dL",
+  "panel": "Metabolic panel",
+  "criticalLow": 1.0,
+  "criticalHigh": 10,
+  "plausibleLow": 0.3,
+  "plausibleHigh": 22,
+  "thresholdSource": "criticalLow 1.0 / criticalHigh 10: Beaumont Laboratory Critical (Panic) Values list, Phosphorus (>14 days-Adult): <1 mg/dL / >10 mg/dL (BL.OP.RG.006.r04, effective 03/04/2024 — institutional tier). Corroborated by Northwestern Medicine HealthLab critical values list, Phosphorus Adult critical low <1.1 mg/dL (Central DuPage Hospital, updated Dec 2025 — no adult critical-high entry for phosphorus on that list). plausibleLow 0.3: conservative floor below a documented survived case of phosphorus <0.41 mg/dL causing toxic-metabolic encephalopathy that resolved to alert mentation after repletion (PMC6962441). plausibleHigh 22: above a documented survived case of phosphorus 19.3 mg/dL in a uremic patient who improved with dialysis (PMC8715221). Draft — not clinician-approved."
+}
