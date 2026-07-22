@@ -8,18 +8,19 @@ import {
   stepIndexForStatus,
 } from '@/lib/ui/report-status-display';
 import {
-  approveDraftAction,
   extractReportAction,
   resetReportAction,
   retryDraftAction,
   sendLinkAction,
 } from '@/app/provider/actions';
+import { classificationDisplay } from '@/lib/ui/classification-display';
 import { CLINIC } from '@/lib/clinic';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
 import { SubmitButton } from '@/components/ui/submit-button';
 import { ConfirmButton } from '@/components/ui/confirm-button';
 import { VerifyTable } from '@/components/provider/verify-table';
+import { DraftEditor, type DraftEntry } from '@/components/provider/draft-editor';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -33,6 +34,25 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
   const criticalRows = rows.filter(
     (row) => row.classification?.kind === 'range' && row.classification.critical,
   );
+
+  const rowByAnalyte = new Map(
+    rows.filter((row) => row.analyteId).map((row) => [row.analyteId as string, row]),
+  );
+  const draftEntries: DraftEntry[] = (explanation?.perTest ?? []).map((entry) => {
+    const row = rowByAnalyte.get(entry.analyteId);
+    const display = classificationDisplay(
+      row?.classification ?? { kind: 'unclassifiable', reason: 'no-range' },
+    );
+    return {
+      analyteId: entry.analyteId,
+      displayName: analyteDisplayName(entry.analyteId, entry.analyteId),
+      text: entry.text,
+      value: row?.value ?? '',
+      unit: row?.unit,
+      tone: display.tone,
+      statusLabel: display.label,
+    };
+  });
 
   return (
     <div>
@@ -161,12 +181,28 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           </section>
         )}
 
-        {(report.status === 'drafted' || report.status === 'approved') && explanation !== null && (
+        {report.status === 'drafted' && explanation !== null && (
           <section>
             <h2 className="font-display text-xl text-ink">Review the explanation</h2>
             <p className="mt-1 max-w-prose text-sm text-muted">
-              Drafted from the classifications and MedlinePlus. Approve to make it what the patient
-              reads.
+              Drafted from the classifications and MedlinePlus. Edit any wording, then approve to
+              make it what the patient reads.
+            </p>
+            <div className="mt-6">
+              <DraftEditor
+                reportId={report.id}
+                overallText={explanation.overallText}
+                entries={draftEntries}
+              />
+            </div>
+          </section>
+        )}
+
+        {report.status === 'approved' && explanation !== null && (
+          <section>
+            <h2 className="font-display text-xl text-ink">Approved explanation</h2>
+            <p className="mt-1 max-w-prose text-sm text-muted">
+              This is the frozen text the patient reads. To change it, start the report over.
             </p>
             <div className="mt-6 rounded-[var(--radius-card)] border border-line bg-paper p-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
@@ -185,25 +221,16 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
 
-            {report.status === 'drafted' && (
-              <form action={approveDraftAction} className="mt-6">
+            <div className="mt-6 rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-5">
+              <h3 className="font-medium text-ink">Ready to send</h3>
+              <p className="mt-1 text-sm text-muted">
+                Send the patient their private, date-of-birth protected link.
+              </p>
+              <form action={sendLinkAction} className="mt-4">
                 <input type="hidden" name="reportId" value={report.id} />
-                <SubmitButton pendingLabel="Approving...">Approve for the patient</SubmitButton>
+                <SubmitButton pendingLabel="Sending...">Send to patient</SubmitButton>
               </form>
-            )}
-
-            {report.status === 'approved' && (
-              <div className="mt-6 rounded-[var(--radius-card)] border border-forest/20 bg-forest-soft/40 p-5">
-                <h3 className="font-medium text-ink">Approved</h3>
-                <p className="mt-1 text-sm text-muted">
-                  Send the patient their private, date-of-birth protected link.
-                </p>
-                <form action={sendLinkAction} className="mt-4">
-                  <input type="hidden" name="reportId" value={report.id} />
-                  <SubmitButton pendingLabel="Sending...">Send to patient</SubmitButton>
-                </form>
-              </div>
-            )}
+            </div>
           </section>
         )}
 
