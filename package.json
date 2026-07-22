@@ -17,6 +17,7 @@
     "test:e2e": "playwright test",
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
     "gen:corpus": "tsx scripts/corpus/generate.ts",
+    "refresh:grounding": "tsx scripts/grounding/refresh-grounding.ts",
     "eval:extract": "node --conditions=react-server --env-file-if-exists=.env.local --import tsx scripts/eval/extract-eval.ts"
   },
   "dependencies": {
