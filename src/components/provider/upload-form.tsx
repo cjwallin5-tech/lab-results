@@ -23,8 +23,8 @@ export function UploadForm() {
       <TextField label="Patient date of birth" name="dob" type="date" defaultValue="" />
 
       <div className="rounded-[var(--radius-card)] border border-dashed border-line bg-paper/60 px-4 py-6 text-center text-sm text-muted">
-        PDF upload arrives with Supabase Storage. For now the report starts here and its results are
-        read on the next screen.
+        You attach the report PDF on the next step, Read the report, where its results are pulled
+        out. Saving the file itself for later comes with Supabase Storage.
       </div>
 
       {state.error && (
