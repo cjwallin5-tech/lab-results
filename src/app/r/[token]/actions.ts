@@ -2,8 +2,9 @@
 
 import { redirect } from 'next/navigation';
 import { timingSafeEqual } from 'node:crypto';
-import { getReport, getShareLinkByToken } from '@/lib/data';
+import { getReport, getShareLinkByToken, markShareLinkOpened } from '@/lib/data';
 import { isDobConfirmed, setDobConfirmed } from '@/lib/auth/dob-gate';
+import { sendQuestion } from '@/lib/email';
 
 export interface DobState {
   error?: string;
@@ -54,6 +55,13 @@ export async function confirmDobAction(_prev: DobState, formData: FormData): Pro
   }
 
   await setDobConfirmed(token);
+  // Record the first successful open (FR-11). Best-effort: this is an audit timestamp,
+  // so a failure here must never block a patient who already passed the two-factor gate.
+  try {
+    await markShareLinkOpened(token);
+  } catch {
+    // Swallowed on purpose; never log the token (safety rule 5).
+  }
   redirect(`/r/${token}`);
 }
 
@@ -66,6 +74,8 @@ export async function askQuestionAction(_prev: AskState, formData: FormData): Pr
   if (question.length === 0) {
     return { error: 'Write your question first.' };
   }
-  // Mock: no persistence yet. Swap to the Supabase question write when it lands.
+  // Notify the office. Offline this records the event only; the question text is not
+  // persisted or logged (safety rule 5) — notify-only delivery is the real-PHI design.
+  await sendQuestion();
   return { sent: true };
 }

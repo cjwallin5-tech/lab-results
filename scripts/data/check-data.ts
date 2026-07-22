@@ -31,6 +31,8 @@ import {
   getReport,
   getRows,
   getShareLinkByReport,
+  getShareLinkByToken,
+  markShareLinkOpened,
   resetReport,
   saveExplanation,
   saveRows,
@@ -165,6 +167,43 @@ async function main(): Promise<void> {
     check('createShareLink is idempotent per report', link1.token === link2.token);
     const ttlDays = (new Date(link1.expiresAt).getTime() - Date.now()) / DAY_MS;
     check('share link expires in ~90 days', ttlDays > 89 && ttlDays < 91);
+
+    // --- markShareLinkOpened: first open wins, never overwritten ---
+    await markShareLinkOpened(link1.token);
+    const firstOpen = (await getShareLinkByToken(link1.token))?.openedAt;
+    check('markShareLinkOpened stamps openedAt on first open', firstOpen !== undefined);
+    await markShareLinkOpened(link1.token);
+    const secondOpen = (await getShareLinkByToken(link1.token))?.openedAt;
+    check('markShareLinkOpened never overwrites the first open', secondOpen === firstOpen);
+
+    // --- expired-link regeneration ---
+    // Force the link expired directly, then a re-send must mint a fresh token.
+    const expire = await admin
+      .from('share_links')
+      .update({ expires_at: '2000-01-01T00:00:00.000Z' })
+      .eq('report_id', report.id);
+    if (expire.error) {
+      console.log(`setup: could not expire the link (${expire.error.message})`);
+      failures += 1;
+    }
+    const regenerated = await createShareLink(report.id);
+    check('createShareLink regenerates an expired link', regenerated.token !== link1.token);
+    check(
+      'the regenerated link is unexpired',
+      new Date(regenerated.expiresAt).getTime() > Date.now(),
+    );
+
+    // --- one live link per report is a DATABASE guarantee (0003 unique index) ---
+    const dup = await admin.from('share_links').insert({
+      report_id: report.id,
+      token: `dup-check-${Date.now()}`,
+      expires_at: new Date(Date.now() + DAY_MS).toISOString(),
+    });
+    check(
+      'database refuses a second share link for the same report',
+      dup.error?.code === '23505',
+      dup.error ? `got error ${dup.error.code}` : 'insert unexpectedly succeeded',
+    );
 
     // --- outreach ---
     await addOutreach(report.id, {

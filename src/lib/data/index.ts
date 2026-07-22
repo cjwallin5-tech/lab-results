@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import type { Explanation, PatientInfo, Report, ReportStatus, ResultRow } from '@/lib/types';
+import { isExpired } from '@/lib/share-link';
 import type { DataLayer } from './mapping';
 import {
   MOCK_EXPLANATIONS,
@@ -132,8 +133,14 @@ const mockLayer: DataLayer = {
   },
 
   async createShareLink(reportId) {
-    const existing = MOCK_SHARE_LINKS.find((link) => link.reportId === reportId);
-    if (existing !== undefined) return existing;
+    const existingIndex = MOCK_SHARE_LINKS.findIndex((link) => link.reportId === reportId);
+    if (existingIndex !== -1) {
+      const existing = MOCK_SHARE_LINKS[existingIndex];
+      // A live (unexpired) link is reused; an expired one is regenerated so a re-send
+      // after expiry produces a fresh, openable link (FR-11).
+      if (!isExpired(existing.expiresAt)) return existing;
+      MOCK_SHARE_LINKS.splice(existingIndex, 1);
+    }
     const link = {
       id: `sl-${randomBytes(4).toString('hex')}`,
       reportId,
@@ -143,6 +150,14 @@ const mockLayer: DataLayer = {
     };
     MOCK_SHARE_LINKS.push(link);
     return link;
+  },
+
+  async markShareLinkOpened(token) {
+    // First confirm wins: stamp openedAt once, never overwrite (FR-11). Never log token.
+    const link = MOCK_SHARE_LINKS.find((candidate) => candidate.token === token);
+    if (link !== undefined && link.openedAt === undefined) {
+      link.openedAt = new Date().toISOString();
+    }
   },
 };
 
@@ -188,6 +203,9 @@ export const getShareLinkByToken: DataLayer['getShareLinkByToken'] = async (toke
 
 export const getShareLinkByReport: DataLayer['getShareLinkByReport'] = async (reportId) =>
   (await layer()).getShareLinkByReport(reportId);
+
+export const markShareLinkOpened: DataLayer['markShareLinkOpened'] = async (token) =>
+  (await layer()).markShareLinkOpened(token);
 
 export const getOutreach: DataLayer['getOutreach'] = async (reportId) =>
   (await layer()).getOutreach(reportId);

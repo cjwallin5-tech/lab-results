@@ -3,6 +3,7 @@ import 'server-only';
 import { randomBytes } from 'node:crypto';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { createSupabaseAdminClient } from '@/lib/supabase/server';
+import { isExpired } from '@/lib/share-link';
 import type { Explanation, PatientInfo, ReportStatus, ResultRow } from '@/lib/types';
 import {
   type DataLayer,
@@ -102,6 +103,18 @@ export const getShareLinkByReport: DataLayer['getShareLinkByReport'] = async (re
     .maybeSingle();
   ensure('getShareLinkByReport', error);
   return data ? shareLinkFromRow(data as ShareLinkRow) : null;
+};
+
+export const markShareLinkOpened: DataLayer['markShareLinkOpened'] = async (token) => {
+  // First confirm wins, atomically: only set opened_at when still null (FR-11). The
+  // token is a filter value, never logged. Callers treat this as best-effort — an audit
+  // timestamp must never block an authenticated patient from their results.
+  const { error } = await db()
+    .from('share_links')
+    .update({ opened_at: new Date().toISOString() })
+    .eq('token', token)
+    .is('opened_at', null);
+  ensure('markShareLinkOpened', error);
 };
 
 export const getOutreach: DataLayer['getOutreach'] = async (reportId) => {
@@ -215,9 +228,14 @@ export const approveExplanation: DataLayer['approveExplanation'] = async (report
 };
 
 export const createShareLink: DataLayer['createShareLink'] = async (reportId) => {
-  // One link per report (matches the mock): return the existing one if present.
+  // One link per report (matches the mock): reuse a live link; regenerate an expired one
+  // so a re-send after expiry yields a fresh, openable link (FR-11).
   const existing = await getShareLinkByReport(reportId);
-  if (existing !== null) return existing;
+  if (existing !== null) {
+    if (!isExpired(existing.expiresAt)) return existing;
+    const del = await db().from('share_links').delete().eq('report_id', reportId);
+    ensure('createShareLink.deleteExpired', del.error);
+  }
   const { data, error } = await db()
     .from('share_links')
     .insert({
@@ -227,6 +245,13 @@ export const createShareLink: DataLayer['createShareLink'] = async (reportId) =>
     })
     .select('*')
     .single();
+  // One live link per report is enforced by the database (0003 unique index). A unique
+  // violation means a concurrent call won the insert race — return its row rather than
+  // failing the send.
+  if (error?.code === '23505') {
+    const winner = await getShareLinkByReport(reportId);
+    if (winner !== null) return winner;
+  }
   ensure('createShareLink', error);
   return shareLinkFromRow(data as ShareLinkRow);
 };
