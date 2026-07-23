@@ -15,7 +15,15 @@ interface SentRecord {
   at: string;
 }
 
-const sent: SentRecord[] = [];
+/**
+ * Held on globalThis, not in module scope: a server action and a route handler
+ * are separate module instances under the dev bundler, so a plain array would
+ * leave the E2E hook reading an empty log while the send did happen. Still just
+ * `{kind, at}` — nothing here can hold PII.
+ */
+const store = globalThis as typeof globalThis & { __emailSent?: SentRecord[] };
+store.__emailSent ??= [];
+const sent: SentRecord[] = store.__emailSent;
 
 function record(kind: EmailKind): void {
   sent.push({ kind, at: new Date().toISOString() });

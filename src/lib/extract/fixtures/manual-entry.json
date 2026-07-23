@@ -29,11 +29,21 @@
     },
     {
       "rawName": "Iron",
-      "value": "65",
+      "value": "1900",
       "unit": "mcg/dL",
       "refLow": "50",
       "refHigh": "170",
       "rawRange": "50-170",
+      "labFlags": [],
+      "lowConfidenceFields": []
+    },
+    {
+      "rawName": "Lipase",
+      "value": "42",
+      "unit": "U/L",
+      "refLow": "12",
+      "refHigh": "61",
+      "rawRange": "12-61",
       "labFlags": [],
       "lowConfidenceFields": []
     }
