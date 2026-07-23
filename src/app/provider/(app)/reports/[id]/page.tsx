@@ -16,6 +16,7 @@ import {
 import { classificationDisplay } from '@/lib/ui/classification-display';
 import { criticalAnalyteIds, outstandingOutreach } from '@/lib/ui/outreach';
 import { CLINIC } from '@/lib/clinic';
+import { isExpired } from '@/lib/share-link';
 import { Stepper } from '@/components/ui/stepper';
 import { StatusPill } from '@/components/ui/status-pill';
 import { SubmitButton } from '@/components/ui/submit-button';
@@ -27,6 +28,14 @@ import {
   type CriticalItem,
 } from '@/components/provider/critical-outreach-panel';
 import { CopyLinkButton } from '@/components/provider/copy-link-button';
+
+function formatExpiry(expiresAt: string): string {
+  return new Date(expiresAt).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -244,6 +253,19 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
                 /r/{shareLink.token}
               </Link>
               <CopyLinkButton path={`/r/${shareLink.token}`} />
+            </div>
+            <div className="mt-5 border-t border-forest/15 pt-4">
+              <p className="text-sm text-muted">
+                {isExpired(shareLink.expiresAt)
+                  ? `This link expired on ${formatExpiry(shareLink.expiresAt)}. Re-sending emails the patient a fresh link.`
+                  : `The link works until ${formatExpiry(shareLink.expiresAt)}. Re-sending re-emails this same link, for when the patient lost the first email.`}
+              </p>
+              <form action={sendLinkAction} className="mt-3">
+                <input type="hidden" name="reportId" value={report.id} />
+                <SubmitButton variant="secondary" pendingLabel="Re-sending...">
+                  Re-send the link
+                </SubmitButton>
+              </form>
             </div>
           </section>
         )}
