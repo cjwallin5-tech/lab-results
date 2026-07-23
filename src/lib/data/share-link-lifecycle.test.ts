@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { createShareLink, getShareLinkByToken, markShareLinkOpened } from './index';
+import {
+  createShareLink,
+  getShareLinkByReport,
+  getShareLinkByToken,
+  markShareLinkOpened,
+} from './index';
 import { MOCK_SHARE_LINKS } from './mock';
 
 /**
@@ -29,8 +34,26 @@ describe('createShareLink', () => {
     const fresh = await createShareLink(reportId);
     expect(fresh.token).not.toBe('expired-token');
     expect(new Date(fresh.expiresAt).getTime()).toBeGreaterThan(Date.now());
-    // Still one link per report: the expired one was removed, not left alongside.
-    expect(MOCK_SHARE_LINKS.filter((link) => link.reportId === reportId)).toHaveLength(1);
+  });
+
+  it('keeps the superseded link as a tombstone the old URL can still reach', async () => {
+    const reportId = 'rpt-lifecycle-tombstone';
+    MOCK_SHARE_LINKS.push({
+      id: 'sl-tombstone',
+      reportId,
+      token: 'tombstone-token',
+      expiresAt: '2000-01-01T00:00:00.000Z', // long past
+      openedAt: undefined,
+    });
+
+    const fresh = await createShareLink(reportId);
+    // The old emailed URL still resolves — expired + superseded, so the patient page
+    // renders ExpiredNotice (clinic phone), never a 404 (FR-11).
+    const tombstone = await getShareLinkByToken('tombstone-token');
+    expect(tombstone).not.toBeNull();
+    expect(tombstone?.supersededAt).toBeDefined();
+    // Provider-facing lookup sees exactly the live link, never the tombstone.
+    expect((await getShareLinkByReport(reportId))?.token).toBe(fresh.token);
   });
 });
 

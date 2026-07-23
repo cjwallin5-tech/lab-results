@@ -70,6 +70,7 @@ export interface ShareLinkRow {
   token: string;
   expires_at: string;
   opened_at: string | null;
+  superseded_at: string | null;
 }
 
 export interface OutreachRow {
@@ -132,6 +133,7 @@ export function shareLinkFromRow(row: ShareLinkRow): ShareLink {
     token: row.token,
     expiresAt: row.expires_at,
     openedAt: row.opened_at ?? undefined,
+    supersededAt: row.superseded_at ?? undefined,
   };
 }
 
