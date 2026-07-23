@@ -96,10 +96,14 @@ export const getShareLinkByToken: DataLayer['getShareLinkByToken'] = async (toke
 };
 
 export const getShareLinkByReport: DataLayer['getShareLinkByReport'] = async (reportId) => {
+  // Provider-facing lookup: only the live link (there is at most one — the 0004 partial
+  // unique index). Tombstoned links stay reachable by token so the old emailed URL
+  // renders ExpiredNotice, never a 404.
   const { data, error } = await db()
     .from('share_links')
     .select('*')
     .eq('report_id', reportId)
+    .is('superseded_at', null)
     .maybeSingle();
   ensure('getShareLinkByReport', error);
   return data ? shareLinkFromRow(data as ShareLinkRow) : null;
@@ -228,13 +232,17 @@ export const approveExplanation: DataLayer['approveExplanation'] = async (report
 };
 
 export const createShareLink: DataLayer['createShareLink'] = async (reportId) => {
-  // One link per report (matches the mock): reuse a live link; regenerate an expired one
-  // so a re-send after expiry yields a fresh, openable link (FR-11).
+  // One live link per report (matches the mock): reuse a live link; tombstone an expired
+  // one — kept so the already-emailed URL keeps resolving to ExpiredNotice, never a
+  // 404 — and issue a fresh, openable link in its place (FR-11).
   const existing = await getShareLinkByReport(reportId);
   if (existing !== null) {
     if (!isExpired(existing.expiresAt)) return existing;
-    const del = await db().from('share_links').delete().eq('report_id', reportId);
-    ensure('createShareLink.deleteExpired', del.error);
+    const tombstone = await db()
+      .from('share_links')
+      .update({ superseded_at: new Date().toISOString() })
+      .eq('id', existing.id);
+    ensure('createShareLink.supersedeExpired', tombstone.error);
   }
   const { data, error } = await db()
     .from('share_links')
@@ -245,9 +253,9 @@ export const createShareLink: DataLayer['createShareLink'] = async (reportId) =>
     })
     .select('*')
     .single();
-  // One live link per report is enforced by the database (0003 unique index). A unique
-  // violation means a concurrent call won the insert race — return its row rather than
-  // failing the send.
+  // One live link per report is enforced by the database (0004 partial unique index —
+  // tombstones don't count). A unique violation means a concurrent call won the insert
+  // race — return its row rather than failing the send.
   if (error?.code === '23505') {
     const winner = await getShareLinkByReport(reportId);
     if (winner !== null) return winner;

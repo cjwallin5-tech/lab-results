@@ -99,7 +99,8 @@ The old public landing page is dropped. Design iterates continuously in Figma as
   edit the draft before approving. Approved text is stored and frozen.
 - **FR-11** Share link: unguessable token, DOB-gated, expires 90 days after it is sent,
   scoped to one report — exactly one live link per report; a new link can be issued
-  after expiry.
+  after expiry. The superseded link is kept (tombstoned), so the old emailed URL shows
+  the expired notice with the clinic phone — never an error page.
 - **FR-12** Education-only disclaimer renders on every patient view — no code path may omit it.
 - **FR-13** Ask-a-question: form sends email (question + test context) to the office address.
   (Real-PHI phase will switch to notify-only email.)
@@ -126,7 +127,7 @@ ResultRow      // reportId, rawName, analyteId?, value (as printed, string), uni
                // not-covered / unclassifiable)
 Explanation    // reportId, overallText, perTest: {analyteId, text}[],
                // sources[], status: draft|approved, approvedAt
-ShareLink      // reportId, token, expiresAt, openedAt?
+ShareLink      // reportId, token, expiresAt, openedAt?, supersededAt?
 ```
 
 Kept FHIR-friendly on purpose: `ResultRow` maps cleanly onto FHIR `Observation`

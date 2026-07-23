@@ -7,7 +7,7 @@
  *
  * Opt-in, run by hand (like eval:extract / seed), never in CI:
  *   npm run check:data     — needs NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SECRET_KEY in
- *                            .env.local, and migrations 0001 + 0002 applied.
+ *                            .env.local, and migrations 0001–0004 applied.
  *
  * It imports supabase.ts directly, so it exercises the live path even when DATA_OFFLINE
  * is set (that toggle only steers index.ts). supabase.ts is 'server-only'; the npm
@@ -193,7 +193,18 @@ async function main(): Promise<void> {
       new Date(regenerated.expiresAt).getTime() > Date.now(),
     );
 
-    // --- one live link per report is a DATABASE guarantee (0003 unique index) ---
+    // --- tombstone: the superseded link stays reachable by token (FR-11) ---
+    const tombstone = await getShareLinkByToken(link1.token);
+    check(
+      'the superseded link remains findable by token (tombstone, not 404)',
+      tombstone !== null && tombstone.supersededAt !== undefined,
+    );
+    check(
+      'getShareLinkByReport returns only the live link',
+      (await getShareLinkByReport(report.id))?.token === regenerated.token,
+    );
+
+    // --- one LIVE link per report is a DATABASE guarantee (0004 partial unique index) ---
     const dup = await admin.from('share_links').insert({
       report_id: report.id,
       token: `dup-check-${Date.now()}`,

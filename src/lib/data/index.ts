@@ -54,7 +54,13 @@ const mockLayer: DataLayer = {
   },
 
   async getShareLinkByReport(reportId) {
-    return MOCK_SHARE_LINKS.find((link) => link.reportId === reportId) ?? null;
+    // Provider-facing lookup: only the live link. Tombstoned (superseded) links stay
+    // reachable by token so the old emailed URL renders ExpiredNotice, never a 404.
+    return (
+      MOCK_SHARE_LINKS.find(
+        (link) => link.reportId === reportId && link.supersededAt === undefined,
+      ) ?? null
+    );
   },
 
   async getOutreach(reportId) {
@@ -133,13 +139,15 @@ const mockLayer: DataLayer = {
   },
 
   async createShareLink(reportId) {
-    const existingIndex = MOCK_SHARE_LINKS.findIndex((link) => link.reportId === reportId);
-    if (existingIndex !== -1) {
-      const existing = MOCK_SHARE_LINKS[existingIndex];
-      // A live (unexpired) link is reused; an expired one is regenerated so a re-send
-      // after expiry produces a fresh, openable link (FR-11).
+    const existing = MOCK_SHARE_LINKS.find(
+      (link) => link.reportId === reportId && link.supersededAt === undefined,
+    );
+    if (existing !== undefined) {
+      // A live (unexpired) link is reused; an expired one is tombstoned — kept so the
+      // already-emailed URL keeps resolving to ExpiredNotice, never a 404 — and a
+      // fresh, openable link is issued in its place (FR-11).
       if (!isExpired(existing.expiresAt)) return existing;
-      MOCK_SHARE_LINKS.splice(existingIndex, 1);
+      existing.supersededAt = new Date().toISOString();
     }
     const link = {
       id: `sl-${randomBytes(4).toString('hex')}`,
@@ -147,6 +155,7 @@ const mockLayer: DataLayer = {
       token: randomBytes(18).toString('base64url'),
       expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
       openedAt: undefined,
+      supersededAt: undefined,
     };
     MOCK_SHARE_LINKS.push(link);
     return link;
