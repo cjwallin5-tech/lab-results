@@ -102,7 +102,7 @@ describe('explanationFromRow', () => {
 });
 
 describe('shareLinkFromRow', () => {
-  it('maps an unopened link to openedAt undefined', () => {
+  it('maps an unopened, live link to openedAt/supersededAt undefined', () => {
     expect(
       shareLinkFromRow({
         id: 'sl1',
@@ -110,6 +110,7 @@ describe('shareLinkFromRow', () => {
         token: 'tok',
         expires_at: '2026-10-13T00:00:00Z',
         opened_at: null,
+        superseded_at: null,
       }),
     ).toEqual({
       id: 'sl1',
@@ -117,6 +118,7 @@ describe('shareLinkFromRow', () => {
       token: 'tok',
       expiresAt: '2026-10-13T00:00:00Z',
       openedAt: undefined,
+      supersededAt: undefined,
     });
   });
 });

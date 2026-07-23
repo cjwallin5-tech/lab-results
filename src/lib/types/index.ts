@@ -162,6 +162,7 @@ export type ShareLink = {
   token: string; // unguessable; never written to logs (safety rule 5)
   expiresAt: string;
   openedAt?: string;
+  supersededAt?: string; // set when a re-send replaces this expired link; the old URL then renders ExpiredNotice, never a 404 (FR-11)
 };
 
 export type OutreachMethod = 'phone' | 'other';
