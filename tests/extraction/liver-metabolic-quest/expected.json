@@ -2,7 +2,7 @@
   "rows": [
     {
       "rawName": "GLUCOSE",
-      "value": "2500",
+      "value": "15000",
       "unit": "mg/dL",
       "refLow": "65",
       "refHigh": "99",
