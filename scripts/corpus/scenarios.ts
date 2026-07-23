@@ -391,7 +391,7 @@ export const SCENARIOS: Scenario[] = [
     id: 'liver-metabolic-quest',
     layout: 'quest',
     exercises:
-      'Implausible value (glucose 2500 mg/dL, above the curated plausibility ceiling → "double-check", never explained); a qualitative non-numeric result ("Non-Reactive") with no range; Quest footnote to skip.',
+      'Implausible value (glucose 15000 mg/dL, above the curated plausibility ceiling → "double-check", never explained); a qualitative non-numeric result ("Non-Reactive") with no range; Quest footnote to skip.',
     patient: { name: 'Alex Example', dob: '09/22/1969', gender: 'M' },
     collected: '03/09/2026 07:05AM PST',
     reported: '03/09/2026 05:20PM PST',
@@ -402,11 +402,11 @@ export const SCENARIOS: Scenario[] = [
         rows: [
           {
             name: 'GLUCOSE',
-            value: '2500',
+            value: '15000',
             unit: 'mg/dL',
             range: { kind: 'two-sided', low: '65', high: '99' },
             flags: ['HIGH'],
-            footnote: 'Critical result called to the ordering physician per laboratory policy.',
+            footnote: 'Result exceeds analytical measurement range; repeat analysis requested.',
           },
           {
             name: 'ALT',
